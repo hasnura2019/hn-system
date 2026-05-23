@@ -9,7 +9,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 
   <style>
     /* ── RESET & VARIABLES ── */
@@ -34,7 +34,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
@@ -42,8 +42,8 @@
     }
 
     h1, h2, h3, h4, h5, h6 {
-      font-family: 'Syne', sans-serif;
-      line-height: 1.2;
+      font-family: 'Playfair Display', 'Syne', serif;
+      line-height: 1.15;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -216,15 +216,22 @@
     }
 
     .hero-title {
-      font-size: clamp(2.6rem, 7vw, 5.5rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7.5vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
       line-height: 1.05;
       margin-bottom: 24px;
       animation: fadeUp 0.9s 0.1s ease both;
     }
 
-    .hero-title .line-gold { color: var(--gold); }
+    .hero-title .line-gold {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, #e8b84b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-style: italic;
+    }
     .hero-title .line-cyan { color: var(--cyan); }
 
     .hero-sub {
@@ -349,6 +356,11 @@
       gap: 24px;
     }
 
+    .stats-inner.stats-3 {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 800px;
+    }
+
     .stat-item {
       text-align: center;
       padding: 20px;
@@ -358,9 +370,9 @@
     .stat-item:last-child { border-right: none; }
 
     .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 2.8rem;
-      font-weight: 800;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
       background: linear-gradient(135deg, var(--gold), var(--cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -392,9 +404,10 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
+      font-family: 'Syne', sans-serif;
       font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 20px;
@@ -409,10 +422,20 @@
     }
 
     .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 800;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
       margin-bottom: 16px;
+    }
+
+    .section-title .title-accent {
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .section-desc {
@@ -486,9 +509,12 @@
     .hub-icon-wrap svg { width: 32px; height: 32px; }
 
     .hub-card h3 {
-      font-size: 1.3rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
       font-weight: 700;
+      letter-spacing: -0.01em;
       margin-bottom: 14px;
+      line-height: 1.25;
     }
 
     .hub-card p {
@@ -498,42 +524,92 @@
     }
 
     .hub-tag {
-      display: inline-block;
-      margin-top: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 5px 14px;
+      padding: 10px 22px;
       border-radius: 50px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .hub-tag::after {
+      content: '→';
+      font-size: 0.9rem;
+      transition: transform 0.2s;
+    }
+
+    .hub-grid a:hover .hub-tag::after {
+      transform: translateX(4px);
     }
 
     .hub-grid a {
       display: inline-block;
-      transition: transform 0.2s ease;
       text-decoration: none;
       color: inherit;
     }
-    .hub-grid a:hover {
-      transform: scale(1.05);
+
+    .hub-grid a:hover .hub-tag {
+      transform: translateY(-2px);
     }
 
     /* colour variants per card */
     .ic-blue  { background: rgba(99,179,237,0.12); }
     .ic-blue svg  { stroke: var(--cyan); fill: none; }
-    .tag-blue { background: rgba(99,179,237,0.1); color: var(--cyan); }
+    .tag-blue {
+      background: rgba(99,179,237,0.08);
+      color: var(--cyan);
+      border: 1px solid rgba(99,179,237,0.3);
+      box-shadow: 0 0 20px rgba(99,179,237,0.06);
+    }
+    .hub-grid a:hover .tag-blue {
+      background: rgba(99,179,237,0.15);
+      box-shadow: 0 4px 24px rgba(99,179,237,0.18);
+    }
 
     .ic-gold  { background: rgba(201,168,76,0.12); }
     .ic-gold svg  { stroke: var(--gold); fill: none; }
-    .tag-gold { background: rgba(201,168,76,0.1); color: var(--gold); }
+    .tag-gold {
+      background: rgba(201,168,76,0.08);
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      box-shadow: 0 0 20px rgba(201,168,76,0.06);
+    }
+    .hub-grid a:hover .tag-gold {
+      background: rgba(201,168,76,0.15);
+      box-shadow: 0 4px 24px rgba(201,168,76,0.2);
+    }
 
     .ic-green { background: rgba(72,187,120,0.12); }
     .ic-green svg { stroke: #68d391; fill: none; }
-    .tag-green { background: rgba(72,187,120,0.1); color: #68d391; }
+    .tag-green {
+      background: rgba(72,187,120,0.08);
+      color: #68d391;
+      border: 1px solid rgba(72,187,120,0.3);
+      box-shadow: 0 0 20px rgba(72,187,120,0.06);
+    }
+    .hub-grid a:hover .tag-green {
+      background: rgba(72,187,120,0.15);
+      box-shadow: 0 4px 24px rgba(72,187,120,0.18);
+    }
 
     .ic-purple { background: rgba(159,122,234,0.12); }
     .ic-purple svg { stroke: #b794f4; fill: none; }
-    .tag-purple { background: rgba(159,122,234,0.1); color: #b794f4; }
+    .tag-purple {
+      background: rgba(159,122,234,0.08);
+      color: #b794f4;
+      border: 1px solid rgba(159,122,234,0.3);
+      box-shadow: 0 0 20px rgba(159,122,234,0.06);
+    }
+    .hub-grid a:hover .tag-purple {
+      background: rgba(159,122,234,0.15);
+      box-shadow: 0 4px 24px rgba(159,122,234,0.18);
+    }
 
     /* featured side illustration */
     .hub-featured-visual {
@@ -575,18 +651,21 @@
     .why-card:hover { border-color: rgba(99,179,237,0.25); }
 
     .why-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      font-style: italic;
       line-height: 1;
-      color: rgba(201,168,76,0.18);
+      color: rgba(201,168,76,0.15);
       flex-shrink: 0;
       width: 60px;
     }
 
     .why-body h4 {
-      font-size: 1.05rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
       font-weight: 700;
+      letter-spacing: -0.01em;
       margin-bottom: 10px;
     }
 
@@ -676,10 +755,12 @@
     }
 
     .cta-band h2 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 3.2rem);
       font-weight: 800;
       margin-bottom: 16px;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
     }
 
     .cta-band p {
@@ -738,10 +819,11 @@
     }
 
     .footer-brand h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.6rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
       font-weight: 800;
       margin-bottom: 14px;
+      letter-spacing: -0.01em;
     }
 
     .footer-brand h3 span { color: var(--gold); }
@@ -806,6 +888,19 @@
     .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 40px rgba(37,211,102,0.6); }
     .wa-float svg { width: 28px; height: 28px; fill: #fff; }
 
+    /* Card highlight on anchor navigate */
+    .hub-card:target,
+    .hub-card.highlight-flash {
+      border-color: rgba(201,168,76,0.6) !important;
+      box-shadow: 0 0 40px rgba(201,168,76,0.15);
+      animation: cardFlash 1.5s ease forwards;
+    }
+
+    @keyframes cardFlash {
+      0%   { border-color: rgba(201,168,76,0.8); box-shadow: 0 0 50px rgba(201,168,76,0.25); }
+      100% { border-color: var(--border); box-shadow: none; }
+    }
+
     /* ══════════════════════════════
        ANIMATIONS
     ══════════════════════════════ */
@@ -846,6 +941,7 @@
       }
 
       .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stats-inner.stats-3 { grid-template-columns: repeat(3, 1fr); max-width: 100%; }
       .stat-item:nth-child(2) { border-right: none; }
 
       .hub-grid { grid-template-columns: 1fr; }
@@ -867,6 +963,7 @@
     @media (max-width: 560px) {
       section { padding: 72px 4%; }
       .stats-inner { grid-template-columns: 1fr 1fr; }
+      .stats-inner.stats-3 { grid-template-columns: 1fr 1fr; }
       .stat-item { border-right: none; }
       .steps-row { grid-template-columns: 1fr; }
       .hero-actions { flex-direction: column; align-items: center; }
@@ -882,7 +979,6 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#hab">Hab Perniagaan</a></li>
       <li><a href="#kenapa">Kenapa Kami</a></li>
-      <li><a href="#proses">Cara Bermula</a></li>
       <li>
         <a href="https://wa.me/601119471916?text=Salam%20Admin%20Hasnura,%20saya%20ada%20pertanyaan." target="_blank" class="nav-cta">Hubungi Kami</a>
       </li>
@@ -900,8 +996,7 @@
       <div class="hero-badge">Sejak 2019</div>
 
       <h1 class="hero-title">
-        Saluran Jualan<br>
-        <span class="line-gold">Produk Tempatan</span><br>
+        Saluran Jualan <span class="line-gold">Produk Tempatan</span><br>
         <span class="line-cyan">Seluruh Malaysia</span>
       </h1>
 
@@ -924,7 +1019,7 @@
 
   <!-- ══ STATS ══ -->
   <div class="stats-strip" aria-label="Pencapaian Hasnura">
-    <div class="stats-inner">
+    <div class="stats-inner stats-3">
       <div class="stat-item reveal">
         <div class="stat-num" data-target="8">0</div>
         <div class="stat-label">Tahun Beroperasi</div>
@@ -937,10 +1032,6 @@
         <div class="stat-num" data-target="20">0</div>
         <div class="stat-label">Kedai Runcit</div>
       </div>
-      <div class="stat-item reveal">
-        <div class="stat-num" data-target="4">0</div>
-        <div class="stat-label">Platform Online</div>
-      </div>
     </div>
   </div>
 
@@ -948,13 +1039,13 @@
   <section id="hab">
     <div class="section-inner">
       <div class="section-label">Hab Perniagaan</div>
-      <h2 class="section-title">Empat Saluran,<br>Satu Ekosistem</h2>
+      <h2 class="section-title">Empat Saluran, <span class="title-accent">Satu Ekosistem</span></h2>
       <p class="section-desc">Hasnura beroperasi merentasi pelbagai saluran untuk memastikan produk sampai ke tangan yang betul — pada masa yang tepat.</p>
 
       <div class="hub-grid">
 
         <!-- FEATURED: Supplier / B2B -->
-        <div class="hub-card featured reveal">
+        <div class="hub-card featured reveal" id="card-b2b">
           <div>
             <div class="hub-icon-wrap ic-gold">
               <!-- Supplier truck icon -->
@@ -971,7 +1062,7 @@
               Jualan dalam kuantiti besar (bulk orders) mengikut jadual dengan pengurusan aliran tunai
               melalui sistem Bill-to-Bill yang teratur.
             </p>
-            <a href="https://link-b2b-anda.com" target="_blank">
+            <a href="https://hasnura.blogspot.com/p/pembekal.html" target="_blank">
           <span class="hub-tag tag-gold">Supplier B2B</span>
         </a>
       </div>
@@ -1005,7 +1096,7 @@
         </div>
 
         <!-- Shop / Online Store -->
-        <div class="hub-card reveal">
+        <div class="hub-card reveal" id="card-shop">
           <div class="hub-icon-wrap ic-blue">
             <!-- Shopping bag icon -->
             <svg viewBox="0 0 24 24" stroke-width="1.5">
@@ -1024,7 +1115,7 @@
         </div>
 
         <!-- Rangkaian Ejen -->
-        <div class="hub-card reveal">
+        <div class="hub-card reveal" id="card-ejen">
           <div class="hub-icon-wrap ic-green">
             <!-- Users / network icon -->
             <svg viewBox="0 0 24 24" stroke-width="1.5">
@@ -1037,13 +1128,13 @@
             komisyen daripada setiap jualan yang berjaya. Kami sediakan sokongan penuh,
             stok, dan bahan promosi untuk memudahkan anda.
           </p>
-          <a href="https://link-ejen-anda.com" target="_blank">
+          <a href="https://hasnura.blogspot.com/p/peluang-niaga-ejen.html" target="_blank">
             <span class="hub-tag tag-green">Jadi Ejen</span>
           </a>
         </div>
 
         <!-- Affiliate -->
-        <div class="hub-card reveal">
+        <div class="hub-card reveal" id="card-affiliate">
           <div class="hub-icon-wrap ic-purple">
             <!-- Link / affiliate icon -->
             <svg viewBox="0 0 24 24" stroke-width="1.5">
@@ -1056,7 +1147,7 @@
             menjana pendapatan sampingan hanya dengan mempromosikan produk kami melalui
             media sosial, blog, atau mana-mana platform digital anda.
           </p>
-          <a href="https://link-affiliate-anda.com" target="_blank">
+          <a href="https://hasnura.blogspot.com/p/hn-affiliate-register.html" target="_blank">
             <span class="hub-tag tag-purple">Daftar Affiliate</span>
           </a>
         </div>
@@ -1070,7 +1161,7 @@
     <div class="glow-line"></div>
     <div class="section-inner">
       <div class="section-label">Kelebihan Kami</div>
-      <h2 class="section-title">Kenapa Pilih<br>HASNURA?</h2>
+      <h2 class="section-title">Kenapa Pilih <span class="title-accent">Hasnura?</span></h2>
       <p class="section-desc">Hasnura bukan sekadar kedai online — kami rakan bekalan yang sedang menembusi pasaran tempatan.</p>
 
       <div class="why-grid">
@@ -1106,59 +1197,11 @@
     </div>
   </section>
 
-  <!-- ══ PROSES ══ -->
-  <section id="proses">
-    <div class="section-inner">
-      <div class="section-label">Cara Bermula</div>
-      <h2 class="section-title">Mudah &amp; Pantas</h2>
-      <p class="section-desc">Proses yang ringkas dari mula hingga anda mula menjana pendapatan bersama Hasnura.</p>
-
-      <div class="steps-row">
-        <div class="step-item reveal">
-          <div class="step-circle">
-            <svg viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-            </svg>
-          </div>
-          <h4>1. Hubungi Kami</h4>
-          <p>WhatsApp admin Hasnura dan beritahu keperluan anda — jenis saluran, produk, atau kadar komisyen.</p>
-        </div>
-        <div class="step-item reveal">
-          <div class="step-circle">
-            <svg viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-            </svg>
-          </div>
-          <h4>2. Daftar &amp; Pilih Saluran</h4>
-          <p>Pilih sama ada supplier, shop, ejen, atau affiliate.</p>
-        </div>
-        <div class="step-item reveal">
-          <div class="step-circle">
-            <svg viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-            </svg>
-          </div>
-          <h4>3. Mulakan Jualan</h4>
-          <p>Dapatkan akses produk, katalog, dan bahan promosi. Mula jual dan jana pendapatan segera.</p>
-        </div>
-        <div class="step-item reveal">
-          <div class="step-circle">
-            <svg viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h4>4. Terima Komisyen</h4>
-          <p>Komisyen dan bayaran diproses secara telus dan mengikut jadual yang telah ditetapkan.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ══ CTA BAND ══ -->
   <div class="cta-band">
     <div style="position:relative;z-index:1;">
       <div class="section-label" style="justify-content:center;margin-bottom:20px;">Jom Bermula</div>
-      <h2>Bersedia Untuk<br>Bersama Hasnura?</h2>
+      <h2>Bersedia Untuk <span class="title-accent">Bersama Hasnura?</span></h2>
       <p>Sama ada anda peruncit, pembeli online, calon ejen atau affiliate — kami ada saluran yang sesuai untuk anda. Hubungi kami sekarang.</p>
       <div class="cta-buttons">
         <a href="https://wa.me/601119471916?text=Salam%20Admin%20Hasnura,%20saya%20berminat%20untuk%20bergabung." target="_blank" class="btn-wa">
@@ -1183,17 +1226,16 @@
         <div class="footer-col">
           <h5>Saluran</h5>
           <ul>
-            <li><a href="#hab">Supplier B2B</a></li>
-            <li><a href="#hab">Online Store</a></li>
-            <li><a href="#hab">Rangkaian Ejen</a></li>
-            <li><a href="#hab">Program Affiliate</a></li>
+            <li><a href="#card-b2b">Supplier B2B</a></li>
+            <li><a href="#card-shop">Online Store</a></li>
+            <li><a href="#card-ejen">Rangkaian Ejen</a></li>
+            <li><a href="#card-affiliate">Program Affiliate</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h5>Maklumat</h5>
           <ul>
             <li><a href="#kenapa">Kenapa Hasnura</a></li>
-            <li><a href="#proses">Cara Bermula</a></li>
             <li><a href="https://wa.me/601119471916" target="_blank">Hubungi Admin</a></li>
           </ul>
         </div>
@@ -1227,6 +1269,23 @@
       a.addEventListener('click', () => {
         toggle.classList.remove('active');
         links.classList.remove('open');
+      });
+    });
+
+    // --- Smooth scroll + card highlight for anchor links ---
+    document.querySelectorAll('a[href^="#card-"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').slice(1);
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        const offset = 100;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+        setTimeout(() => {
+          target.classList.add('highlight-flash');
+          setTimeout(() => target.classList.remove('highlight-flash'), 1600);
+        }, 600);
       });
     });
 
