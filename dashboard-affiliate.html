@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasnura Affiliate Fintech Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-primary: #38bdf8; /* Electric Blue */
+            --accent-secondary: #34d399; /* Emerald Green */
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --danger: #f87171;
+            --warning: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.25s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Container Utama */
+        .hasnura-wrapper {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Kad Premium Glassmorphism */
+        .premium-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Tipografi & Pengepala */
+        .brand-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+        }
+
+        .brand-logo span {
+            color: var(--accent-primary);
+        }
+
+        h2.section-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        /* Input & Label Elemen */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: block;
+            padding-left: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: var(--text-secondary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .premium-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border-radius: 14px;
+            border: 1px solid var(--card-border);
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .premium-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        /* Butang Premium */
+        .btn-premium {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(3, 105, 161, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-premium:active {
+            transform: translateY(0);
+        }
+
+        /* Bahagian Lupa ID */
+        .forgot-section {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--card-border);
+        }
+
+        .forgot-section h4 {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            padding: 0 24px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-secondary);
+        }
+
+        /* Hasil Carian Terlupa ID */
+        #forgotResult {
+            margin-top: 15px;
+            padding: 16px;
+            background: rgba(52, 211, 153, 0.1);
+            border-radius: 12px;
+            border: 1px solid var(--accent-secondary);
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Kawasan Dashboard Kejayaan (Success Area) */
+        .id-badge-container {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+            padding: 30px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: inset 0 0 20px rgba(56, 189, 248, 0.05);
+        }
+
+        .id-badge-title {
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .id-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 38px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            margin-bottom: 6px;
+        }
+
+        .user-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Grid Prestasi Fintech */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            padding: 18px;
+            border-radius: 16px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box.sales {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border: 1px solid var(--card-border);
+        }
+
+        .stat-box.commission {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+
+        .stat-box small {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .stat-box .amount {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-box.commission .amount {
+            color: var(--accent-secondary);
+        }
+
+        /* Gaya Folder Rekod Bulanan */
+        .folder-item {
+            margin-bottom: 12px;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(30, 41, 59, 0.4);
+        }
+
+        .folder-header {
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.3);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .folder-header:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .folder-title {
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .folder-title i {
+            color: var(--accent-primary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .badge-status {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-trigger {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .notification-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            box-shadow: 0 0 8px var(--accent-primary);
+        }
+
+        /* Kandungan Dalam Folder */
+        .folder-content {
+            display: none;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid var(--card-border);
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            font-size: 13.5px;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .data-label {
+            color: var(--text-secondary);
+        }
+
+        .data-value {
+            font-weight: 600;
+        }
+
+        .data-value.highlight {
+            color: var(--accent-secondary);
+        }
+
+        /* Pautan Peribadi Arena */
+        .link-box {
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            word-break: break-all;
+            margin-bottom: 16px;
+            border: 1px solid var(--card-border);
+            font-family: 'JetBrains Mono', monospace;
+            text-align: left;
+        }
+
+        .btn-action-blue {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--danger);
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.8;
+        }
+
+        .btn-logout:hover {
+            opacity: 1;
+            text-shadow: 0 0 10px rgba(248, 113, 113, 0.2);
+        }
+
+        /* Animasi */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsif Desktop */
+        @media (min-width: 768px) {
+            .premium-card {
+                padding: 45px 40px;
+            }
+            .hasnura-wrapper {
+                max-width: 520px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hasnura-wrapper">
+    <div class="premium-card">
+        
+        <div class="brand-logo">
+            <i data-lucide="shield-check"></i> HASNURA <span>AFFILIATE</span>
+        </div>
+
+        <div id="loginArea">
+            <h2 class="section-title">Log Masuk Dashboard</h2>
+            <p class="subtitle">Semak statistik jualan & pautan peribadi premium anda.</p>
+   
+            <div class="input-group">
+                <label>ID Affiliate</label>
+                <div class="input-wrapper">
+                    <i data-lucide="user"></i>
+                    <input type="text" id="loginID" placeholder="Contoh: HN101" class="premium-input">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>No. WhatsApp</label>
+                <div class="input-wrapper">
+                    <i data-lucide="phone"></i>
+                    <input type="text" id="loginPhone" placeholder="60123456789" class="premium-input">
+                </div>
+            </div>
+
+            <button onclick="handleLogin()" id="btnLogin" class="btn-premium">
+                <span>LOG MASUK SYSTEM</span> <i data-lucide="arrow-right" style="width:16px;"></i>
+            </button>
+
+            <div class="forgot-section">
+                <h4>Terlupa ID Affiliate Anda?</h4>
+                <div class="flex-row">
+                    <div class="input-wrapper" style="flex: 1;">
+                        <i data-lucide="smartphone" style="left:12px; width:16px;"></i>
+                        <input type="text" id="forgotPhoneInput" placeholder="601XXXXXXXX" class="premium-input" style="padding: 12px 12px 12px 38px; font-size: 14px; border-radius: 10px;">
+                    </div>
+                    <button onclick="findMyID()" id="btnFind" class="btn-secondary">SEMAK</button>
+                </div>
+                
+                <div id="forgotResult" style="display:none;">
+                    <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">Nama Ahli:</p>
+                    <p id="foundName" style="font-weight: 700; color: white; font-size: 14px; margin-bottom: 8px;"></p>
+                    <div style="font-size: 10px; color: var(--accent-secondary); font-weight:700; letter-spacing:1px;">ID DIJUMPAI</div>
+                    <h2 id="foundID" style="color: var(--accent-secondary); font-family: 'JetBrains Mono', monospace; font-size: 26px; margin-top: 2px;"></h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="successArea" style="display:none;">
+            
+            <div class="id-badge-container">
+                <p class="id-badge-title">ID AFFILIATE AKTIF</p>
+                <h1 id="displayID" class="id-number"></h1>
+                <p id="displayName" class="user-name"></p>
+            </div>
+
+            <p class="section-label"><i data-lucide="trending-up" style="width:14px; color:var(--accent-primary);"></i> Prestasi Tahunan</p>
+            <div class="stats-grid">
+                <div class="stat-box sales">
+                    <small>TOTAL JUALAN</small>
+                    <div id="total-jualan-tahunan" class="amount">RM 0.00</div>
+                </div>
+                <div class="stat-box commission">
+                    <small>TOTAL KOMISEN</small>
+                    <div id="total-komisen-tahunan" class="amount">RM 0.00</div>
+                </div>
+            </div>
+
+            <p class="section-label"><i data-lucide="folder-open" style="width:14px; color:var(--accent-primary);"></i> Rekod Bulanan</p>
+            <div id="monthlyFolders" style="margin-bottom: 25px;"></div>
+
+            <p class="section-label"><i data-lucide="link" style="width:14px; color:var(--accent-primary);"></i> Link Jualan Peribadi</p>
+            <div id="displayLink" class="link-box"></div>
+            
+            <button onclick="copyLink()" class="btn-premium btn-action-blue">
+                <i data-lucide="copy" style="width:16px;"></i> <span>SALIN LINK JUALAN</span>
+            </button>
+            
+            <div style="text-align: center;">
+                <button onclick="location.reload()" class="btn-logout">
+                    <i data-lucide="log-out" style="width:14px;"></i> Log Keluar Sistem
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // URL Web App Google Apps Script anda yang sedia ada
+    const FINAL_URL = 'https://script.google.com/macros/s/AKfycbzUU3-1ohnbuFOePEcCxf75MqAJXFraJNo56EUAQDMQI5Hrim1Ku54wZDIgoy9CFRXF3A/exec';
+
+    // Permulaan fungsi pembacaan Ikon Lucide
+    lucide.createIcons();
+
+    function formatMonthYear(dateStr) {
+        try {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return dateStr; 
+            return date.toLocaleString('ms-MY', { month: 'long', year: 'numeric' });
+        } catch (e) { 
+            return dateStr; 
+        }
+    }
+
+    async function handleLogin() {
+        const id = document.getElementById('loginID').value.trim().toUpperCase();
+        const phone = document.getElementById('loginPhone').value.trim();
+        const btn = document.getElementById('btnLogin');
+        
+        if (!id || !phone) { 
+            alert("Sila masukkan ID dan No. WhatsApp."); 
+            return; 
+        }
+        btn.innerHTML = `<span>Memproses...</span>`;
+
+        try {
+            const res = await fetch(`${FINAL_URL}?action=getMonthlyStats&phone=${phone}&id=${id}`);
+            const result = await res.json();
+            
+            if (result.result === 'found') {
+                document.getElementById('loginArea').style.display = 'none';
+                document.getElementById('successArea').style.display = 'block';
+                document.getElementById('displayID').innerText = result.id;
+                document.getElementById('displayName').innerText = result.name;
+                document.getElementById('total-jualan-tahunan').innerText = "RM " + result.yearly.totalSale;
+                document.getElementById('total-komisen-tahunan').innerText = "RM " + result.yearly.totalKomisen;
+                
+                const encodedName = encodeURIComponent(result.name);
+                document.getElementById('displayLink').innerText = "https://hasnura.blogspot.com/p/hn-affiliate.html?ref=" + result.id + "-" + encodedName;
+                
+                renderFolders(result.data);
+            } else { 
+                alert("ID atau No. WhatsApp tidak sepadan."); 
+            }
+        } catch (e) { 
+            alert("Ralat sistem.");
+        }
+        btn.innerHTML = `<span>LOG MASUK SYSTEM</span> <i data-lucide="arrow-right" style="width:16px;"></i>`;
+        lucide.createIcons();
+    }
+
+    function renderFolders(data) {
+        const container = document.getElementById('monthlyFolders');
+        container.innerHTML = '';
+        
+        Object.keys(data).forEach(monthRaw => {
+            const monthData = data[monthRaw];
+            const folderId = 'folder-' + Math.random().toString(36).substr(2, 9);
+            const dotId = 'dot-' + folderId;
+            const monthDisplay = formatMonthYear(monthRaw);
+            const statusLabel = monthData.status; 
+            
+            const isPending = (statusLabel.includes('BELUM') || statusLabel.includes('PROSES'));
+            
+            // Konfigurasi warna berlandaskan prinsip Fintech UI premium
+            const statusBg = isPending ? 'rgba(251, 191, 36, 0.15)' : 'rgba(52, 211, 153, 0.15)';
+            const statusTextColor = isPending ? 'var(--warning)' : 'var(--accent-secondary)';
+            
+            const html = `
+                <div class="folder-item">
+                    <div class="folder-header" onclick="toggleFolder('${folderId}', '${dotId}')">
+                        <span class="folder-title">
+                            <i data-lucide="folder"></i> ${monthDisplay}
+                        </span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="badge-status" style="background: ${statusBg}; color: ${statusTextColor};">
+                                ${statusLabel}
+                            </span>
+                            <div class="action-trigger">
+                                <span>LIHAT</span>
+                                <div id="${dotId}" class="notification-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="${folderId}" class="folder-content">
+                        <div class="data-row">
+                            <span class="data-label">1. Tarikh Transaksi</span>
+                            <span class="data-value">${monthData.tarikhA}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">2. Jumlah Jualan</span>
+                            <span class="data-value">RM ${monthData.totalSale.toFixed(2)}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">3. Anggaran Komisen</span>
+                            <span class="data-value highlight">RM ${monthData.totalKomisen.toFixed(2)}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">4. Status Pembayaran</span>
+                            <span class="badge-status" style="background: ${statusBg}; color: ${statusTextColor}; font-size:10px;">
+                                ${statusLabel}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+        lucide.createIcons();
+    }
+
+    function toggleFolder(id, dotId) {
+        const el = document.getElementById(id);
+        const dot = document.getElementById(dotId);
+        if (el.style.display === 'none' || el.style.display === '') {
+            el.style.display = 'block';
+            if (dot) dot.style.display = 'none'; 
+        } else { 
+            el.style.display = 'none'; 
+        }
+    }
+
+    async function findMyID() {
+        const phone = document.getElementById('forgotPhoneInput').value.trim();
+        const btn = document.getElementById('btnFind');
+        const resDiv = document.getElementById('forgotResult');
+        
+        if (!phone) { 
+            alert("Sila masukkan nombor WhatsApp."); 
+            return; 
+        }
+        btn.innerText = "..."; 
+        btn.disabled = true;
+     
+        try {
+            const res = await fetch(`${FINAL_URL}?action=searchID&phone=${phone}`);
+            const response = await res.json();
+            if (response.result === 'found') {
+                resDiv.style.display = 'block';
+                document.getElementById('foundName').innerText = response.name;
+                document.getElementById('foundID').innerText = response.id;
+            } else { 
+                alert("Rekod tidak dijumpai."); 
+                resDiv.style.display = 'none';
+            }
+        } catch (err) { 
+            alert("Ralat sistem.");
+        }
+        btn.innerText = "SEMAK"; 
+        btn.disabled = false;
+    }
+
+    function copyLink() {
+        const linkText = document.getElementById('displayLink').innerText;
+        navigator.clipboard.writeText(linkText).then(() => alert("Pautan eksklusif anda berjaya disalin!"));
+    }
+</script>
+
+</body>
+</html>
