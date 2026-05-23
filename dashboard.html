@@ -196,6 +196,7 @@
             color: #fff;
             margin-bottom: 40px;
             padding-left: 12px;
+            letter-spacing: 1px;
         }
         .sidebar-brand span { color: var(--gold-primary); }
 
@@ -884,6 +885,8 @@
                 card.id = `order-node-${o.id}`;
                 
                 const statusClass = (o.status || 'Baharu').toLowerCase();
+                // Mengatasi isu perbezaan nama harta 'telefon' atau 'tel'
+                const displayPhone = o.telefon || o.tel || '—';
 
                 card.innerHTML = `
                     <div class="order-id-block">
@@ -892,7 +895,7 @@
                     </div>
                     <div class="order-customer">
                         <div class="cust-name">${o.nama || '—'}</div>
-                        <div class="cust-phone">${o.tel || '—'}</div>
+                        <div class="cust-phone">${displayPhone}</div>
                     </div>
                     <div class="order-amount">${o.jumlah || 'RM 0.00'}</div>
                     <div class="order-status-box">
@@ -962,8 +965,9 @@
             const filterStatus = document.getElementById('status-filter').value;
 
             const filtered = allOrders.filter(o => {
+                const phoneStr = o.telefon || o.tel || '';
                 const matchQuery = (o.nama && o.nama.toLowerCase().includes(query)) ||
-                                   (o.tel && o.tel.includes(query)) ||
+                                   (phoneStr.includes(query)) ||
                                    (o.id && o.id.toLowerCase().includes(query));
                 const matchStatus = filterStatus === "" || o.status === filterStatus;
                 return matchQuery && matchStatus;
@@ -979,13 +983,14 @@
                 return;
             }
             currentOrder = order;
+            const displayPhone = order.telefon || order.tel || '—';
 
             const content = document.getElementById('modal-content');
             content.innerHTML = `
                 <div class="invoice-row"><span class="invoice-label">ID Pesanan</span><span class="invoice-value">${order.id}</span></div>
                 <div class="invoice-row"><span class="invoice-label">Tarikh/Masa Log</span><span class="invoice-value">${order.timestamp}</span></div>
                 <div class="invoice-row"><span class="invoice-label">Nama Pelanggan</span><span class="invoice-value">${order.nama}</span></div>
-                <div class="invoice-row"><span class="invoice-label">No. Telefon</span><span class="invoice-value">${order.tel}</span></div>
+                <div class="invoice-row"><span class="invoice-label">No. Telefon</span><span class="invoice-value">${displayPhone}</span></div>
                 <div class="invoice-row"><span class="invoice-label">Alamat Penghantaran</span><span class="invoice-value">${order.alamat}</span></div>
                 <div class="invoice-row" style="border-top:1px dashed var(--border-color); padding-top:12px; margin-top:4px;">
                     <span class="invoice-label">Item Pesanan</span>
@@ -1036,8 +1041,9 @@
         // COPY SPECIFIC CUSTOMER DATA FUNCTION
         function copySpecificDetail() {
             if (!currentOrder) return;
+            const displayPhone = currentOrder.telefon || currentOrder.tel || '—';
             
-            const textToCopy = `Produk & Jumlah Harga:\n${currentOrder.pesanan} (${currentOrder.jumlah})\n\nNama Penuh Pelanggan:\n${currentOrder.nama}\n\nNo. Telefon:\n${currentOrder.tel}\n\nAlamat Pelanggan:\n${currentOrder.alamat}`;
+            const textToCopy = `Produk & Jumlah Harga:\n${currentOrder.pesanan} (${currentOrder.jumlah})\n\nNama Penuh Pelanggan:\n${currentOrder.nama}\n\nNo. Telefon:\n${displayPhone}\n\nAlamat Pelanggan:\n${currentOrder.alamat}`;
 
             navigator.clipboard.writeText(textToCopy).then(() => {
                 showToast('✅ Maklumat pelanggan berjaya disalin!');
@@ -1048,7 +1054,8 @@
 
         function waOrderDetail() {
             if (!currentOrder) return;
-            let waNum = currentOrder.tel.replace(/[^0-9]/g, '');
+            const displayPhone = currentOrder.telefon || currentOrder.tel || '';
+            let waNum = displayPhone.replace(/[^0-9]/g, '');
             if (waNum.startsWith('0')) waNum = '6' + waNum;
             
             const msg = `Salam Tuan/Puan ${currentOrder.nama}, ini daripada Hasnura Treasury. Berkenaan invois pesanan ${currentOrder.id}:\n\nPesanan: ${currentOrder.pesanan}\nJumlah: ${currentOrder.jumlah}\n\nSila maklumkan jenis pilihan penghantaran anda (COD/Postage). Terima Kasih!`;
