@@ -2,52 +2,59 @@
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"></meta>
-    <title>Sistem Invois WhatsApp Hasnura — Premium Fintech</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>Sistem Invois WhatsApp Hasnura Premium</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         /* ==========================================================================
-           FINTECH PREMIUM GLOBAL STYLES (MONOCHROME METALLIC DESIGN)
+           FINTECH PREMIUM MONOCHROME METALLIC STYLES
            ========================================================================== */
-        :root { 
-            --primary: #25D366; 
-            --dark: #0F1015; 
-            --bg: #060608; 
-            --card-bg: #11121A;
+        :root {
+            --bg-main: #060608;
+            --bg-card: #0F1015;
+            --bg-input: #171923;
             --border-color: rgba(255, 255, 255, 0.08);
             --gold-primary: #D4AF37;
             --gold-glow: rgba(212, 175, 55, 0.15);
             --text-muted: #8F95B2;
             --text-light: #F3F4F6;
+            --primary-wa: #25D366;
         }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', system-ui, sans-serif; 
-            background: var(--bg); 
-            margin: 0; 
-            padding: 25px 15px; 
-            color: var(--text-light); 
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
+            line-height: 1.5;
+            padding: 30px 15px;
             background-image: 
                 radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 40%);
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
         }
         
-        .container { 
-            max-width: 550px; 
-            margin: 0 auto; 
-            background: var(--card-bg); 
-            padding: 35px 30px; 
-            border-radius: 24px; 
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 35px 30px;
+            border-radius: 24px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             position: relative;
+            overflow: hidden;
         }
 
         .container::before {
@@ -56,34 +63,83 @@
             top: 0; left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
         }
-        
-        .header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 25px; }
-        .header h2 { 
-            font-family: 'Playfair Display', serif;
-            font-weight: 900;
-            font-size: 28px;
-            margin: 0; 
-            color: #fff; 
-            letter-spacing: 2px; 
-        }
-        .header h2 span { color: var(--gold-primary); text-shadow: 0 0 15px var(--gold-glow); }
 
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 1px; }
-        .input-field { 
-            width: 100%; 
-            padding: 14px 16px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            font-size: 15px; 
-            box-sizing: border-box; 
-            background: #171923; 
+        .header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #fff;
+            margin: 0;
+        }
+        .header h2 span {
+            color: var(--gold-primary);
+            text-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
             color: #fff;
             font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
             transition: all 0.25s ease;
+        }
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            margin: 25px 0 15px;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-left: 3px solid var(--gold-primary);
+            padding-left: 10px;
+        }
+
+        /* Input Grid & Fields */
+        .input-field {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
         }
         .input-field:focus {
             outline: none;
@@ -91,115 +147,138 @@
             box-shadow: 0 0 0 3px var(--gold-glow);
         }
 
-        /* Textarea Kotak Penuh Premium */
-        textarea.input-field {
-            resize: vertical;
-            min-height: 160px;
-            line-height: 1.6;
-            font-family: inherit;
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .input-wrapper::before {
+            content: "RM";
+            position: absolute;
+            left: 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold-primary);
+        }
+        .input-wrapper .input-field {
+            padding-left: 45px;
         }
 
-        .input-wrapper { position: relative; display: flex; align-items: center; width: 100%; }
-        .input-wrapper::before { content: "RM"; position: absolute; left: 16px; font-size: 14px; font-weight: bold; color: var(--gold-primary); }
-        .input-wrapper .input-field { padding-left: 45px; }
-
-        .section-title { font-size: 12px; font-weight: 800; margin: 25px 0 15px; color: var(--gold-primary); border-left: 3px solid var(--gold-primary); padding-left: 10px; letter-spacing: 1px; }
-
-        .total-box { 
-            background: linear-gradient(135deg, #171923 0%, #11121A 100%); 
-            padding: 20px; 
-            border-radius: 16px; 
-            text-align: right; 
-            margin-top: 25px; 
-            border: 1px solid rgba(212, 175, 55, 0.15);
+        /* Total Box Display */
+        .total-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-color);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: right;
+            margin-top: 25px;
         }
-        .total-box h3 { margin: 0; color: var(--text-muted); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .total-box span { color: var(--gold-primary); font-size: 28px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; display: inline-block; margin-top: 5px; }
-
-        .btn-wa { 
-            width: 100%; 
-            background: linear-gradient(135deg, #25D366 0%, #1da851 100%); 
-            color: white; 
-            border: none; 
-            padding: 16px; 
-            border-radius: 14px; 
-            font-weight: 800; 
-            font-size: 15px; 
-            cursor: pointer; 
-            margin-top: 20px; 
-            text-transform: uppercase; 
-            transition: all 0.25s; 
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
-            font-family: inherit;
+        .total-box h3 {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3); }
-        .btn-wa:active { transform: scale(0.99); }
+        .total-box span {
+            color: var(--gold-primary);
+            font-size: 28px;
+            font-weight: 700;
+            display: block;
+            margin-top: 5px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Buttons styling */
+        .btn-wa {
+            width: 100%;
+            background: linear-gradient(135deg, #E6C667 0%, var(--gold-primary) 100%);
+            color: #060608;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-wa:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            filter: brightness(1.05);
+        }
+        .btn-wa:active {
+            transform: scale(0.98);
+        }
 
         /* ==========================================================================
-           GLASSMORPHISM MODAL SCREEN (POPUP KAD DETAIL)
+           MODAL PREVIEW CARD & FINTECH INVOICE OVERLAY
            ========================================================================== */
         .modal-overlay {
             position: fixed;
             inset: 0;
             background: rgba(6, 6, 8, 0.85);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             padding: 20px;
         }
-        .modal-overlay.open { display: flex; }
+        .modal-overlay.open {
+            display: flex;
+        }
 
-        /* Kad Invois Yang Akan Dijadikan Imej */
         .modal-box {
-            background: var(--card-bg);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             border-radius: 24px;
             padding: 30px;
+            position: relative;
             box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* Invoice Card Capture Target */
+        .invoice-card-capture {
+            background: #111217;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
             position: relative;
         }
-
-        .modal-close {
+        .invoice-card-capture::before {
+            content: 'HASNURA';
             position: absolute;
-            top: 20px; right: 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 18px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .modal-close:hover { color: #fff; }
-
-        .invoice-card-canvas {
-            background: #11121A;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-
-        .invoice-brand {
+            top: 20px; right: 25px;
             font-family: 'Playfair Display', serif;
-            font-size: 20px;
+            font-size: 14px;
             font-weight: 900;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 4px;
+            color: rgba(212, 175, 55, 0.3);
             letter-spacing: 1px;
         }
-        .invoice-brand span { color: var(--gold-primary); }
-        .invoice-subbrand { font-size: 11px; text-align: center; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+
+        .invoice-card-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
 
         .invoice-sheet {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .invoice-row {
@@ -208,42 +287,107 @@
             font-size: 13.5px;
             align-items: flex-start;
         }
-        .invoice-label { color: var(--text-muted); font-weight: 500; }
-        .invoice-value { color: #fff; font-weight: 600; text-align: right; max-width: 65%; word-wrap: break-word; }
-        .invoice-value.highlight { color: var(--gold-primary); font-weight: 700; font-size: 16px; }
-        .invoice-divider { border-top: 1px dashed var(--border-color); margin: 8px 0; }
+        .invoice-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .invoice-value {
+            color: #fff;
+            font-weight: 600;
+            text-align: right;
+            max-width: 65%;
+            word-wrap: break-word;
+            white-space: pre-line;
+        }
+        .invoice-value.highlight {
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
 
         .modal-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-top: 10px;
         }
 
         .btn-modal {
             padding: 14px;
             border-radius: 12px;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             font-family: inherit;
             transition: all 0.2s;
             text-align: center;
             border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-modal.save-img {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: 1px solid var(--border-color);
+        }
+        .btn-modal.save-img:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .btn-modal.send-wa {
+            background: var(--primary-wa);
+            color: #fff;
+        }
+        .btn-modal.send-wa:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+        }
+
+        .modal-close-top {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #171923;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            transition: color 0.2s;
         }
-        .btn-modal.save { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border-color); }
-        .btn-modal.save:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
-        
-        .btn-modal.send { background: var(--primary); color: #fff; }
-        .btn-modal.send:hover { filter: brightness(1.08); box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2); }
+        .modal-close-top:hover {
+            color: #fff;
+        }
 
-        /* Responsive Optimization */
-        @media (max-width: 600px) {
-            body { padding: 15px 10px; }
+        /* Global Toast Message */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #171923;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 10001;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Responsive engine optimization */
+        @media (max-width: 480px) {
             .container { padding: 25px 20px; border-radius: 20px; }
+            .header h2 { font-size: 26px; }
             .modal-box { padding: 20px; }
             .modal-actions { grid-template-columns: 1fr; }
         }
@@ -254,157 +398,155 @@
 <div class="container">
     <div class="header">
         <h2>HASNURA<span>•</span></h2>
-        <p style="color: var(--text-muted); font-size: 12px; margin: 5px 0; letter-spacing: 0.5px;">Sistem Ringkasan Invois WhatsApp Premium</p>
+        <p style="color: var(--text-muted); font-size: 12px; margin: 6px 0 0; letter-spacing: 0.5px;">Sistem Ringkasan Invois WhatsApp Premium</p>
     </div>
 
     <div class="input-group">
-        <label>Tampal Detail Pelanggan & Pesanan</label>
-        <textarea class="input-field" id="rawDetails" oninput="prosesDataAutomatik()" placeholder="Tampal teks maklumat pelanggan di sini...&#10;&#10;Contoh:&#10;Produk & Jumlah Harga:&#10;Sambal Ikan Bilis (x1) (RM 20.00)&#10;&#10;Nama Penuh Pelanggan:&#10;Asiyah..."></textarea>
+        <label>Tampal (Paste) Maklumat Pelanggan & Produk</label>
+        <textarea class="form-textarea" id="invoicePasteArea" oninput="parseInvoiceData()" placeholder="Tampal teks perincian pesanan di sini...&#10;Sistem akan mengekstrak data secara automatik."></textarea>
     </div>
 
-    <div class="section-title">CAJ PENGHANTARAN</div>
+    <div class="section-title">Caj Penghantaran</div>
     <div class="input-group">
         <label>Kos COD (RM)</label>
         <div class="input-wrapper">
-            <input class="input-field extra-charge" id="chargeCOD" oninput="kiraTotalKeseluruhan()" step="0.01" type="number" value="0.00" />
+            <input class="input-field extra-charge" id="chargeCOD" oninput="kiraTotal()" step="0.01" type="number" value="0.00" />
         </div>
     </div>
     <div class="input-group">
         <label>Kos Postage (RM)</label>
         <div class="input-wrapper">
-            <input class="input-field extra-charge" id="chargePostage" oninput="kiraTotalKeseluruhan()" step="0.01" type="number" value="0.00" />
+            <input class="input-field extra-charge" id="chargePostage" oninput="kiraTotal()" step="0.01" type="number" value="0.00" />
         </div>
     </div>
 
     <div class="total-box">
         <h3>Jumlah Keseluruhan</h3>
-        RM <span id="grandTotal">0.00</span>
+        <span>RM <span id="grandTotal">0.00</span></span>
     </div>
 
-    <button class="btn-wa" onclick="bukaPopupInvois()">📱 Semak & Hantar Invois</button>
+    <button class="btn-wa" onclick="bukaKadPopup()">📱 Proses & Papar Kad Perincian</button>
 </div>
 
-<div id="invoiceModal" class="modal-overlay" onclick="tutupModalLuar(event)">
+<div id="invoiceModal" class="modal-overlay" onclick="closeModal(event)">
     <div class="modal-box">
-        <button class="modal-close" onclick="tutupModalDirect()">✕</button>
+        <button class="modal-close-top" onclick="closeModalDirect()">✕</button>
         
-        <div class="invoice-card-canvas" id="invoiceCanvas">
-            <div class="invoice-brand">HASNURA<span>•</span></div>
-            <div class="invoice-subbrand">Resit Ringkasan Invois</div>
+        <div id="invoiceCardCapture" class="invoice-card-capture">
+            <div class="invoice-card-title">Resit Urus Niaga Digital</div>
             
             <div class="invoice-sheet">
-                <div class="invoice-row">
-                    <span class="invoice-label">Pelanggan</span>
-                    <span class="invoice-value" id="lblNama">—</span>
-                </div>
-                <div class="invoice-row">
-                    <span class="invoice-label">No. WhatsApp</span>
-                    <span class="invoice-value" id="lblPhone">—</span>
-                </div>
-                <div class="invoice-row">
-                    <span class="invoice-label">Alamat</span>
-                    <span class="invoice-value" id="lblAlamat">—</span>
-                </div>
+                <div class="invoice-row"><span class="invoice-label">Nama Pelanggan</span><span class="invoice-value" id="lblNama">—</span></div>
+                <div class="invoice-row"><span class="invoice-label">No. Telefon</span><span class="invoice-value" id="lblPhone">—</span></div>
+                <div class="invoice-row"><span class="invoice-label">Alamat Pelanggan</span><span class="invoice-value" id="lblAlamat">—</span></div>
                 
-                <div class="invoice-divider"></div>
-                
-                <div class="invoice-row">
+                <div class="invoice-row" style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 12px;">
                     <span class="invoice-label">Item Pesanan</span>
-                    <span class="invoice-value" id="lblProduk" style="white-space: pre-line;">—</span>
+                    <span class="invoice-value" id="lblProduk" style="color:#fff;">—</span>
                 </div>
                 
-                <div class="invoice-divider"></div>
+                <div class="invoice-row"><span class="invoice-label">Kos COD</span><span class="invoice-value" id="lblCOD">RM 0.00</span></div>
+                <div class="invoice-row"><span class="invoice-label">Kos Postage</span><span class="invoice-value" id="lblPostage">RM 0.00</span></div>
                 
-                <div class="invoice-row">
-                    <span class="invoice-label">Kos COD</span>
-                    <span class="invoice-value" id="lblCOD">RM 0.00</span>
-                </div>
-                <div class="invoice-row">
-                    <span class="invoice-label">Kos Postage</span>
-                    <span class="invoice-value" id="lblPostage">RM 0.00</span>
-                </div>
-                
-                <div class="invoice-divider"></div>
-                
-                <div class="invoice-row" style="margin-top: 5px;">
-                    <span class="invoice-label" style="color: #fff; font-weight: 700;">TOTAL BAYARAN</span>
-                    <span class="invoice-value highlight" id="lblTotal">RM 0.00</span>
+                <div class="invoice-row" style="border-top: 1px solid rgba(255,255,255,0.15); padding-top: 14px; margin-top: 4px;">
+                    <span class="invoice-label" style="color:#fff; font-weight:700;">JUMLAH PERLU DIBAYAR</span>
+                    <span class="invoice-value highlight" id="lblGrandTotal" style="font-size: 18px;">RM 0.00</span>
                 </div>
             </div>
         </div>
         
         <div class="modal-actions">
-            <button class="btn-modal save" onclick="simpanImejPanduan()">📸 Simpan Imej (SS)</button>
-            <button class="btn-modal send" onclick="laksanakanHantarWhatsApp()">📱 Hantar WhatsApp</button>
+            <button class="btn-modal save-img" onclick="simpanSebagaiImej()">📸 Simpan Imej</button>
+            <button class="btn-modal send-wa" onclick="hantarKeWhatsApp()">🚀 Hantar WhatsApp</button>
         </div>
     </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-    // Memastikan State Data Sentiasa Bersih & Tersusun
-    let dataInvois = {
+    'use strict';
+
+    // Global Data Object State
+    let extractedData = {
+        produkRaw: "",
+        produkHarga: 0,
         nama: "",
         phone: "",
-        alamat: "",
-        produkTeks: "",
-        hargaProdukAsal: 0
+        alamat: ""
     };
 
-    // Fungsi Utama Pengekstrakan Data dari Kotak Penuh (Textarea)
-    function prosesDataAutomatik() {
-        const t = document.getElementById('rawDetails').value;
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // REGEX LOGIC UNTUK MENGEKSTRAK TEKS TAMPALAN (AUTO PARSE ENGINE)
+    function parseInvoiceData() {
+        const text = document.getElementById('invoicePasteArea').value;
         
-        if(!t.trim()) {
-            resetData();
-            kiraTotalKeseluruhan();
+        if (!text.trim()) {
+            resetExtractedData();
+            kiraTotal();
             return;
         }
 
-        // Regex pintas untuk mengekstrak segmen teks secara tepat
-        const namaMatch = t.match(/Nama Penuh Pelanggan:\s*([\s\S]*?)(?=\n\n|\n[A-Z]|$)/i);
-        const phoneMatch = t.match(/No\. Telefon:\s*([\s\S]*?)(?=\n\n|\n[A-Z]|$)/i);
-        const alamatMatch = t.match(/Alamat Pelanggan:\s*([\s\S]*?)(?=\n\n|\n[A-Z]|$)/i);
-        const produkHargaMatch = t.match(/Produk & Jumlah Harga:\s*([\s\S]*?)(?=\n\n|\n[A-Z]|$)/i);
-
-        dataInvois.nama = namaMatch ? namaMatch[1].trim() : "";
-        dataInvois.phone = phoneMatch ? phoneMatch[1].trim() : "";
-        dataInvois.alamat = alamatMatch ? alamatMatch[1].trim() : "";
-        dataInvois.produkTeks = produkHargaMatch ? produkHargaMatch[1].trim() : "";
-
-        // Mengira harga asas produk dari tanda kurung RM secara automatik
-        let jumlahHargaAsas = 0;
-        if(dataInvois.produkTeks) {
-            const barisProduk = dataInvois.produkTeks.split('\n');
-            barisProduk.forEach(baris => {
-                const hargaDitemui = baris.match(/RM\s*([0-9.]+)/i);
-                if(hargaDitemui) {
-                    jumlahHargaAsas += parseFloat(hargaDitemui[1]) || 0;
-                }
-            });
+        // Extract Produk & Jumlah Harga
+        const produkMatch = text.match(/Produk\s*&\s*Jumlah\s*Harga:([\s\S]*?)(?=Nama\s*Penuh\s*Pelanggan:|$)/i);
+        if (produkMatch && produkMatch[1]) {
+            extractedData.produkRaw = produkMatch[1].trim();
+            
+            // Mengesan harga di dalam kurungan cth: (RM 20.00) atau RM 20.00
+            const hargaMatch = extractedData.produkRaw.match(/RM\s*([\d.]+)/i);
+            extractedData.produkHarga = hargaMatch ? parseFloat(hargaMatch[1]) : 0;
+        } else {
+            extractedData.produkRaw = "";
+            extractedData.produkHarga = 0;
         }
-        dataInvois.hargaProdukAsal = jumlahHargaAsas;
 
-        kiraTotalKeseluruhan();
+        // Extract Nama Penuh Pelanggan
+        const namaMatch = text.match(/Nama\s*Penuh\s*Pelanggan:([\s\S]*?)(?=No\.\s*Telefon:|$)/i);
+        extractedData.nama = namaMatch ? namaMatch[1].trim() : "";
+
+        // Extract No. Telefon
+        const phoneMatch = text.match(/No\.\s*Telefon:([\s\S]*?)(?=Alamat\s*Pelanggan:|$)/i);
+        extractedData.phone = phoneMatch ? phoneMatch[1].trim().replace(/[^0-9]/g, '') : "";
+
+        // Extract Alamat Pelanggan
+        const alamatMatch = text.match(/Alamat\s*Pelanggan:([\s\S]*?)$/i);
+        extractedData.alamat = alamatMatch ? alamatMatch[1].trim() : "";
+
+        kiraTotal();
     }
 
-    function resetData() {
-        dataInvois = { nama: "", phone: "", alamat: "", produkTeks: "", hargaProdukAsal: 0 };
+    function resetExtractedData() {
+        extractedData = { produkRaw: "", produkHarga: 0, nama: "", phone: "", alamat: "" };
     }
 
-    // Fungsi Pengiraan Jumlah Keseluruhan Dinamik
-    function kiraTotalKeseluruhan() {
-        let total = dataInvois.hargaProdukAsal;
+    // PENGIRAAN KESELURUHAN JUMLAH (PRODUK + KOS PENGHANTARAN)
+    function kiraTotal() {
+        let total = extractedData.produkHarga;
 
-        total += parseFloat(document.getElementById('chargeCOD').value) || 0;
-        total += parseFloat(document.getElementById('chargePostage').value) || 0;
+        const cod = parseFloat(document.getElementById('chargeCOD').value) || 0;
+        const postage = parseFloat(document.getElementById('chargePostage').value) || 0;
+
+        total += cod + postage;
 
         document.getElementById('grandTotal').innerText = total.toFixed(2);
     }
 
-    // Fungsi Membuka Popup Kad Maklumat Detail
-    function bukaPopupInvois() {
-        if (!dataInvois.nama || !dataInvois.phone) {
-            alert("Sila pastikan data Nama dan No Telefon telah diisi atau ditampal dengan betul!");
+    // PAPAR POPUP KAD DETAILS MENGGUNAKAN MODAL OVERLAY
+    function bukaKadPopup() {
+        const pasteVal = document.getElementById('invoicePasteArea').value.trim();
+        if (!pasteVal) {
+            alert("Sila isi atau tampal data perincian invois terlebih dahulu!");
+            return;
+        }
+
+        if (!extractedData.nama || !extractedData.phone) {
+            alert("Gagal mengesan Nama Pelanggan atau No Telefon daripada teks tampalan. Pastikan format tajuk betul.");
             return;
         }
 
@@ -412,71 +554,78 @@
         const postage = parseFloat(document.getElementById('chargePostage').value) || 0;
         const total = document.getElementById('grandTotal').innerText;
 
-        // Pasang data ke element Popup HTML
-        document.getElementById('lblNama').innerText = dataInvois.nama;
-        document.getElementById('lblPhone').innerText = dataInvois.phone;
-        document.getElementById('lblAlamat').innerText = dataInvois.alamat || '—';
-        document.getElementById('lblProduk').innerText = dataInvois.produkTeks || '—';
+        // Suntik data ke dalam struktur elemen paparan Modal
+        document.getElementById('lblNama').innerText = extractedData.nama;
+        document.getElementById('lblPhone').innerText = extractedData.phone;
+        document.getElementById('lblAlamat').innerText = extractedData.alamat || "—";
+        document.getElementById('lblProduk').innerText = extractedData.produkRaw || "—";
         document.getElementById('lblCOD').innerText = "RM " + cod.toFixed(2);
         document.getElementById('lblPostage').innerText = "RM " + postage.toFixed(2);
-        document.getElementById('lblTotal').innerText = "RM " + total;
+        document.getElementById('lblGrandTotal').innerText = "RM " + total;
 
+        // Buka modal overlay
         document.getElementById('invoiceModal').classList.add('open');
     }
 
-    function tutupModalDirect() {
-        document.getElementById('invoiceModal').classList.remove('open');
-    }
-
-    function tutupModalLuar(e) {
+    function closeModal(e) {
         if (e.target.id === 'invoiceModal') {
-            tutupModalDirect();
+            closeModalDirect();
         }
     }
 
-    // Butang Simpan Imej (Pemberitahuan Panduan Mesra Pengguna)
-    function simpanImejPanduan() {
-        alert("Reka bentuk premium kad ini dioptimumkan sepenuhnya untuk peranti mudah alih dan desktop.\n\nSila ambil Tangkapan Skrin (Screenshot) pada paparan kad di skrin untuk simpanan imej invois yang paling pantas dan berkualiti tinggi!");
+    function closeModalDirect() {
+        document.getElementById('invoiceModal').classList.remove('open');
     }
 
-    // Fungsi Utama Penghantaran Mesej API WhatsApp
-    function laksanakanHantarWhatsApp() {
+    // FUNGSI UTAMA: MENYIMPAN KAD INVOIS KEPADA IMEJ (SNAPSHOT CANVAS ENGINE)
+    function simpanSebagaiImej() {
+        const target = document.getElementById('invoiceCardCapture');
+        showToast("📸 Sedang menjana imej premium...");
+
+        html2canvas(target, {
+            backgroundColor: '#0F1015',
+            scale: 2, // Meningkatkan resolusi kualiti imej kurnia gambar tajam
+            logging: false,
+            useCORS: true
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `Invois_Hasnura_${extractedData.nama.replace(/\s+/g, '_')}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast("✅ Imej berjaya disimpan ke peranti anda!");
+        }).catch(err => {
+            console.error(err);
+            alert("Gagal menyimpan gambar. Sila pastikan pelayar web anda dikemaskini.");
+        });
+    }
+
+    // FUNGSI UTAMA: HANTAR MESEJ FORMAT INVOIS KE WHATSAPP PELANGGAN
+    function hantarKeWhatsApp() {
         const cod = parseFloat(document.getElementById('chargeCOD').value) || 0;
         const postage = parseFloat(document.getElementById('chargePostage').value) || 0;
         const total = document.getElementById('grandTotal').innerText;
 
-        // Penapisan dan pemformatan nombor telefon negara Malaysia
-        let p = dataInvois.phone.replace(/\D/g,'');
-        if(p.startsWith('0')) p = '6' + p;
+        let p = extractedData.phone;
+        if (p.startsWith('0')) p = '6' + p;
 
-        // Pemprosesan baris demi baris senarai produk untuk format WhatsApp yang lebih kemas
-        let senaraiProdukBerformat = "";
-        if(dataInvois.produkTeks) {
-            const baris = dataInvois.produkTeks.split('\n');
-            baris.forEach(b => {
-                if(b.trim()) senaraiProdukBerformat += "- " + b.trim() + "%0A";
-            });
-        } else {
-            senaraiProdukBerformat = "- Tiada Maklumat Produk%0A";
-        }
-
-        // Pembinaan struktur pesanan WhatsApp Premium (Bold & Clear)
+        // Bina struktur format mesej premium yang kemas
         let msg = "*RINGKASAN INVOIS HASNURA*%0A";
         msg += "-----------------------------------%0A";
-        msg += "*Pelanggan:* " + dataInvois.nama + "%0A";
-        if(dataInvois.alamat) msg += "*Alamat:* " + dataInvois.alamat + "%0A";
-        msg += "%0A*1. SENARAI PESANAN:*%0A" + senaraiProdukBerformat + "%0A";
-        msg += "*2. KOS COD:* RM " + cod.toFixed(2) + "%0A";
-        msg += "*3. KOS POSTAGE:* RM " + postage.toFixed(2) + "%0A";
+        msg += "*Pelanggan:* " + extractedData.nama + "%0A";
+        msg += "*No. Telefon:* " + extractedData.phone + "%0A";
+        if(extractedData.alamat) msg += "*Alamat:* " + extractedData.alamat + "%0A";
+        msg += "-----------------------------------%0A%0A";
+        msg += "*1. DETAIL PESANAN:*%0A" + encodeURIComponent(extractedData.produkRaw) + "%0A%0A";
+        msg += "*2. CAJ PENGHANTARAN:*%0A";
+        msg += "- Kos COD: RM " + cod.toFixed(2) + "%0A";
+        msg += "- Kos Postage: RM " + postage.toFixed(2) + "%0A";
         msg += "-----------------------------------%0A";
         msg += "*JUMLAH PERLU DIBAYAR: RM " + total + "*%0A%0A";
         msg += "*Sila buat pembayaran di sini:*%0A";
         msg += "https://hasnura.blogspot.com/p/borang-pembayaran.html%0A%0A";
-        msg += "_Sila hantar resit selepas bayaran dibuat. Terima kasih atas sokongan anda!_";
+        msg += "_Sila lampirkan resit transaksi selepas bayaran selesai. Terima kasih atas sokongan anda!_";
 
-        // Membuka pautan tetingkap baharu WhatsApp Web / Aplikasi WhatsApp Telefon
         window.open("https://wa.me/" + p + "?text=" + msg, '_blank');
-        tutupModalDirect();
     }
 </script>
 
