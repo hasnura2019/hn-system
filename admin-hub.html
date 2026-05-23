@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Control Panel - Hasnura</title>
+<!-- Memasukkan font Inter untuk gaya korporat & fintech modern -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --bg-main: #090d16;
+        --bg-card: #131a26;
+        --bg-card-hover: #1b2536;
+        --border-color: rgba(255, 255, 255, 0.05);
+        --text-primary: #f8fafc;
+        --text-muted: #94a3b8;
+        
+        /* Gredien Warna Tema Kategori (Gaya Fintech Premium) */
+        --theme-shop: linear-gradient(135deg, #38bdf8, #0369a1);
+        --theme-dashboard: linear-gradient(135deg, #818cf8, #4338ca);
+        --theme-admin: linear-gradient(135deg, #34d399, #047857);
+        --theme-affiliate: linear-gradient(135deg, #fb7185, #be123c);
+        --theme-location: linear-gradient(135deg, #fbbf24, #b45309);
+        
+        /* Warna Solid untuk Text/Shadow Accents */
+        --color-shop: #38bdf8;
+        --color-dashboard: #818cf8;
+        --color-admin: #34d399;
+        --color-affiliate: #fb7185;
+        --color-location: #fbbf24;
+    }
+
+    * {
+        box-sizing: border-box;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        font-family: 'Inter', -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Latar belakang abstrak premium lembut */
+    body::before {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+        top: -50px;
+        left: -50px;
+        z-index: -1;
+    }
+
+    .admin-container {
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 0 24px;
+    }
+
+    .admin-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .admin-header h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 12px;
+        background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .admin-header p {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    /* --- Filter Style (Kategori Butang Fintech) --- */
+    .filter-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 45px;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 8px;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(10px);
+    }
+
+    .filter-btn {
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid transparent;
+        padding: 10px 20px;
+        border-radius: 14px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .filter-btn:hover {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* Warna Aktif Berdasarkan Tema Premium */
+    .filter-btn.active {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text-primary);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    .filter-btn[onclick*="shop-group"].active { color: var(--color-shop); border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.05); }
+    .filter-btn[onclick*="dashboard-group"].active { color: var(--color-dashboard); border-color: rgba(129, 207, 248, 0.3); background: rgba(129, 140, 248, 0.05); }
+    .filter-btn[onclick*="admin-group"].active { color: var(--color-admin); border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.05); }
+    .filter-btn[onclick*="affiliate-group"].active { color: var(--color-affiliate); border-color: rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.05); }
+    .filter-btn[onclick*="location-group"].active { color: var(--color-location); border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.05); }
+
+    /* --- Grid Layout --- */
+    .grid-hub {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .hub-card {
+        background: var(--bg-card);
+        border-radius: 24px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+    }
+
+    /* Kesan Glow dan Angkat Kad sewaktu Hover */
+    .hub-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 255, 255, 0.12);
+        background: var(--bg-card-hover);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Pembungkus Konten Utama Kad */
+    .card-main-link {
+        display: flex;
+        flex-direction: column;
+        padding: 32px 28px 24px 28px;
+        text-decoration: none;
+        color: inherit;
+        height: 100%;
+        flex-grow: 1;
+    }
+
+    .icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 24px;
+        position: relative;
+        box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+    }
+
+    .hub-card h3 {
+        margin: 0;
+        color: var(--text-primary);
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+    }
+
+    .hub-card p {
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+
+    /* Badge Gaya Token Fintech */
+    .badge {
+        align-self: flex-start;
+        padding: 5px 12px;
+        border-radius: 100px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Klasifikasi Warna Mengikut Kumpulan menggunakan CSS Variables */
+    .shop-group .icon-box { background: var(--theme-shop); color: #fff; }
+    .shop-group:hover { border-color: rgba(56, 189, 248, 0.25); }
+
+    .dashboard-group .icon-box { background: var(--theme-dashboard); color: #fff; }
+    .dashboard-group:hover { border-color: rgba(129, 140, 248, 0.25); }
+
+    .admin-group .icon-box { background: var(--theme-admin); color: #fff; }
+    .admin-group:hover { border-color: rgba(52, 211, 153, 0.25); }
+
+    .affiliate-group .icon-box { background: var(--theme-affiliate); color: #fff; }
+    .affiliate-group:hover { border-color: rgba(251, 113, 133, 0.25); }
+
+    .location-group .icon-box { background: var(--theme-location); color: #fff; }
+    .location-group:hover { border-color: rgba(251, 191, 36, 0.25); }
+
+    /* Area butang tindakan di bahagian bawah kad */
+    .card-action-area {
+        padding: 0 28px 28px 28px;
+        background: transparent;
+    }
+
+    /* Gaya Butang Salin Pautan Pintar */
+    .copy-btn {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 10px 16px;
+        border-radius: 12px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .copy-btn:active {
+        transform: scale(0.98);
+    }
+
+    /* Responsif untuk paparan Mobile */
+    @media (max-width: 600px) {
+        .admin-container { margin: 30px auto; }
+        .admin-header h1 { font-size: 1.8rem; }
+        .filter-wrapper { padding: 4px; border-radius: 16px; gap: 4px; }
+        .filter-btn { width: 100%; font-size: 0.85rem; padding: 12px; text-align: center; }
+        .grid-hub { grid-template-columns: 1fr; gap: 16px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>Admin Control Panel</h1>
+        <p>Sistem gerbang data digital & kawalan ekosistem Hasnura</p>
+    </div>
+
+    <!-- Sistem Tapisan / Kategori -->
+    <div class="filter-wrapper">
+        <button class="filter-btn active" onclick="filterCards('semua', this)">Semua</button>
+        <button class="filter-btn" onclick="filterCards('shop-group', this)">Hasnura Shop</button>
+        <button class="filter-btn" onclick="filterCards('dashboard-group', this)">Dashboard Semakan</button>
+        <button class="filter-btn" onclick="filterCards('admin-group', this)">Pesanan & Admin</button>
+        <button class="filter-btn" onclick="filterCards('affiliate-group', this)">Affiliate</button>
+        <button class="filter-btn" onclick="filterCards('location-group', this)">Lokasi</button>
+    </div>
+
+    <div class="grid-hub" id="cardGrid">
+        
+        <!-- ================= KATEGORI: HASNURA SHOP ================= -->
+        <div class="hub-card shop-group" data-category="shop-group">
+            <a href="https://hasnura.pages.dev/hasnura-shop" class="card-main-link">
+                <div class="icon-box">🛍️</div>
+                <h3>Hasnura Shop</h3>
+                <p>Gerbang jualan utama, katalog produk lengkap, dan pengurusan store digital rasmi.</p>
+                <span class="badge">Storefront</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/hasnura-shop', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card shop-group" data-category="shop-group">
+            <a href="https://hasnura.pages.dev/dashboard-shop" class="card-main-link">
+                <div class="icon-box">🔑</div>
+                <h3>Dashboard Shop</h3>
+                <p>Konsol kawalan prestasi e-dagang, kemas kini inventori kedai dan analitik jualan.</p>
+                <span class="badge">Merchant Hub</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/dashboard-shop', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card shop-group" data-category="shop-group">
+            <a href="https://hasnura.pages.dev/invois" class="card-main-link">
+                <div class="icon-box">🧾</div>
+                <h3>Invois</h3>
+                <p>Penjanaan invois automatik, semakan rekod transaksi jualan, dan cetakan resit pelanggan.</p>
+                <span class="badge">Billing System</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/invois', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card shop-group" data-category="shop-group">
+            <a href="https://hasnura.pages.dev/hasnura-pay" class="card-main-link">
+                <div class="icon-box">💳</div>
+                <h3>Hasnura Pay</h3>
+                <p>Gerbang pembayaran fintech rasmi, pengurusan pemprosesan transaksi, dan log keselamatan.</p>
+                <span class="badge">Payment Gateway</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/hasnura-pay', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <!-- ================= KATEGORI: DASHBOARD ================= -->
+        <div class="hub-card dashboard-group" data-category="dashboard-group">
+            <a href="https://hasnura.blogspot.com/p/dashboard-shop-online.html" class="card-main-link">
+                <div class="icon-box">📊</div>
+                <h3>Shop Online</h3>
+                <p>Pantau jualan harian, jumlah revenue, dan senarai pelanggan secara real-time.</p>
+                <span class="badge">Sales Data</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-shop-online.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card dashboard-group" data-category="dashboard-group">
+            <a href="https://hasnura.blogspot.com/p/dashboard-pembekal.html" class="card-main-link">
+                <div class="icon-box">📦</div>
+                <h3>Database Pembekal</h3>
+                <p>Rujuk lokasi pembekal, perbelanjaan stok, dan senarai premis pembekalan.</p>
+                <span class="badge">Inventory</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-pembekal.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card dashboard-group" data-category="dashboard-group">
+            <a href="https://hasnura.blogspot.com/p/dashboard-ejen-pekasam.html" class="card-main-link">
+                <div class="icon-box">📈</div>
+                <h3>Dashboard Ejen Pekasam</h3>
+                <p>Analisis prestasi jualan ejen, stok pekasam, dan pertumbuhan rangkaian niaga.</p>
+                <span class="badge">Ejen Stats</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-ejen-pekasam.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <!-- ================= KATEGORI: ADMIN ================= -->
+        <div class="hub-card admin-group" data-category="admin-group">
+            <a href="https://hasnura.blogspot.com/p/pembekal-admin.html" class="card-main-link">
+                <div class="icon-box">🛡️</div>
+                <h3>Pembekal-Admin</h3>
+                <p>Pengurusan utama pesanan pembekal, rekod inventori, dan kawalan sistem admin.</p>
+                <span class="badge">Management</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/pembekal-admin.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card admin-group" data-category="admin-group">
+            <a href="https://hasnura.blogspot.com/p/shop-online-admin.html" class="card-main-link">
+                <div class="icon-box">🛒</div>
+                <h3>Shop Online-Admin</h3>
+                <p>Pengurusan pesanan pelanggan, kemaskini produk, dan kawalan sistem jualan online.</p>
+                <span class="badge">Admin Control</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/shop-online-admin.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card admin-group" data-category="admin-group">
+            <a href="https://hasnura.blogspot.com/p/ejen-pekasam-admin_22.html" class="card-main-link">
+                <div class="icon-box">🐟</div>
+                <h3>Ejen Pekasam - Admin</h3>
+                <p>Urus pesanan ejen, pendaftaran ahli baharu, dan rekod komisen ejen pekasam.</p>
+                <span class="badge">Agent Orders</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/ejen-pekasam-admin_22.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <!-- ================= KATEGORI: AFFILIATE ================= -->
+        <div class="hub-card affiliate-group" data-category="affiliate-group">
+            <a href="https://hasnura.blogspot.com/p/hn-affiliate-register.html" class="card-main-link">
+                <div class="icon-box">📝</div>
+                <h3>Register HN Affiliate</h3>
+                <p>Pendaftaran ahli baharu untuk program Affiliate Hasnura.</p>
+                <span class="badge">Registration</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/hn-affiliate-register.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card affiliate-group" data-category="affiliate-group">
+            <a href="https://hasnura.blogspot.com/p/maklumat-akaun-bank-hn-affiliate.html" class="card-main-link">
+                <div class="icon-box">🏦</div>
+                <h3>Maklumat Bank</h3>
+                <p>Kemaskini dan semakan maklumat akaun bank untuk pembayaran komisen.</p>
+                <span class="badge">Banking</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/maklumat-akaun-bank-hn-affiliate.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card affiliate-group" data-category="affiliate-group">
+            <a href="https://hasnura.blogspot.com/p/dashboard-hn-affiliate.html" class="card-main-link">
+                <div class="icon-box">🖥️</div>
+                <h3>Dashboard Affiliate</h3>
+                <p>Panel utama untuk memantau klik, jualan, dan jumlah komisen terkumpul.</p>
+                <span class="badge">Affiliate Stats</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-hn-affiliate.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <div class="hub-card affiliate-group" data-category="affiliate-group">
+            <a href="https://hasnura.blogspot.com/p/hn-affiliate.html" class="card-main-link">
+                <div class="icon-box">🏪</div>
+                <h3>Kedai Affiliate</h3>
+                <p>Akses ke kedai jualan khusus untuk rujukan produk affiliate.</p>
+                <span class="badge">Affiliate Shop</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/hn-affiliate.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+
+        <!-- ================= KATEGORI: LOKASI ================= -->
+        <div class="hub-card location-group" data-category="location-group">
+            <a href="https://hasnura.blogspot.com/p/lokasi-jualan-produk-kami.html" class="card-main-link">
+                <div class="icon-box">📍</div>
+                <h3>Lokasi Produk</h3>
+                <p>Cari premis dan pasaraya terdekat yang menjual produk kami di kawasan anda.</p>
+                <span class="badge">Store Locator</span>
+            </a>
+            <div class="card-action-area">
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/lokasi-jualan-produk-kami.html', this)">📋 Salin Pautan</button>
+            </div>
+        </div>
+      
+    </div>
+</div>
+
+<script>
+function filterCards(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const cards = document.querySelectorAll('.hub-card');
+    cards.forEach(c => {
+        if (category === 'semua' || c.getAttribute('data-category') === category) {
+            c.style.display = 'flex';
+        } else {
+            c.style.display = 'none';
+        }
+    });
+}
+
+function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✅ Berjaya Disalin";
+        btn.style.color = "#34d399";
+        btn.style.borderColor = "rgba(52, 211, 153, 0.4)";
+        btn.style.background = "rgba(52, 211, 153, 0.1)";
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.color = "";
+            btn.style.borderColor = "";
+            btn.style.background = "";
+        }, 2000);
+    }).catch(err => {
+        console.error('Gagal menyalin: ', err);
+    });
+}
+</script>
+
+</body>
+</html>
