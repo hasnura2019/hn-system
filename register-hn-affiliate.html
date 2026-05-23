@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hasnura — Daftar Affiliate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: rgba(201,168,76,0.15);
+    --dark: #0A0A0F;
+    --dark-2: #111118;
+    --dark-3: #18181F;
+    --dark-4: #22222C;
+    --border: rgba(201,168,76,0.2);
+    --text: #F0EDE8;
+    --text-muted: #7A7A8A;
+    --success: #2ECC9A;
+    --error: #FF6B7A;
+    --radius: 18px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    min-height: 100%;
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── Background mesh ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 85%, rgba(201,168,76,0.07) 0%, transparent 65%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 40px);
+    pointer-events: none;
+  }
+
+  .page-wrap {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 48px;
+  }
+
+  /* ── Logo / Header ── */
+  .brand {
+    text-align: center;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .brand-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  .brand-name {
+    font-size: 22px; font-weight: 800;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+
+  .brand-sub {
+    font-size: 12px; color: var(--text-muted);
+    letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* ── Card ── */
+  .card {
+    width: 100%; max-width: 420px;
+    background: var(--dark-2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow:
+      0 0 0 1px rgba(201,168,76,0.05),
+      0 24px 60px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .card-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .card-header h1 {
+    font-size: 20px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+
+  .card-header p {
+    font-size: 13px; color: var(--text-muted); line-height: 1.5;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Form ── */
+  .form-group { margin-bottom: 18px; }
+
+  .form-group label {
+    display: block;
+    font-size: 11px; font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+
+  .input-wrap { position: relative; }
+
+  .input-icon {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    background: var(--dark-3);
+    border: 1.5px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    -webkit-appearance: none;
+  }
+
+  .form-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+  .form-input:focus {
+    border-color: var(--gold);
+    background: var(--dark-4);
+    box-shadow: 0 0 0 4px rgba(201,168,76,0.08), inset 0 0 0 1px rgba(201,168,76,0.1);
+  }
+
+  /* ── Button ── */
+  .btn-primary {
+    width: 100%;
+    padding: 16px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    background-size: 200% auto;
+    color: var(--dark);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-position 0.4s, transform 0.2s, box-shadow 0.3s, opacity 0.2s;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(201,168,76,0.35);
+  }
+
+  .btn-primary:active:not(:disabled) { transform: translateY(0); }
+
+  .btn-primary:disabled {
+    opacity: 0.5; cursor: not-allowed;
+  }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-top-color: var(--dark);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: none;
+  }
+
+  /* ── Success State ── */
+  .success-wrap { display: none; }
+
+  .success-header {
+    text-align: center;
+    padding: 16px 0 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 24px;
+  }
+
+  .success-icon {
+    width: 60px; height: 60px;
+    background: rgba(46,204,154,0.1);
+    border: 1px solid rgba(46,204,154,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 16px;
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  .success-header h2 {
+    font-size: 16px; font-weight: 700;
+    color: var(--success);
+    margin-bottom: 4px;
+  }
+
+  .success-header p { font-size: 12px; color: var(--text-muted); }
+
+  .id-display {
+    background: var(--dark-3);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .id-display::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,168,76,0.06), transparent);
+  }
+
+  .id-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 8px; font-weight: 600;
+  }
+
+  .id-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 38px; font-weight: 500;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .link-section { margin-bottom: 20px; }
+
+  .link-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .link-box {
+    display: flex; gap: 8px;
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 6px 6px 6px 14px;
+    align-items: center;
+  }
+
+  .link-text {
+    flex: 1;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    padding: 6px 0;
+  }
+
+  .btn-copy {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-light);
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-family: 'Sora', sans-serif;
+    font-size: 11px; font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .btn-copy:hover { background: rgba(201,168,76,0.25); }
+  .btn-copy.copied { background: rgba(46,204,154,0.15); border-color: var(--success); color: var(--success); }
+
+  .btn-bank {
+    width: 100%;
+    padding: 14px;
+    background: var(--dark-3);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .btn-bank:hover { background: var(--dark-4); border-color: rgba(201,168,76,0.25); }
+
+  .notice {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: rgba(46,204,154,0.06);
+    border: 1px solid rgba(46,204,154,0.15);
+    border-radius: 10px;
+    font-size: 11px; color: var(--success);
+    line-height: 1.5; text-align: center;
+  }
+
+  .screenshot-note {
+    text-align: center;
+    font-size: 10px; color: var(--text-muted);
+    margin-top: 14px;
+  }
+
+  /* ── Status message ── */
+  .status-msg {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 12px; font-weight: 600;
+    text-align: center;
+  }
+
+  .status-msg.error {
+    background: rgba(255,107,122,0.08);
+    border: 1px solid rgba(255,107,122,0.2);
+    color: var(--error);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 11px; color: var(--text-muted);
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes successPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(46,204,154,0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(46,204,154,0); }
+  }
+
+  @media (max-width: 380px) {
+    .card { padding: 28px 22px; }
+    .id-value { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="brand">
+    <div class="brand-logo">
+      <div class="brand-icon">✦</div>
+      <div class="brand-name">HASNURA</div>
+    </div>
+    <div class="brand-sub">Affiliate Network</div>
+  </div>
+
+  <div class="card">
+
+    <!-- Registration Form -->
+    <div id="regForm">
+      <div class="card-header">
+        <div class="badge">✦ Program Affiliate</div>
+        <h1>Daftar Sebagai Affiliate</h1>
+        <p>ID unik anda akan dijana secara automatik selepas pendaftaran.</p>
+      </div>
+
+      <div class="form-group">
+        <label>Nama Penuh</label>
+        <div class="input-wrap">
+          <span class="input-icon">👤</span>
+          <input type="text" id="regName" class="form-input" placeholder="Masukkan nama penuh anda" autocomplete="name">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>No. WhatsApp</label>
+        <div class="input-wrap">
+          <span class="input-icon">📱</span>
+          <input type="tel" id="regPhone" class="form-input" placeholder="60123456789" autocomplete="tel">
+        </div>
+        <p style="font-size:10px;color:var(--text-muted);margin-top:6px;padding-left:4px;">Tambah 60 di hadapan. Contoh: 60123456789</p>
+      </div>
+
+      <button class="btn-primary" id="btnSubmit" onclick="submitRegistration()">
+        <span class="spinner" id="spinner"></span>
+        <span id="btnText">Daftar Sekarang →</span>
+      </button>
+
+      <div class="status-msg error" id="statusMsg"></div>
+    </div>
+
+    <!-- Success State -->
+    <div class="success-wrap" id="successArea">
+      <div class="success-header">
+        <div class="success-icon">✓</div>
+        <h2>Pendaftaran Berjaya!</h2>
+        <p>Selamat datang ke keluarga Hasnura Affiliate</p>
+      </div>
+
+      <div class="id-display">
+        <div class="id-label">ID Affiliate Anda</div>
+        <div class="id-value" id="displayID">HN---</div>
+      </div>
+
+      <div class="link-section">
+        <div class="link-label">Link Kedai Anda</div>
+        <div class="link-box">
+          <div class="link-text" id="displayLink">—</div>
+          <button class="btn-copy" id="btnCopy" onclick="copyLink()">Salin</button>
+        </div>
+      </div>
+
+      <a href="maklumat-bank.html" class="btn-bank" id="bankBtn">
+        🏦 Kemaskini Maklumat Bank
+      </a>
+
+      <div class="notice">
+        💡 Lengkapkan maklumat akaun bank anda untuk membolehkan pengeluaran komisen dibuat.
+      </div>
+
+      <div class="screenshot-note">📸 Sila screenshot halaman ini untuk simpanan.</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    © 2025 Hasnura · Sistem Affiliate Rasmi
+  </div>
+
+</div>
+
+<script>
+  // ── CONFIGURATION ──
+  // Gantikan URL ini dengan URL Web App Google Apps Script anda
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbykcp_9fxLTadJDa-s6SBFD-Ulq3AZO7M-n6SarmVP8xMKcB3Iq-NvPS96Abv3Gt1wy4g/exec';
+
+  function submitRegistration() {
+    const name  = document.getElementById('regName').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const btn   = document.getElementById('btnSubmit');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btnText');
+    const statusMsg = document.getElementById('statusMsg');
+
+    statusMsg.style.display = 'none';
+
+    if (!name || !phone) {
+      showError('Sila isi Nama Penuh dan No. WhatsApp anda.');
+      return;
+    }
+
+    if (!/^60\d{8,11}$/.test(phone)) {
+      showError('Format No. WhatsApp tidak sah. Gunakan format: 60123456789');
+      return;
+    }
+
+    // Loading state
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    btnText.textContent = 'Mendaftarkan...';
+
+    // Step 1: Register via no-cors POST
+    fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'register',
+        kategori: 'Affiliate',
+        name: name,
+        phone: phone
+      })
+    })
+    .then(() => {
+      // Step 2: Retrieve assigned ID after short delay
+      setTimeout(() => {
+        fetch(`${GAS_URL}?action=searchID&phone=${encodeURIComponent(phone)}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.result === 'found') {
+              document.getElementById('regForm').style.display = 'none';
+              const successArea = document.getElementById('successArea');
+              successArea.style.display = 'block';
+              successArea.style.animation = 'fadeUp 0.5s ease both';
+
+              document.getElementById('displayID').textContent = data.id;
+
+              const encodedName = encodeURIComponent(data.name);
+              const link = `https://hasnura.blogspot.com/p/hn-affiliate.html?ref=${data.id}-${encodedName}`;
+              document.getElementById('displayLink').textContent = link;
+
+              // Update bank button with ID
+              document.getElementById('bankBtn').href = `maklumat-bank.html?id=${data.id}`;
+            } else {
+              throw new Error(data.message || 'ID tidak dijumpai.');
+            }
+          })
+          .catch(err => {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = 'Daftar Sekarang →';
+            showError('Ralat: ' + err.message + ' Sila cuba lagi.');
+          });
+      }, 1500);
+    })
+    .catch(() => {
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      btnText.textContent = 'Daftar Sekarang →';
+      showError('Gagal berhubung dengan pelayan. Periksa sambungan internet anda.');
+    });
+  }
+
+  function copyLink() {
+    const linkText = document.getElementById('displayLink').textContent;
+    const btn = document.getElementById('btnCopy');
+    navigator.clipboard.writeText(linkText).then(() => {
+      btn.textContent = '✓ Disalin';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Salin';
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.className = 'status-msg error';
+  }
+</script>
+</body>
+</html>
