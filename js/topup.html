@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasnura Treasury — Elit Topup Inventori</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           FINTECH PREMIUM EMBEDDED STYLES (MONOCHROME METALLIC DESIGN)
+           ========================================================================== */
+        :root {
+            --bg-main: #060608;
+            --bg-card: #0F1015;
+            --bg-input: #171923;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(200, 169, 110, 0.4);
+            
+            /* Premium Gold Accents */
+            --gold-primary: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --text-muted: #8F95B2;
+            --text-light: #F3F4F6;
+            --success-color: #10B981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.topup-body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+        }
+
+        .topup-wrap {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        /* PREMIUM HEADER */
+        .topup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+        }
+
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .back-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .topup-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+        .topup-logo span {
+            color: var(--gold-primary);
+            text-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        /* HUB CORE CONTAINER (DESKTOP GRID SPLIT) */
+        .fintech-dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .topup-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .topup-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        .topup-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .topup-sub {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        /* PREMIUM FORM INPUTS */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .input-group.full { grid-column: 1 / -1; }
+
+        .input-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+            background: rgba(23, 25, 35, 0.8);
+        }
+        select.form-input {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238F95B2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        /* DYNAMIC LIVE STICKY PREVIEW PANEL */
+        .sticky-preview-panel {
+            position: sticky;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .preview-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-title {
+            align-self: flex-start;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-primary);
+            margin-bottom: 20px;
+        }
+
+        .preview-card-frame {
+            width: 100%;
+            max-width: 290px;
+            min-height: 380px;
+            background: #131520;
+            border: 1px dashed rgba(255,255,255,0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .preview-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        /* CODE BLOCK PRODUCTION PLATINUM DESIGN */
+        .code-section {
+            background: #060608;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .code-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .btn-copy-code {
+            background: rgba(214, 175, 55, 0.1);
+            color: var(--gold-primary);
+            border: 1px solid rgba(214, 175, 55, 0.2);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-copy-code:hover {
+            background: var(--gold-primary);
+            color: #000;
+        }
+
+        .code-block {
+            color: #A0AEC0;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+
+        /* INTERACTION BUTTONS */
+        .action-btns {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .btn-preview {
+            flex: 1.3;
+            padding: 16px;
+            background: linear-gradient(135deg, #E6C667 0%, var(--gold-primary) 100%);
+            color: #060608;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-preview:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .btn-copy-code-main {
+            flex: 1;
+            padding: 16px;
+            background: transparent;
+            color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s;
+        }
+        .btn-copy-code-main:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* PREMIUM INFOGRAPHIC GUIDE */
+        .topup-guide {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+            border: 1px solid var(--border-color);
+        }
+        .topup-guide h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .topup-guide ol {
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .topup-guide li {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .topup-guide code {
+            background: #171923;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--gold-primary);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* MODERN INVENTORY DATA TABLE CONTAINER */
+        .manage-section {
+            grid-column: 1 / -1;
+            border-top: 1px solid var(--border-color);
+            padding-top: 40px;
+            margin-top: 16px;
+        }
+        .manage-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .btn-refresh-products {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 20px;
+        }
+        .btn-refresh-products:hover {
+            background: #fff;
+            color: var(--bg-main);
+            transform: translateY(-1px);
+        }
+
+        .products-table {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--bg-card);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .product-row {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 0.8fr;
+            gap: 16px;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            font-size: 13.5px;
+        }
+        .product-row:last-child { border-bottom: none; }
+        .product-row:nth-child(even) { background: rgba(255, 255, 255, 0.01); }
+        
+        .product-row-header {
+            background: rgba(255, 255, 255, 0.02) !important;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* NOTIFICATION TOAST CRYPTO-STYLE */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #171923;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 13.5px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* RESPONSIVE RESPONSIVENESS CAPABILITIES */
+        @media (max-width: 900px) {
+            .fintech-dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .sticky-preview-panel {
+                position: relative;
+                top: 0;
+            }
+            .topup-card {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body.topup-body { padding: 20px 12px; }
+            .form-grid { grid-template-columns: 1fr; gap: 14px; }
+            .action-btns { flex-direction: column; }
+            .product-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                padding: 14px;
+            }
+            .product-row-header { display: none; }
+            .product-row span:nth-child(1) { grid-column: 1 / -1; font-size: 14px; }
+        }
+    </style>
+</head>
+<body class="topup-body">
+
+<div class="topup-wrap">
+
+    <div class="topup-header">
+        <a href="../admin/index.html" class="back-btn">← Portal Admin</a>
+        <div class="topup-logo">HASNURA<span>•</span> TREASURY</div>
+    </div>
+
+    <div class="fintech-dashboard-grid">
+        
+        <div class="topup-card">
+            <h2 class="topup-title">📦 Pengurusan Inventori</h2>
+            <p class="topup-sub">Pendaftaran unit produk baharu dan pengemaskinian struktur kedai rujukan.</p>
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label class="input-label">Nama Item *</label>
+                    <input class="form-input" id="t-name" type="text" placeholder="Masukkan nama produk premium">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Nilai Pasaran (RM) *</label>
+                    <input class="form-input" id="t-price" type="number" step="0.50" min="0" placeholder="0.00">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Aset Digital / URL Gambar *</label>
+                    <input class="form-input" id="t-img" type="url" placeholder="https://res.cloudinary.com/...">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Klasifikasi Kategori *</label>
+                    <select class="form-input" id="t-cat">
+                        <option value="Sambal">Sambal</option>
+                        <option value="Pekasam">Pekasam</option>
+                        <option value="Kerepek">Kerepek</option>
+                        <option value="Borong Pekasam 10 pek">Borong Pekasam 10 pek</option>
+                        <option value="Borong Pekasam 5 pek">Borong Pekasam 5 pek</option>
+                        <option value="Kecantikan">Kecantikan</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Pautan Dokumentasi / Info (Opsional)</label>
+                    <input class="form-input" id="t-info" type="url" placeholder="https://hasnura.blogspot.com/...">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Penanda Aras / Badge (Opsional)</label>
+                    <select class="form-input" id="t-badge">
+                        <option value="">Tiada</option>
+                        <option value="Paling Laris">🏆 Paling Laris</option>
+                        <option value="Jimat!">💎 Jimat!</option>
+                        <option value="Nilai!">⭐ Nilai!</option>
+                        <option value="Pedas!">🔥 Pedas!</option>
+                        <option value="Baharu">🆕 Baharu</option>
+                    </select>
+                </div>
+                <div class="input-group full">
+                    <label class="input-label">Pengenalan Unik ID (Sistem Automatik) *</label>
+                    <input class="form-input" id="t-id" type="text" placeholder="Contoh: prod-sambal-premium" oninput="this.value=this.value.replace(/\s+/g,'-').toLowerCase()">
+                </div>
+            </div>
+
+            <div class="action-btns">
+                <button class="btn-preview" onclick="generatePreview()">👁️ Jana Pratonton & Kod</button>
+                <button class="btn-copy-code-main" onclick="copyCode()">📋 Salin Kod</button>
+            </div>
+
+            <div class="topup-guide">
+                <h4>📖 Protokol Penyepaduan</h4>
+                <ol>
+                    <li>Lengkapkan koordinat data produk di atas secara menyeluruh.</li>
+                    <li>Sahkan parameter melalui butang <code>Jana Pratonton & Kod</code>.</li>
+                    <li>Sistem akan menyalin kompilasi logik ke papan keratan secara selamat.</li>
+                    <li>Buka arkib kod punca <code>index.html</code> kedai anda.</li>
+                    <li>Tampal konfigurasi tepat di atas tag sempadan <code>&lt;/div&gt;&lt;!-- end product-grid --&gt;</code>.</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="sticky-preview-panel">
+            <div class="preview-section">
+                <h3 class="preview-title">Visualisasi Masa Nyata</h3>
+                <div id="preview-card" class="preview-card-frame">
+                    <div class="preview-placeholder">
+                        <span>Sistem sedia menerima kemasukan input bagi memetakan kad visual eksklusif.</span>
+                    </div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-header">
+                        <h3 class="code-title">Blok HTML Terbina</h3>
+                        <button class="btn-copy-code" onclick="copyCode()">Salin</button>
+                    </div>
+                    <pre class="code-block" id="code-output">// Menunggu isyarat penjanaan data...</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="manage-section">
+            <h3 class="manage-title">📊 Arkib Data Berpusat</h3>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Segala mutasi dan penambahan stok akan disinkronasikan bersama storan Google Sheets Ledger.</p>
+            <button class="btn-refresh-products" onclick="loadProducts()">🔄 Imbas Storan Awan</button>
+            <div id="products-table" class="products-table">
+                <div class="loading-state" style="padding:40px; text-align: center; color: var(--text-muted);">
+                    <p>Sila tekan butang imbasan di atas untuk memuat turun pangkalan data aktif.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    'use strict';
+
+    const TOPUP_CONFIG = {
+        webAppUrl: "https://script.google.com/macros/s/AKfycbyGXgb9grZJgHd_aJuRYgIOIX0-Kz97VjcGmDklS1Ufqydb5SAbsBPo4Ta8buG9AdFp/exec"
+    };
+
+    function showToast(msg, duration = 2500) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    // GENERATE PREVIEW & FINTECH ARCHITECTURE HTML
+    function generatePreview() {
+        const name = document.getElementById('t-name').value.trim();
+        const price = parseFloat(document.getElementById('t-price').value);
+        const img = document.getElementById('t-img').value.trim();
+        const cat = document.getElementById('t-cat').value;
+        const info = document.getElementById('t-info').value.trim();
+        const badge = document.getElementById('t-badge').value;
+        const prodId = document.getElementById('t-id').value.trim();
+
+        if (!name || !price || !img || !prodId) {
+            showToast('⚠️ Ralat: Sila pastikan Nama, Harga, Gambar dan ID diisi.');
+            return;
+        }
+
+        // Production-ready semantic output
+        const badgeHtml = badge ? `\n            <div class="card-badge">${badge}</div>` : '';
+        const infoHtml = info ? `\n                <a href="${info}" target="_blank" class="btn-info">ℹ Info Produk</a>` : '';
+        const cartName = name.replace(/'/g, "\\'");
+
+        const code = `        <div class="product-card" data-category="${cat}" id="${prodId}">${badgeHtml}
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, '${prodId}', '${cartName}')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="${img}" alt="${name}" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">${name}</div>${infoHtml}
+                <div class="price-row">
+                    <div class="price-tag">RM ${price.toFixed(2)}</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('${cartName}', ${price.toFixed(2)})">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>`;
+
+        document.getElementById('code-output').textContent = code;
+
+        // Render Premium UI Engine component inside preview frame
+        document.getElementById('preview-card').innerHTML = `
+            <div style="font-family:inherit; background:#171923; width:100%; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.05); position:relative; padding:16px;">
+                ${badge ? `<div style="position:absolute; top:12px; left:12px; background:#D4AF37; color:#000; font-size:9px; font-weight:800; padding:4px 10px; border-radius:50px; text-transform:uppercase; letter-spacing:0.5px;">${badge}</div>` : ''}
+                <div style="width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden; margin-bottom:14px; background:#0F1015;">
+                    <img src="${img}" alt="${name}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22280%22 height=%22280%22><rect fill=%22%230F1015%22 width=%22280%22 height=%22280%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%233F445E%22>Pemuatan Gambar Gagal</text></svg>'">
+                </div>
+                <div>
+                    <div style="font-weight:600; font-size:14px; color:#fff; margin-bottom:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</div>
+                    <div style="display:flex; justify-content:between; align-items:center; margin-bottom:14px; justify-content: space-between;">
+                        <span style="font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:#D4AF37;">RM ${price.toFixed(2)}</span>
+                        <span style="font-size:10px; color:#10B981; background:rgba(16,185,129,0.1); padding:4px 10px; border-radius:6px; font-weight:700;">AKTIF</span>
+                    </div>
+                    <button style="background:rgba(255,255,255,0.03); color:#fff; border:1px solid rgba(255,255,255,0.1); padding:10px; border-radius:10px; width:100%; font-weight:600; font-size:12px; cursor:pointer; transition:all 0.2s;">🛒 Tambah Ke Troli</button>
+                </div>
+            </div>
+        `;
+
+        // Dispatch background sync process to cloud registry
+        saveProductToSheets({ name, price: price.toFixed(2), cat, img, info, badge, prodId });
+        showToast('✅ Blueprint & Komponen Visual Berjaya Dijana!');
+    }
+
+    // CLOUD RECONCILIATION
+    function saveProductToSheets(product) {
+        fetch(TOPUP_CONFIG.webAppUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'addProduct',
+                data: [
+                    new Date().toLocaleString('ms-MY'),
+                    product.prodId,
+                    product.name,
+                    'RM ' + product.price,
+                    product.cat,
+                    product.img,
+                    product.info,
+                    product.badge,
+                    'Aktif'
+                ]
+            })
+        }).catch(e => console.warn('Penyimpanan latar belakang mendapati ralat pembatasan:', e));
+    }
+
+    // INERTIA ACTIONS SYSTEMS
+    function copyCode() {
+        const code = document.getElementById('code-output').textContent;
+        if (!code || code.startsWith('//')) {
+            showToast('⚠️ Isyarat: Sila jana kod komponen terlebih dahulu.');
+            return;
+        }
+        navigator.clipboard.writeText(code).then(() => {
+            showToast('✅ Sistem: Kod HTML berjaya disalin ke papan keratan.');
+        }).catch(() => {
+            showToast('⚠️ Ralat: Akses dinafi. Sila salin secara manual.');
+        });
+    }
+
+    // ENGINE FOR REMOTE REAL-TIME DATA SCANNING
+    async function loadProducts() {
+        const table = document.getElementById('products-table');
+        table.innerHTML = `
+            <div style="padding:50px; text-align:center; color:var(--text-muted);">
+                <div style="width:28px; height:28px; border:2px solid rgba(255,255,255,0.1); border-top-color:var(--gold-primary); border-radius:50%; animation:spin 0.7s linear infinite; margin:0 auto 16px;"></div>
+                <p style="font-size:13px; letter-spacing:0.5px;">Membuka terowong data selamat bersama Google Ledger...</p>
+            </div>`;
+
+        try {
+            const res = await fetch(`${TOPUP_CONFIG.webAppUrl}?action=getProducts`);
+            const data = await res.json();
+
+            if (data && data.products && data.products.length > 0) {
+                renderProducts(data.products);
+            } else {
+                table.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-muted); font-size:13px;">Tiada rekod instrumen aktif ditemui dalam storan awan.</div>`;
+            }
+        } catch (e) {
+            table.innerHTML = `<div style="padding:40px; text-align:center; color:#EF4444; font-size:13px;">🚨 Ralat Komunikasi Awan. Sila sahkan integriti Deployment URL anda.</div>`;
+        }
+    }
+
+    function renderProducts(products) {
+        const table = document.getElementById('products-table');
+        const header = `<div class="product-row product-row-header">
+            <span>Instrumen / Nama</span>
+            <span>Nilai Aset</span>
+            <span>Kategori</span>
+            <span>Status</span>
+        </div>`;
+        const rows = products.map(p => `
+            <div class="product-row">
+                <span style="font-weight:600; color:#fff;">${p.nama || p[2] || '—'}</span>
+                <span style="font-weight:700; color:var(--gold-primary); font-family: monospace;">${p.harga || p[3] || '—'}</span>
+                <span style="color:var(--text-muted); font-size:12px;">${p.kategori || p[4] || '—'}</span>
+                <span><span style="font-size:11px; font-weight:700; color:#10B981; background:rgba(16,185,129,0.08); padding:4px 8px; border-radius:6px; letter-spacing:0.5px;">${p.status || p[8] || 'AKTIF'}</span></span>
+            </div>
+        `).join('');
+        table.innerHTML = header + rows;
+    }
+
+    // Dynamic Micro-Animations Embedding
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
