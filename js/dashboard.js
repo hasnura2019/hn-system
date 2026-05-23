@@ -6,7 +6,7 @@
 
 // ── CONFIG ──────────────────────────────────────────
 const CONFIG = {
-    webAppUrl: "https://script.google.com/macros/s/AKfycbx-vafxPI9THw0uMw8IlndWyI5ohs7aJxofkJJMGeBPqVs0s7l4r6O_wDO8ll7X7w7KOw/exec",
+    webAppUrl: "https://script.google.com/macros/s/AKfycbyGXgb9grZJgHd_aJuRYgIOIX0-Kz97VjcGmDklS1Ufqydb5SAbsBPo4Ta8buG9AdFp/exec",
     whatsappNumber: "601119471916",
     // Simpan password dalam Google Apps Script sahaja untuk keselamatan
     // Password ini adalah sementara — tukar dalam GAS
