@@ -385,10 +385,6 @@
     to { transform: scale(1); opacity: 1; }
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes successPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(46,204,154,0.3); }
-    50% { box-shadow: 0 0 0 8px rgba(46,204,154,0); }
-  }
 
   @media (max-width: 380px) {
     .card { padding: 28px 22px; }
@@ -410,7 +406,6 @@
 
   <div class="card">
 
-    <!-- Registration Form -->
     <div id="regForm">
       <div class="card-header">
         <div class="badge">✦ Program Affiliate</div>
@@ -443,7 +438,6 @@
       <div class="status-msg error" id="statusMsg"></div>
     </div>
 
-    <!-- Success State -->
     <div class="success-wrap" id="successArea">
       <div class="success-header">
         <div class="success-icon">✓</div>
@@ -485,8 +479,8 @@
 
 <script>
   // ── CONFIGURATION ──
-  // Gantikan URL ini dengan URL Web App Google Apps Script anda
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbykcp_9fxLTadJDa-s6SBFD-Ulq3AZO7M-n6SarmVP8xMKcB3Iq-NvPS96Abv3Gt1wy4g/exec';
+  // URL Web App Google Apps Script anda yang baharu
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbx0u_fOcjowQK99byeqaDD2wtLSmjEUlHDe4ebBxTWUeLwdMR3BUqMM5N4cBH2jgM3sig/exec';
 
   function submitRegistration() {
     const name  = document.getElementById('regName').value.trim();
@@ -513,55 +507,51 @@
     spinner.style.display = 'block';
     btnText.textContent = 'Mendaftarkan...';
 
-    // Step 1: Register via no-cors POST
+    // Sediakan payload dalam format JSON bersih
+    const payload = {
+      action: 'register',
+      kategori: 'Affiliate',
+      name: name,
+      phone: phone
+    };
+
+    // Hantar data secara POST normal (Tanpa mode: 'no-cors' bagi mendapatkan data respon secara terus)
     fetch(GAS_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'register',
-        kategori: 'Affiliate',
-        name: name,
-        phone: phone
-      })
+      body: JSON.stringify(payload)
     })
-    .then(() => {
-      // Step 2: Retrieve assigned ID after short delay
-      setTimeout(() => {
-        fetch(`${GAS_URL}?action=searchID&phone=${encodeURIComponent(phone)}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.result === 'found') {
-              document.getElementById('regForm').style.display = 'none';
-              const successArea = document.getElementById('successArea');
-              successArea.style.display = 'block';
-              successArea.style.animation = 'fadeUp 0.5s ease both';
-
-              document.getElementById('displayID').textContent = data.id;
-
-              const encodedName = encodeURIComponent(data.name);
-              const link = `https://hasnura.blogspot.com/p/hn-affiliate.html?ref=${data.id}-${encodedName}`;
-              document.getElementById('displayLink').textContent = link;
-
-              // Update bank button with ID
-              document.getElementById('bankBtn').href = `maklumat-bank.html?id=${data.id}`;
-            } else {
-              throw new Error(data.message || 'ID tidak dijumpai.');
-            }
-          })
-          .catch(err => {
-            btn.disabled = false;
-            spinner.style.display = 'none';
-            btnText.textContent = 'Daftar Sekarang →';
-            showError('Ralat: ' + err.message + ' Sila cuba lagi.');
-          });
-      }, 1500);
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Respon pelayan tidak stabil.');
+      }
+      return res.json();
     })
-    .catch(() => {
+    .then(data => {
+      // Memandangkan Google Apps Script memulangkan status pendaftaran secara langsung,
+      // kita tidak memerlukan kelewatan fungsi searchID lagi!
+      if (data.status === 'success' || data.result === 'found') {
+        document.getElementById('regForm').style.display = 'none';
+        const successArea = document.getElementById('successArea');
+        successArea.style.display = 'block';
+        successArea.style.animation = 'fadeUp 0.5s ease both';
+
+        document.getElementById('displayID').textContent = data.id;
+
+        const encodedName = encodeURIComponent(data.name);
+        const link = `https://hasnura.blogspot.com/p/hn-affiliate.html?ref=${data.id}-${encodedName}`;
+        document.getElementById('displayLink').textContent = link;
+
+        // Update bank button dengan ID parameter
+        document.getElementById('bankBtn').href = `maklumat-bank.html?id=${data.id}`;
+      } else {
+        throw new Error(data.message || 'ID tidak dijumpai atau pendaftaran gagal.');
+      }
+    })
+    .catch(err => {
       btn.disabled = false;
       spinner.style.display = 'none';
       btnText.textContent = 'Daftar Sekarang →';
-      showError('Gagal berhubung dengan pelayan. Periksa sambungan internet anda.');
+      showError('Ralat: ' + err.message + '. Sila cuba lagi.');
     });
   }
 
