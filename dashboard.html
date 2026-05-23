@@ -3,117 +3,927 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasnura Admin — Dashboard Pesanan</title>
+    <title>Hasnura Treasury — Dashboard Pesanan Premium</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           FINTECH PREMIUM EMBEDDED STYLES (MONOCHROME METALLIC DESIGN)
+           ========================================================================== */
+        :root {
+            --bg-main: #060608;
+            --bg-card: #0F1015;
+            --bg-input: #171923;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --gold-primary: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --text-muted: #8F95B2;
+            --text-light: #F3F4F6;
+            
+            /* Status Colors */
+            --color-baharu: #3B82F6;
+            --color-diproses: #F59E0B;
+            --color-dihantar: #10B981;
+            --color-selesai: #8B5CF6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body.admin-body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            line-height: 1.5;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+        }
+
+        /* ==========================================================================
+           1. PREMIUM LOGIN SCREEN
+           ========================================================================== */
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        .login-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .login-logo span {
+            color: var(--gold-primary);
+            text-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .login-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .login-sub {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #E6C667 0%, var(--gold-primary) 100%);
+            color: #060608;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s;
+        }
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            filter: brightness(1.05);
+        }
+
+        .login-err {
+            color: #EF4444;
+            font-size: 13px;
+            margin-top: 16px;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* ==========================================================================
+           2. MAIN DASHBOARD LAYOUT (DESKTOP WORKSPACE)
+           ========================================================================== */
+        #dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* PREMIUM SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-color);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; bottom: 0; left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 40px;
+            padding-left: 12px;
+        }
+        .sidebar-brand span { color: var(--gold-primary); }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .nav-item.active {
+            border: 1px solid var(--border-color);
+            background: rgba(212, 175, 55, 0.05);
+            color: var(--gold-primary);
+        }
+
+        /* WORKSPACE CONTAINER */
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px 48px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ==========================================================================
+           3. FINTECH METRICS & ANALYTICS CARDS
+           ========================================================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Dynamic subtle accent glows for stats */
+        .stat-card[data-type="total"] { border-left: 4px solid var(--gold-primary); }
+        .stat-card[data-type="baharu"] { border-left: 4px solid var(--color-baharu); }
+        .stat-card[data-type="proses"] { border-left: 4px solid var(--color-diproses); }
+        .stat-card[data-type="selesai"] { border-left: 4px solid var(--color-selesai); }
+
+        /* ==========================================================================
+           4. SEARCH & ADVANCED FILTER CONTROLS
+           ========================================================================== */
+        .controls-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .search-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 16px 14px 44px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .search-wrapper::before {
+            content: "🔍";
+            position: absolute;
+            left: 16px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.5;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .filter-select {
+            background: var(--bg-card);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* ==========================================================================
+           5. PREMIUM ORDER INFRASTRUCTURE CARD / LIST
+           ========================================================================== */
+        .order-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: 1.2fr 1.5fr 1fr 1fr auto;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.12);
+            background: rgba(23, 25, 35, 0.4);
+        }
+
+        .order-id-block .order-id {
+            font-weight: 700;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .order-id-block .order-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .order-customer .cust-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        .order-customer .cust-phone {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .order-amount {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            color: var(--gold-primary);
+            font-size: 16px;
+        }
+
+        /* Fintech Badges Layout */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+        .status-badge.baharu { background: rgba(59, 130, 246, 0.1); color: var(--color-baharu); }
+        .status-badge.diproses { background: rgba(245, 158, 11, 0.1); color: var(--color-diproses); }
+        .status-badge.dihantar { background: rgba(16, 185, 129, 0.1); color: var(--color-dihantar); }
+        .status-badge.selesai { background: rgba(139, 92, 246, 0.1); color: var(--color-selesai); }
+
+        .btn-action-view {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-action-view:hover {
+            background: #fff;
+            color: var(--bg-main);
+        }
+
+        /* ==========================================================================
+           6. GLASSMORPHISM MODAL BOX DETAILS
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 6, 8, 0.85);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 24px;
+            padding: 36px;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px; right: 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: #fff; }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 24px;
+        }
+
+        /* Invoice Sheet Layout inside Modal */
+        .invoice-sheet {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            margin-bottom: 28px;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        .invoice-label { color: var(--text-muted); font-weight: 500; }
+        .invoice-value { color: #fff; font-weight: 600; text-align: right; }
+        .invoice-value.highlight { color: var(--gold-primary); font-weight: 700; }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-modal {
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            text-align: center;
+            border: none;
+        }
+        .btn-modal.copy { background: rgba(255,255,255,0.04); color: #fff; border: 1px solid var(--border-color); }
+        .btn-modal.copy:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+        
+        .btn-modal.wa { background: #25D366; color: #fff; }
+        .btn-modal.wa:hover { filter: brightness(1.08); }
+
+        .status-update-wrapper {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        /* ==========================================================================
+           7. SYSTEM GLOBAL TOAST / ALERTS & MICRO-ANIMATIONS
+           ========================================================================== */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #171923;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .spinner {
+            width: 24px; height: 24px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: var(--gold-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ==========================================================================
+           8. RESPONSIVE ENGINE (MOBILE & DESKTOP FRIENDLY)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .order-card { grid-template-columns: 1fr 1.2fr 1fr auto; }
+            .order-amount { text-align: right; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding: 20px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .sidebar-brand { margin-bottom: 16px; text-align: center; }
+            .sidebar-nav { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+            
+            .dashboard-main { margin-left: 0; padding: 24px 16px; }
+            #dashboard-wrapper { flex-direction: column; }
+            
+            .order-card { 
+                grid-template-columns: 1fr 1fr; 
+                padding: 20px;
+                gap: 14px;
+            }
+            .order-amount { text-align: left; grid-column: 1; }
+            .order-status-box { grid-column: 2; text-align: right; }
+            .order-action-box { grid-column: 1 / -1; width: 100%; margin-top: 6px; }
+            .btn-action-view { width: 100%; text-align: center; }
+            .controls-row { flex-direction: column; }
+            .filter-select { padding: 14px; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .modal-actions { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body class="admin-body">
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen">
-    <div class="login-card">
-        <div class="login-logo">HASNURA<span>.</span></div>
-        <h2 class="login-title">Admin Dashboard</h2>
-        <p class="login-sub">Log masuk untuk pantau pesanan</p>
-        <div class="input-group" style="margin-top:28px;">
-            <label class="input-label">Kata Laluan</label>
-            <input type="password" id="admin-pw" class="form-input" placeholder="Masukkan kata laluan admin" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <section id="login-screen">
+        <div class="login-card">
+            <div class="login-logo">HASNURA<span>•</span> TREASURY</div>
+            <h2 class="login-title">Portal Konsol Admin</h2>
+            <p class="login-sub">Sila sahkan keselamatan untuk mengakses pelayan pesanan.</p>
+            
+            <div class="input-group">
+                <label class="input-label">Frasa Laluan Autentikasi</label>
+                <input type="password" id="admin-pw" class="form-input" placeholder="Masukkan kata laluan" onkeydown="if(event.key==='Enter') loginAdmin()">
+            </div>
+            
+            <button class="btn-login" onclick="loginAdmin()">🔒 Log Masuk Selamat</button>
+            <div id="login-err" class="login-err">Autentikasi Gagal: Frasa laluan tidak sepadan.</div>
         </div>
-        <button class="btn-login" onclick="loginAdmin()">Log Masuk →</button>
-        <p id="login-err" class="login-err"></p>
+    </section>
+
+    <div id="dashboard-wrapper">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand">HASNURA<span>•</span></div>
+            <ul class="sidebar-nav">
+                <li class="nav-item active" id="nav-orders" onclick="showTab('orders')">📦 Pesanan Pelanggan</li>
+                <li class="nav-item" id="nav-analytics" onclick="showTab('analytics')">📊 Analitik Aliran</li>
+                <li class="nav-item" onclick="window.location.href='../admin/topup.html'">⚙️ Pengurusan Produk</li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-main">
+            
+            <header class="dashboard-header">
+                <h1 class="page-title" id="dynamic-title">Pesanan Pelanggan</h1>
+            </header>
+
+            <div id="tab-orders" class="tab-content active">
+                
+                <div class="stats-grid">
+                    <div class="stat-card" data-type="total">
+                        <div class="stat-label">Jumlah Pesanan</div>
+                        <div class="stat-value" id="stat-total">0</div>
+                    </div>
+                    <div class="stat-card" data-type="baharu">
+                        <div class="stat-label">Baharu</div>
+                        <div class="stat-value" id="stat-baharu" style="color: var(--color-baharu);">0</div>
+                    </div>
+                    <div class="stat-card" data-type="proses">
+                        <div class="stat-label">Diproses / Dihantar</div>
+                        <div class="stat-value" id="stat-proses" style="color: var(--color-diproses);">0</div>
+                    </div>
+                    <div class="stat-card" data-type="selesai">
+                        <div class="stat-label">Selesai</div>
+                        <div class="stat-value" id="stat-selesai" style="color: var(--color-selesai);">0</div>
+                    </div>
+                </div>
+
+                <div class="controls-row">
+                    <div class="search-wrapper">
+                        <input type="text" class="search-input" id="search-order" placeholder="Cari berasaskan Nama, Telefon, atau No. ID..." oninput="filterOrders()">
+                    </div>
+                    <select class="filter-select" id="status-filter" onchange="filterOrders()">
+                        <option value="">Semua Status Logistik</option>
+                        <option value="Baharu">Baharu</option>
+                        <option value="Diproses">Diproses</option>
+                        <option value="Dihantar">Dihantar</option>
+                        <option value="Selesai">Selesai</option>
+                    </select>
+                </div>
+
+                <div id="orders-loading" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Membuka saluran pangkalan data awan...</p>
+                </div>
+
+                <div id="orders-list"></div>
+            </div>
+
+            <div id="tab-analytics" class="tab-content">
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px; border-radius: 24px; text-align: center;">
+                    <p style="color: var(--text-muted); font-size: 15px;">Modul Analitik Kewangan & Inventori Sedang Disinkronasikan bersama Rekod Google Sheets.</p>
+                </div>
+            </div>
+
+        </main>
     </div>
-</div>
 
-<!-- DASHBOARD -->
-<div id="dashboard" style="display:none;">
-
-    <aside class="sidebar">
-        <div class="sidebar-logo">HASNURA<span>.</span></div>
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" onclick="showTab('orders')">📋 Semua Pesanan</a>
-            <a href="#" class="nav-item" onclick="showTab('stats')">📊 Statistik</a>
-            <a href="../topup/index.html" class="nav-item">📦 Topup Produk</a>
-            <a href="../index.html" target="_blank" class="nav-item">🛍️ Buka Kedai</a>
-        </nav>
-        <button class="btn-logout" onclick="logoutAdmin()">Log Keluar</button>
-    </aside>
-
-    <main class="dashboard-main">
-
-        <!-- STATS CARDS -->
-        <div id="stats-tab">
-            <div class="dash-header">
-                <h1 class="dash-title">Dashboard Pesanan</h1>
-                <button class="btn-refresh" onclick="loadOrders()">🔄 Muat Semula</button>
-            </div>
-
-            <div class="stats-grid" id="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📋</div>
-                    <div class="stat-value" id="stat-total">—</div>
-                    <div class="stat-label">Jumlah Pesanan</div>
+    <div id="order-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-box">
+            <button class="modal-close" onclick="document.getElementById('order-modal').classList.remove('open')">✕</button>
+            <h3 class="modal-title">Maklumat Perincian Akaun Invois</h3>
+            
+            <div id="modal-content" class="invoice-sheet">
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🆕</div>
-                    <div class="stat-value" id="stat-new">—</div>
-                    <div class="stat-label">Pesanan Baharu</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-value" id="stat-revenue">—</div>
-                    <div class="stat-label">Jumlah Nilai</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-value" id="stat-done">—</div>
-                    <div class="stat-label">Selesai</div>
+            
+            <div class="status-update-wrapper">
+                <label class="input-label" style="margin-bottom: 12px;">Kemaskini Status Urus Niaga Logistik</label>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn-action-view" onclick="updateStatus('Baharu')" style="border-color: var(--color-baharu); color: var(--color-baharu)">Baharu</button>
+                    <button class="btn-action-view" onclick="updateStatus('Diproses')" style="border-color: var(--color-diproses); color: var(--color-diproses)">Diproses</button>
+                    <button class="btn-action-view" onclick="updateStatus('Dihantar')" style="border-color: var(--color-dihantar); color: var(--color-dihantar)">Dihantar</button>
+                    <button class="btn-action-view" onclick="updateStatus('Selesai')" style="border-color: var(--color-selesai); color: var(--color-selesai)">Selesai</button>
                 </div>
             </div>
-        </div>
 
-        <!-- ORDERS TAB -->
-        <div id="orders-tab">
-            <div class="filter-bar">
-                <input type="text" class="search-input" id="search-input" placeholder="🔍 Cari nama, telefon atau alamat..." oninput="filterOrders()">
-                <select class="filter-select" id="status-filter" onchange="filterOrders()">
-                    <option value="">Semua Status</option>
-                    <option value="Baharu">Baharu</option>
-                    <option value="Diproses">Diproses</option>
-                    <option value="Dihantar">Dihantar</option>
-                    <option value="Selesai">Selesai</option>
-                </select>
+            <div class="modal-actions">
+                <button class="btn-modal copy" onclick="copyOrderDetail()">📋 Salin Log Data Invois</button>
+                <button class="btn-modal wa" onclick="waOrderDetail()">💬 Pautkan ke WhatsApp</button>
             </div>
-
-            <div id="orders-loading" class="loading-state">
-                <div class="spinner"></div>
-                <p>Memuatkan pesanan...</p>
-            </div>
-
-            <div id="orders-list"></div>
-        </div>
-
-    </main>
-</div>
-
-<!-- ORDER DETAIL MODAL -->
-<div id="order-modal" class="modal-overlay" onclick="closeModal(event)">
-    <div class="modal-box">
-        <button class="modal-close" onclick="document.getElementById('order-modal').style.display='none'">✕</button>
-        <h3 class="modal-title">Detail Pesanan</h3>
-        <div id="modal-content"></div>
-        <div class="modal-actions">
-            <button class="btn-copy-detail" onclick="copyOrderDetail()">📋 Copy Detail Invois</button>
-            <button class="btn-wa-detail" onclick="waOrderDetail()">💬 WhatsApp Pelanggan</button>
         </div>
     </div>
-</div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+    <div class="toast" id="toast"></div>
 
-<script src="js/dashboard.js"></script>
+    <script>
+        'use strict';
+
+        const CONFIG = {
+            webAppUrl: "https://script.google.com/macros/s/AKfycbx-vafxPI9THw0uMw8IlndWyI5ohs7aJxofkJJMGeBPqVs0s7l4r6O_wDO8ll7X7w7KOw/exec",
+            whatsappNumber: "601119471916",
+            adminPw: "Hasnura9697"
+        };
+
+        let allOrders = [];
+        let currentOrder = null;
+
+        function showToast(msg, duration = 2500) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), duration);
+        }
+
+        // CONTROL AUTHENTICATION SECURITY
+        function loginAdmin() {
+            const pw = document.getElementById('admin-pw').value;
+            const errEl = document.getElementById('login-err');
+
+            if (pw === CONFIG.adminPw) {
+                document.getElementById('login-screen').style.display = 'none';
+                showToast('🔓 Kebenaran diberikan. Selamat Datang Admin.');
+                fetchOrders();
+            } else {
+                errEl.style.display = 'block';
+                showToast('⚠️ Capaian Ditolak.');
+            }
+        }
+
+        // REMOTE SERVER COMMUNICATION ENGINE
+        async function fetchOrders() {
+            const loading = document.getElementById('orders-loading');
+            try {
+                const res = await fetch(`${CONFIG.webAppUrl}?action=getOrders`);
+                const data = await res.json();
+                
+                if (data && data.orders) {
+                    allOrders = data.orders;
+                    renderOrders(allOrders);
+                    updateStats(allOrders);
+                }
+                loading.style.display = 'none';
+            } catch (e) {
+                console.error(e);
+                loading.innerHTML = `<p style="color:#EF4444;">🚨 Kegagalan Komunikasi Awan. Sila periksa pautan Google Apps Script.</p>`;
+            }
+        }
+
+        // APPLICATION CORE RENDERING
+        function renderOrders(orders) {
+            const listContainer = document.getElementById('orders-list');
+            listContainer.innerHTML = '';
+
+            if (orders.length === 0) {
+                listContainer.innerHTML = `
+                    <div style="text-align:center; padding: 60px; color: var(--text-muted);">
+                        <h3>Tiada rekod data pesanan ditemui.</h3>
+                    </div>`;
+                return;
+            }
+
+            orders.forEach(o => {
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                
+                const statusClass = (o.status || 'Baharu').toLowerCase();
+
+                card.innerHTML = `
+                    <div class="order-id-block">
+                        <div class="order-id">${o.id || '—'}</div>
+                        <div class="order-date">${o.timestamp ? o.timestamp.split(' ')[0] : '—'}</div>
+                    </div>
+                    <div class="order-customer">
+                        <div class="cust-name">${o.nama || '—'}</div>
+                        <div class="cust-phone">${o.tel || '—'}</div>
+                    </div>
+                    <div class="order-amount">${o.jumlah || 'RM 0.00'}</div>
+                    <div class="order-status-box">
+                        <span class="status-badge ${statusClass}">${o.status || 'Baharu'}</span>
+                    </div>
+                    <div class="order-action-box">
+                        <button class="btn-action-view" onclick="openOrderDetail('${o.id}')">Papar Perincian</button>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        // METRICS COUNTER INTEGRATION
+        function updateStats(orders) {
+            document.getElementById('stat-total').textContent = orders.length;
+            document.getElementById('stat-baharu').textContent = orders.filter(o => o.status === 'Baharu').length;
+            document.getElementById('stat-proses').textContent = orders.filter(o => o.status === 'Diproses' || o.status === 'Dihantar').length;
+            document.getElementById('stat-selesai').textContent = orders.filter(o => o.status === 'Selesai').length;
+        }
+
+        // FILTER MANAGEMENT CONTROLLER
+        function filterOrders() {
+            const query = document.getElementById('search-order').value.toLowerCase();
+            const filterStatus = document.getElementById('status-filter').value;
+
+            const filtered = allOrders.filter(o => {
+                const matchQuery = (o.nama && o.nama.toLowerCase().includes(query)) ||
+                                   (o.tel && o.tel.includes(query)) ||
+                                   (o.id && o.id.toLowerCase().includes(query));
+                const matchStatus = filterStatus === "" || o.status === filterStatus;
+                return matchQuery && matchStatus;
+            });
+            renderOrders(filtered);
+        }
+
+        // MODAL SYSTEM OPERATIONS
+        function openOrderDetail(id) {
+            const order = allOrders.find(o => o.id === id);
+            if (!order) return;
+            currentOrder = order;
+
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `
+                <div class="invoice-row"><span class="invoice-label">ID Pesanan</span><span class="invoice-value">${order.id}</span></div>
+                <div class="invoice-row"><span class="invoice-label">Tarikh/Masa Log</span><span class="invoice-value">${order.timestamp}</span></div>
+                <div class="invoice-row"><span class="invoice-label">Nama Pelanggan</span><span class="invoice-value">${order.nama}</span></div>
+                <div class="invoice-row"><span class="invoice-label">No. Telefon</span><span class="invoice-value">${order.tel}</span></div>
+                <div class="invoice-row"><span class="invoice-label">Alamat Penghantaran</span><span class="invoice-value">${order.alamat}</span></div>
+                <div class="invoice-row" style="border-top:1px dashed var(--border-color); padding-top:12px; margin-top:4px;">
+                    <span class="invoice-label">Item Pesanan</span>
+                    <span class="invoice-value" style="color: #fff; font-weight:700;">${order.pesanan.replace(/\n/g, '<br>')}</span>
+                </div>
+                <div class="invoice-row"><span class="invoice-label">Jumlah Nilai Tunai</span><span class="invoice-value highlight">${order.jumlah}</span></div>
+                <div class="invoice-row"><span class="invoice-label">Status Semasa</span><span class="status-badge ${order.status.toLowerCase()}">${order.status}</span></div>
+            `;
+            document.getElementById('order-modal').classList.add('open');
+        }
+
+        function closeModal(e) {
+            if (e.target.id === 'order-modal') {
+                document.getElementById('order-modal').classList.remove('open');
+            }
+        }
+
+        // LOGISTICS MUTATION UPDATES
+        function updateStatus(newStatus) {
+            if (!currentOrder) return;
+            currentOrder.status = newStatus;
+
+            fetch(CONFIG.webAppUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'updateStatus',
+                    id: currentOrder.id,
+                    status: newStatus
+                })
+            }).catch(e => console.warn('Penyinkronan latar belakang:', e));
+
+            const idx = allOrders.findIndex(o => o.id === currentOrder.id);
+            if (idx > -1) allOrders[idx].status = newStatus;
+            
+            renderOrders(allOrders);
+            updateStats(allOrders);
+            document.getElementById('order-modal').classList.remove('open');
+            showToast(`✅ Status berjaya dikemaskini ke: ${newStatus}`);
+        }
+
+        // COMMUNICATIONS FUNCTIONS
+        function copyOrderDetail() {
+            if (!currentOrder) return;
+            const text = `INVOIS: ${currentOrder.id}\nPelanggan: ${currentOrder.nama}\nTelefon: ${currentOrder.tel}\nAlamat: ${currentOrder.alamat}\nPesanan:\n${currentOrder.pesanan}\nJumlah: ${currentOrder.jumlah}\nStatus: ${currentOrder.status}`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('✅ Log data invois disalin ke papan keratan.');
+            });
+        }
+
+        function waOrderDetail() {
+            if (!currentOrder) return;
+            let waNum = currentOrder.tel.replace(/[^0-9]/g, '');
+            if (waNum.startsWith('0')) waNum = '6' + waNum;
+            
+            const msg = `Salam Tuan/Puan ${currentOrder.nama}, ini daripada Hasnura Treasury. Berkenaan invois pesanan ${currentOrder.id}:\n\nPesanan: ${currentOrder.pesanan}\nJumlah: ${currentOrder.jumlah}\n\nSila maklumkan jenis pilihan penghantaran anda (COD/Postage). Terima Kasih!`;
+            window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // WORKSPACE TABS NAV
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.getElementById(`nav-${tab}`).classList.add('active');
+            
+            document.getElementById('dynamic-title').textContent = tab === 'orders' ? 'Pesanan Pelanggan' : 'Analitik Aliran';
+        }
+    </script>
 </body>
 </html>
