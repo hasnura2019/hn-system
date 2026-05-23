@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hasnura Treasury — Pembayaran Digital Premium</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           FINTECH PREMIUM MONOCHROME METALLIC DESIGN
+           ========================================================================== */
+        :root {
+            --bg-main: #060608;
+            --bg-card: #0F1015;
+            --bg-input: #171923;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --gold-primary: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --bank-yellow: #ffcb05; /* Warna Maybank */
+            --whatsapp-green: #25D366; 
+            --text-muted: #8F95B2;
+            --text-light: #F3F4F6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+        }
+
+        .payment-container { 
+            max-width: 450px; 
+            width: 100%;
+            margin: 0 auto; 
+            padding: 35px 30px; 
+            background: var(--bg-card); 
+            border-radius: 24px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            text-align: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Garisan premium bahagian atas kad */
+        .payment-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+        }
+
+        .payment-container h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .qr-frame { 
+            background: rgba(255, 255, 255, 0.02); 
+            padding: 16px; 
+            border-radius: 20px; 
+            display: inline-block; 
+            margin-bottom: 25px; 
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .qr-image { 
+            width: 200px; 
+            height: auto; 
+            display: block;
+            border-radius: 12px;
+            filter: grayscale(10%) contrast(105%);
+        }
+
+        /* ==========================================================================
+           FINTECH PREMIUM BANK CARD (REKABENTUK KAD EKSKLUSIF)
+           ========================================================================== */
+        .bank-card { 
+            background: linear-gradient(135deg, #16171e 0%, #090a0d 100%); 
+            color: white; 
+            padding: 24px 20px; 
+            border-radius: 18px; 
+            position: relative; 
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 10px 20px rgba(0,0,0,0.4);
+            text-align: center; /* Perubahan 2: Tulisan detail bank ditengah (center) */
+        }
+
+        /* Efek cip mikro kad kredit palsu untuk gaya fintech eksklusif */
+        .bank-card::after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 32px;
+            height: 24px;
+            background: linear-gradient(135deg, #e6c667 0%, #b89123 100%);
+            border-radius: 4px;
+            opacity: 0.15;
+        }
+
+        .bank-name { 
+            font-size: 11px; 
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            opacity: 0.6; 
+            margin-bottom: 8px; 
+            display: block; 
+            text-transform: uppercase; 
+            color: var(--text-light);
+        }
+
+        .acc-number { 
+            font-size: 24px; 
+            font-weight: 800; 
+            letter-spacing: 2px; 
+            display: block; 
+            margin: 8px 0; 
+            color: var(--bank-yellow);
+            text-shadow: 0 0 10px rgba(255, 203, 5, 0.15);
+        }
+
+        .acc-holder { 
+            font-size: 13px; 
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase; 
+            opacity: 0.8; 
+            color: #fff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* Perubahan 5: Klik salin no. akaun > kad gaya fintech yang premium */
+        .copy-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 10px;
+        }
+
+        .copy-badge:hover { 
+            background: linear-gradient(135deg, #E6C667 0%, var(--gold-primary) 100%);
+            color: #060608;
+            border-color: transparent;
+            box-shadow: 0 4px 12px var(--gold-glow);
+            transform: translateY(-1px);
+        }
+
+        .copy-badge:active {
+            transform: translateY(0);
+        }
+
+        /* Form Controls Premium Input Style */
+        .form-label {
+            font-weight: 700; 
+            font-size: 11px; 
+            color: var(--text-muted); 
+            display: block; 
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-field { 
+            width: 100%; 
+            padding: 14px 16px; 
+            margin-bottom: 20px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            box-sizing: border-box;
+            color: #fff;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.25s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+
+        select.input-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238F95B2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .btn-submit { 
+            background: linear-gradient(135deg, #2ecc71 0%, var(--whatsapp-green) 100%); 
+            color: white; 
+            width: 100%; 
+            padding: 16px; 
+            border-radius: 14px; 
+            font-weight: 700; 
+            border: none; 
+            cursor: pointer;
+            font-size: 15px;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+            box-shadow: 0 12px 28px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.99);
+        }
+
+        /* Custom Notification Toast System */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #171923;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            border: 1px solid var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Mobile & Desktop Optimization Engine */
+        @media (max-width: 480px) {
+            .payment-container { padding: 30px 20px; border-radius: 20px; }
+            .payment-container h3 { font-size: 22px; }
+            .acc-number { font-size: 21px; letter-spacing: 1px; }
+            .input-field { padding: 12px 14px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="payment-container">
+    <h3>Pembayaran Pantas</h3>
+    <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 25px; letter-spacing: 0.3px;">Scan QR atau buat pindahan manual</p>
+
+    <div class="qr-frame">
+        <img class="qr-image" src="https://blogger.googleusercontent.com/img/a/AVvXsEhYv-m6nzh9o_6i95ZFCY-HPFOMicDIY9EZQ980Js9RNdw3fBdrdvC_ulaLjttMDuZ-jsJt9lg7uST6AaYVxaSLmUu8mvTjFjz_xh3iD-ZvdN32n9YWIxjt-_cgXF1jc7CfbBlOpFgLcU5JdMKxWoi-_9aUIEL6rA5JCrr07-XEgSLIvbRKXSaJbZABLMov=s16000" alt="QR Code Hasnura"/>
+    </div>
+
+    <div class="bank-card">
+        <span class="bank-name">Maybank (MBB)</span>
+        <span class="acc-number" id="numAcc">513023636091</span> 
+        <span class="acc-holder">HASNURA OUTLET</span>
+        <div>
+            <span class="copy-badge" onclick="copyAcc()">Salin No. Akaun</span>
+        </div>
+    </div>
+
+    <div style="text-align: left;">
+        <label class="form-label">Nama Penuh</label>
+        <input class="input-field" id="uName" placeholder="Contoh: Zizan Bin Razak" type="text"/>
+        
+        <label class="form-label">Jumlah (RM)</label>
+        <input class="input-field" id="uAmount" placeholder="0.00" type="number" step="0.01"/>
+
+        <label class="form-label">Jenis Pengguna</label>
+        <select class="input-field" id="uType">
+            <option value="Pelanggan">Pelanggan</option>
+            <option value="Ejen">Ejen</option>
+        </select>
+    </div>
+
+    <button class="btn-submit" onclick="sendWa()">
+        Hantar Bukti Ke WhatsApp
+    </button>
+</div>
+
+<div class="toast" id="paymentToast"></div>
+
+<script>
+'use strict';
+
+function showToast(msg) {
+    const toast = document.getElementById('paymentToast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function copyAcc() {
+    const text = document.getElementById("numAcc").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        // Paparan notifikasi ala Fintech yang lancar dan premium menggantikan alert biasa
+        showToast("✅ Nombor akaun berjaya disalin: " + text);
+    }).catch(err => {
+        // Fallback jika kebenaran clipboard disekat browser
+        alert("Nombor akaun disalin: " + text);
+    });
+}
+
+function sendWa() {
+    const name = document.getElementById('uName').value.trim();
+    const amount = document.getElementById('uAmount').value.trim();
+    const type = document.getElementById('uType').value;
+    const phone = "601119471916"; // NO WHATSAPP HASNURA
+
+    if(name === "" || amount === "") {
+        alert("Sila isi nama penuh dan jumlah bayaran.");
+        return;
+    }
+
+    // Pemformatan perpuluhan ringkas untuk harga nilai mata wang yang kemas
+    const formattedAmount = parseFloat(amount).toFixed(2);
+
+    const msg = "*PENGESAHAN BAYARAN HASNURA*%0A" +
+                "-------------------------------------%0A" +
+                "*Nama Penuh:* " + encodeURIComponent(name) + "%0A" +
+                "*Jumlah:* RM " + formattedAmount + "%0A" +
+                "*Kategori:* " + type + "%0A" +
+                "-------------------------------------%0A" +
+                "Saya telah melakukan pembayaran melalui QR/Pindahan Manual. Sila semak resit transaksi yang saya lampirkan di bawah.";
+
+    window.open("https://wa.me/" + phone + "?text=" + msg, '_blank');
+}
+</script>
+
+</body>
+</html>
