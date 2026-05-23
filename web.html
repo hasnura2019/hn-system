@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HASNURA — Pembekal & Saluran Jualan</title>
+  <meta name="description" content="Hasnura — Pembekal produk kepada pasaraya, kedai runcit, dan platform online seluruh Malaysia." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── RESET & VARIABLES ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060a10;
+      --bg2:       #0c1220;
+      --bg3:       #111929;
+      --surface:   #141e2e;
+      --border:    rgba(99,179,237,0.12);
+      --gold:      #c9a84c;
+      --gold2:     #f0c96a;
+      --cyan:      #63b3ed;
+      --cyan2:     #90cdf4;
+      --text:      #e8edf5;
+      --muted:     #7a8fa6;
+      --radius:    16px;
+      --radius-sm: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Syne', sans-serif;
+      line-height: 1.2;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── GLOW LINES ── */
+    .glow-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0.3;
+      left: 0; right: 0;
+    }
+
+    /* ══════════════════════════════
+       NAVBAR
+    ══════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(6,10,16,0.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+
+    .nav-logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      transition: color 0.2s;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0c0c0c !important;
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      font-size: 0.82rem !important;
+      letter-spacing: 0.06em !important;
+      transition: opacity 0.2s, transform 0.2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); color: #0c0c0c !important; }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      overflow: hidden;
+    }
+
+    /* Radial glow backgrounds */
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(99,179,237,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to top, var(--bg), transparent);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 50px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .hero-title .line-gold { color: var(--gold); }
+    .hero-title .line-cyan { color: var(--cyan); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 44px;
+      font-weight: 300;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0c0c0c;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(201,168,76,0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px rgba(201,168,76,0.4);
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      background: rgba(99,179,237,0.06);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeUp 1s 0.6s ease both;
+    }
+
+    .scroll-dot {
+      width: 24px; height: 38px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-dot::after {
+      content: '';
+      position: absolute;
+      top: 6px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 8px;
+      background: var(--cyan);
+      border-radius: 2px;
+      animation: scrollDot 1.8s infinite;
+    }
+
+    @keyframes scrollDot {
+      0% { top: 6px; opacity: 1; }
+      80% { top: 20px; opacity: 0; }
+      100% { top: 6px; opacity: 0; }
+    }
+
+    /* Floating grid graphic */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(99,179,237,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,179,237,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 0%, transparent 100%);
+    }
+
+    /* ══════════════════════════════
+       STATS STRIP
+    ══════════════════════════════ */
+    .stats-strip {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 5%;
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════
+       SECTIONS SHARED
+    ══════════════════════════════ */
+    section {
+      padding: 100px 5%;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 600px;
+      font-weight: 300;
+      margin-bottom: 64px;
+    }
+
+    /* ══════════════════════════════
+       HAB PERNIAGAAN (Business Hub)
+    ══════════════════════════════ */
+    #hab { background: var(--bg); }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .hub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: default;
+    }
+
+    .hub-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0% 0%, rgba(99,179,237,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .hub-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+    .hub-card:hover::before { opacity: 1; }
+
+    /* Full-width featured card */
+    .hub-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      background: linear-gradient(135deg, #111929 60%, #0c1a2e);
+      border-color: rgba(201,168,76,0.2);
+    }
+
+    .hub-card.featured::before {
+      background: radial-gradient(circle at 100% 50%, rgba(201,168,76,0.06), transparent 60%);
+      opacity: 1;
+    }
+
+    .hub-icon-wrap {
+      width: 64px; height: 64px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .hub-icon-wrap svg { width: 32px; height: 32px; }
+
+    .hub-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .hub-card p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .hub-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+    }
+
+    /* colour variants per card */
+    .ic-blue  { background: rgba(99,179,237,0.12); }
+    .ic-blue svg  { stroke: var(--cyan); fill: none; }
+    .tag-blue { background: rgba(99,179,237,0.1); color: var(--cyan); }
+
+    .ic-gold  { background: rgba(201,168,76,0.12); }
+    .ic-gold svg  { stroke: var(--gold); fill: none; }
+    .tag-gold { background: rgba(201,168,76,0.1); color: var(--gold); }
+
+    .ic-green { background: rgba(72,187,120,0.12); }
+    .ic-green svg { stroke: #68d391; fill: none; }
+    .tag-green { background: rgba(72,187,120,0.1); color: #68d391; }
+
+    .ic-purple { background: rgba(159,122,234,0.12); }
+    .ic-purple svg { stroke: #b794f4; fill: none; }
+    .tag-purple { background: rgba(159,122,234,0.1); color: #b794f4; }
+
+    /* featured side illustration */
+    .hub-featured-visual {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .hub-featured-visual svg {
+      width: 100%;
+      max-width: 340px;
+      opacity: 0.85;
+    }
+
+    /* ══════════════════════════════
+       KENAPA PILIH HASNURA
+    ══════════════════════════════ */
+    #kenapa { background: var(--bg2); position: relative; }
+
+    #kenapa .glow-line { top: 0; }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .why-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .why-card:hover { border-color: rgba(99,179,237,0.25); }
+
+    .why-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+      color: rgba(201,168,76,0.18);
+      flex-shrink: 0;
+      width: 60px;
+    }
+
+    .why-body h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .why-body p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ══════════════════════════════
+       CARA BERMULA (Proses)
+    ══════════════════════════════ */
+    #proses { background: var(--bg); }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    .steps-row::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(12.5% + 18px);
+      right: calc(12.5% + 18px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), var(--cyan), var(--border));
+      opacity: 0.5;
+    }
+
+    .step-item {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .step-circle {
+      width: 72px; height: 72px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      background: var(--bg2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-circle svg { width: 28px; height: 28px; stroke: var(--cyan); fill: none; }
+
+    .step-item h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-item p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════
+       CTA BAND
+    ══════════════════════════════ */
+    .cta-band {
+      background: linear-gradient(135deg, #0d1a2e, #111929);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 5%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.07), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-band h2 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+    }
+
+    .cta-band p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* WhatsApp button */
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25d366;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(37,211,102,0.2);
+    }
+
+    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(37,211,102,0.35); }
+    .btn-wa svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 60px 5% 36px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand h3 span { color: var(--gold); }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 320px;
+    }
+
+    .footer-col h5 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+
+    .footer-col ul li a {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: var(--text); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-bottom p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* Floating WhatsApp Button */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 58px; height: 58px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.4);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 40px rgba(37,211,102,0.6); }
+    .wa-float svg { width: 28px; height: 28px; fill: #fff; }
+
+    /* ══════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ══════════════════════════════
+       MOBILE RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0; right: 0;
+        background: rgba(6,10,16,0.97);
+        backdrop-filter: blur(20px);
+        padding: 24px 5%;
+        border-bottom: 1px solid var(--border);
+        gap: 20px;
+      }
+
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+
+      .hub-grid { grid-template-columns: 1fr; }
+      .hub-card.featured { grid-column: 1; grid-template-columns: 1fr; }
+      .hub-featured-visual { display: none; }
+
+      .why-grid { grid-template-columns: 1fr; }
+
+      .steps-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
+      .steps-row::before { display: none; }
+
+      .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 560px) {
+      section { padding: 72px 4%; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .stat-item { border-right: none; }
+      .steps-row { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 320px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">HAS<span>NURA</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hab">Hab Perniagaan</a></li>
+      <li><a href="#kenapa">Kenapa Kami</a></li>
+      <li><a href="#proses">Cara Bermula</a></li>
+      <li>
+        <a href="https://wa.me/601119471916?text=Salam%20Admin%20Hasnura,%20saya%20ada%20pertanyaan." target="_blank" class="nav-cta">Hubungi Kami</a>
+      </li>
+    </ul>
+    <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section id="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+
+    <div style="position:relative;z-index:2;">
+      <div class="hero-badge">Pembekal Dipercayai Sejak 2017</div>
+
+      <h1 class="hero-title">
+        Saluran Jualan<br>
+        <span class="line-gold">Terpadu &amp; Eksklusif</span><br>
+        <span class="line-cyan">Seluruh Malaysia</span>
+      </h1>
+
+      <p class="hero-sub">
+        Hasnura menghubungkan produk berkualiti kepada pasaraya, kedai runcit, pelanggan online,
+        ejen dan affiliate — melalui satu ekosistem perniagaan yang telus dan profesional.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#hab" class="btn-primary">Terokai Saluran Jualan</a>
+        <a href="https://wa.me/601119471916?text=Salam%20Admin%20Hasnura,%20saya%20ada%20pertanyaan." target="_blank" class="btn-ghost">Hubungi Admin</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <div class="scroll-dot"></div>
+      Skrol ke bawah
+    </div>
+  </section>
+
+  <!-- ══ STATS ══ -->
+  <div class="stats-strip" aria-label="Pencapaian Hasnura">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="8">0</div>
+        <div class="stat-label">Tahun Beroperasi</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="4">0</div>
+        <div class="stat-label">Pasaraya Dilanggan</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="20">0</div>
+        <div class="stat-label">Kedai Runcit</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num" data-target="4">0</div>
+        <div class="stat-label">Platform Online</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HAB PERNIAGAAN ══ -->
+  <section id="hab">
+    <div class="section-inner">
+      <div class="section-label">Hab Perniagaan</div>
+      <h2 class="section-title">Empat Saluran,<br>Satu Ekosistem</h2>
+      <p class="section-desc">Hasnura beroperasi merentasi pelbagai saluran untuk memastikan produk sampai ke tangan yang betul — pada masa yang tepat.</p>
+
+      <div class="hub-grid">
+
+        <!-- FEATURED: Supplier / B2B -->
+        <div class="hub-card featured reveal">
+          <div>
+            <div class="hub-icon-wrap ic-gold">
+              <!-- Supplier truck icon -->
+              <svg viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+              </svg>
+            </div>
+            <h3>Pembekal Pasaraya &amp; Kedai Runcit (B2B)</h3>
+            <p>
+              Fokus utama Hasnura — membekalkan stok secara pukal terus ke premis fizikal para peruncit.
+              Sistem pengedaran ini memastikan produk sentiasa tersedia di rak pasaraya dan kedai runcit
+              di Kuantan, Kemaman, dan Kuala Terengganu.
+              <br><br>
+              Jualan dalam kuantiti besar (bulk orders) mengikut jadual dengan pengurusan aliran tunai
+              melalui sistem Bill-to-Bill yang teratur.
+            </p>
+            <span class="hub-tag tag-gold">Supplier B2B</span>
+          </div>
+          <div class="hub-featured-visual" aria-hidden="true">
+            <!-- Inline SVG illustration of supply chain -->
+            <svg viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="80" width="90" height="60" rx="10" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+              <text x="55" y="117" text-anchor="middle" fill="#c9a84c" font-size="10" font-family="DM Sans">PEMBEKAL</text>
+              <line x1="100" y1="110" x2="160" y2="110" stroke="rgba(201,168,76,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <polygon points="160,106 170,110 160,114" fill="rgba(201,168,76,0.5)"/>
+              <!-- Truck icon simple -->
+              <rect x="165" y="88" width="40" height="26" rx="5" fill="rgba(99,179,237,0.1)" stroke="rgba(99,179,237,0.3)" stroke-width="1"/>
+              <rect x="205" y="96" width="22" height="18" rx="3" fill="rgba(99,179,237,0.08)" stroke="rgba(99,179,237,0.25)" stroke-width="1"/>
+              <circle cx="177" cy="119" r="5" fill="none" stroke="rgba(99,179,237,0.5)" stroke-width="1.5"/>
+              <circle cx="219" cy="119" r="5" fill="none" stroke="rgba(99,179,237,0.5)" stroke-width="1.5"/>
+              <line x1="227" y1="110" x2="260" y2="110" stroke="rgba(99,179,237,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <polygon points="260,106 270,110 260,114" fill="rgba(99,179,237,0.5)"/>
+              <rect x="270" y="74" width="58" height="35" rx="8" fill="rgba(104,211,145,0.08)" stroke="rgba(104,211,145,0.25)" stroke-width="1"/>
+              <text x="299" y="96" text-anchor="middle" fill="#68d391" font-size="8.5" font-family="DM Sans">PASARAYA</text>
+              <rect x="270" y="118" width="58" height="35" rx="8" fill="rgba(104,211,145,0.08)" stroke="rgba(104,211,145,0.25)" stroke-width="1"/>
+              <text x="299" y="140" text-anchor="middle" fill="#68d391" font-size="8.5" font-family="DM Sans">KED. RUNCIT</text>
+
+              <!-- glow dots -->
+              <circle cx="55" cy="160" r="3" fill="rgba(201,168,76,0.4)"/>
+              <circle cx="185" cy="160" r="3" fill="rgba(99,179,237,0.4)"/>
+              <circle cx="299" cy="170" r="3" fill="rgba(104,211,145,0.4)"/>
+              <line x1="58" y1="160" x2="182" y2="160" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+              <line x1="188" y1="160" x2="296" y2="170" stroke="rgba(99,179,237,0.15)" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Shop / Online Store -->
+        <div class="hub-card reveal">
+          <div class="hub-icon-wrap ic-blue">
+            <!-- Shopping bag icon -->
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            </svg>
+          </div>
+          <h3>Hasnura Online Store (B2C)</h3>
+          <p>
+            Kedai online buka 24 jam. Pelanggan boleh order bila-bila masa —
+            kami bungkus rapi dan hantar terus ke depan pintu dengan penghantaran pantas
+            ke seluruh Malaysia melalui platform pilihan kami.
+          </p>
+          <span class="hub-tag tag-blue">Shop Online</span>
+        </div>
+
+        <!-- Rangkaian Ejen -->
+        <div class="hub-card reveal">
+          <div class="hub-icon-wrap ic-green">
+            <!-- Users / network icon -->
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+          </div>
+          <h3>Rangkaian Ejen</h3>
+          <p>
+            Jom bina pendapatan tambahan! Sertai rangkaian ejen Hasnura dan nikmati
+            komisyen daripada setiap jualan yang berjaya. Kami sediakan sokongan penuh,
+            stok, dan bahan promosi untuk memudahkan anda.
+          </p>
+          <span class="hub-tag tag-green">Jadi Ejen</span>
+        </div>
+
+        <!-- Affiliate -->
+        <div class="hub-card reveal">
+          <div class="hub-icon-wrap ic-purple">
+            <!-- Link / affiliate icon -->
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            </svg>
+          </div>
+          <h3>Program Affiliate</h3>
+          <p>
+            Kongsi pautan, dapatkan komisen. Program affiliate Hasnura membolehkan anda
+            menjana pendapatan pasif hanya dengan mempromosikan produk kami melalui
+            media sosial, blog, atau mana-mana platform digital anda.
+          </p>
+          <span class="hub-tag tag-purple">Daftar Affiliate</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ KENAPA HASNURA ══ -->
+  <section id="kenapa">
+    <div class="glow-line"></div>
+    <div class="section-inner">
+      <div class="section-label">Kelebihan Kami</div>
+      <h2 class="section-title">Kenapa Pilih<br>HASNURA?</h2>
+      <p class="section-desc">Hasnura bukan sekadar kedai online — kami rakan bekalan yang sedang menembusi pasaran tempatan dengan nilai, kejujuran, dan kecekapan.</p>
+
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="why-num">01</div>
+          <div class="why-body">
+            <h4>Urusan Telus &amp; Jujur</h4>
+            <p>Setiap transaksi borong atau runcit dijalankan secara telus, jujur, dan mengikut etika perniagaan yang betul untuk keberkatan bersama.</p>
+          </div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">02</div>
+          <div class="why-body">
+            <h4>Stok Sampai Depan Pintu</h4>
+            <p>Tak perlu pening urus logistik. Sama ada pesanan retail, ejen, atau affiliate — kami uruskan penghantaran terus ke destinasi anda.</p>
+          </div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">03</div>
+          <div class="why-body">
+            <h4>Shopping Online Sangat Mudah</h4>
+            <p>Klik-klik sahaja, barang sampai. Proses order lancar, pembungkusan rapi, dan penghantaran selamat ke depan pintu rumah anda.</p>
+          </div>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">04</div>
+          <div class="why-body">
+            <h4>Kepuasan Anda, Keutamaan Kami</h4>
+            <p>Hubungan kami bukan sekadar jual beli. Jika ada sebarang masalah, team Hasnura sedia membantu sehingga anda berpuas hati.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROSES ══ -->
+  <section id="proses">
+    <div class="section-inner">
+      <div class="section-label">Cara Bermula</div>
+      <h2 class="section-title">Mudah. Pantas.<br>Profesional.</h2>
+      <p class="section-desc">Proses yang ringkas dari mula hingga anda mula menjana pendapatan bersama Hasnura.</p>
+
+      <div class="steps-row">
+        <div class="step-item reveal">
+          <div class="step-circle">
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+            </svg>
+          </div>
+          <h4>1. Hubungi Kami</h4>
+          <p>WhatsApp admin Hasnura dan beritahu keperluan anda — jenis saluran, produk, atau kadar komisyen.</p>
+        </div>
+        <div class="step-item reveal">
+          <div class="step-circle">
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+            </svg>
+          </div>
+          <h4>2. Daftar &amp; Pilih Saluran</h4>
+          <p>Pilih sama ada supplier, shop, ejen, atau affiliate. Kami akan bantu proses pendaftaran anda.</p>
+        </div>
+        <div class="step-item reveal">
+          <div class="step-circle">
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+            </svg>
+          </div>
+          <h4>3. Mulakan Jualan</h4>
+          <p>Dapatkan akses produk, katalog, dan bahan promosi. Mula jual dan jana pendapatan segera.</p>
+        </div>
+        <div class="step-item reveal">
+          <div class="step-circle">
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h4>4. Terima Komisyen</h4>
+          <p>Komisyen dan bayaran diproses secara telus dan mengikut jadual yang telah dipersetujui bersama.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA BAND ══ -->
+  <div class="cta-band">
+    <div style="position:relative;z-index:1;">
+      <div class="section-label" style="justify-content:center;margin-bottom:20px;">Jom Bermula</div>
+      <h2>Bersedia Untuk<br>Bersama Hasnura?</h2>
+      <p>Sama ada anda peruncit, pembeli online, calon ejen atau affiliate — kami ada saluran yang sesuai untuk anda. Hubungi kami sekarang.</p>
+      <div class="cta-buttons">
+        <a href="https://wa.me/601119471916?text=Salam%20Admin%20Hasnura,%20saya%20berminat%20untuk%20bergabung." target="_blank" class="btn-wa">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          WhatsApp Admin Hasnura
+        </a>
+        <a href="#hab" class="btn-ghost">Lihat Saluran Jualan</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <h3>HAS<span>NURA</span></h3>
+          <p>Pembekal &amp; saluran jualan terpadu untuk pasaraya, kedai runcit, dan platform online di seluruh Malaysia. Perniagaan yang jujur, telus, dan profesional.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Saluran</h5>
+          <ul>
+            <li><a href="#hab">Supplier B2B</a></li>
+            <li><a href="#hab">Online Store</a></li>
+            <li><a href="#hab">Rangkaian Ejen</a></li>
+            <li><a href="#hab">Program Affiliate</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Maklumat</h5>
+          <ul>
+            <li><a href="#kenapa">Kenapa Hasnura</a></li>
+            <li><a href="#proses">Cara Bermula</a></li>
+            <li><a href="https://wa.me/601119471916" target="_blank">Hubungi Admin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Hasnura. Hak cipta terpelihara.</p>
+        <p style="color:var(--muted);font-size:0.78rem;">Kuantan · Kemaman · Kuala Terengganu · Seluruh Malaysia</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══ FLOATING WA BUTTON ══ -->
+  <a class="wa-float" href="https://wa.me/601119471916?text=Salam%20Admin%20Hasnura,%20saya%20ada%20pertanyaan." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Hasnura">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ══ SCRIPTS ══ -->
+  <script>
+    // --- Nav toggle mobile ---
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+      links.classList.toggle('open');
+    });
+
+    // Close nav when link clicked
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        toggle.classList.remove('active');
+        links.classList.remove('open');
+      });
+    });
+
+    // --- Scroll reveal ---
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // --- Counter animation ---
+    const counters = document.querySelectorAll('.stat-num[data-target]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const target = +el.dataset.target;
+          let current = 0;
+          const step = Math.ceil(target / 40);
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = current;
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    // --- Navbar shrink on scroll ---
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.padding =
+        window.scrollY > 60 ? '12px 5%' : '18px 5%';
+    });
+  </script>
+</body>
+</html>
