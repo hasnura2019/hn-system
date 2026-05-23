@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasnura Admin — Dashboard Pesanan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="admin-body">
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+    <div class="login-card">
+        <div class="login-logo">HASNURA<span>.</span></div>
+        <h2 class="login-title">Admin Dashboard</h2>
+        <p class="login-sub">Log masuk untuk pantau pesanan</p>
+        <div class="input-group" style="margin-top:28px;">
+            <label class="input-label">Kata Laluan</label>
+            <input type="password" id="admin-pw" class="form-input" placeholder="Masukkan kata laluan admin" onkeydown="if(event.key==='Enter')loginAdmin()">
+        </div>
+        <button class="btn-login" onclick="loginAdmin()">Log Masuk →</button>
+        <p id="login-err" class="login-err"></p>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" style="display:none;">
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">HASNURA<span>.</span></div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" onclick="showTab('orders')">📋 Semua Pesanan</a>
+            <a href="#" class="nav-item" onclick="showTab('stats')">📊 Statistik</a>
+            <a href="../topup/index.html" class="nav-item">📦 Topup Produk</a>
+            <a href="../index.html" target="_blank" class="nav-item">🛍️ Buka Kedai</a>
+        </nav>
+        <button class="btn-logout" onclick="logoutAdmin()">Log Keluar</button>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <!-- STATS CARDS -->
+        <div id="stats-tab">
+            <div class="dash-header">
+                <h1 class="dash-title">Dashboard Pesanan</h1>
+                <button class="btn-refresh" onclick="loadOrders()">🔄 Muat Semula</button>
+            </div>
+
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-value" id="stat-total">—</div>
+                    <div class="stat-label">Jumlah Pesanan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🆕</div>
+                    <div class="stat-value" id="stat-new">—</div>
+                    <div class="stat-label">Pesanan Baharu</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value" id="stat-revenue">—</div>
+                    <div class="stat-label">Jumlah Nilai</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="stat-done">—</div>
+                    <div class="stat-label">Selesai</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORDERS TAB -->
+        <div id="orders-tab">
+            <div class="filter-bar">
+                <input type="text" class="search-input" id="search-input" placeholder="🔍 Cari nama, telefon atau alamat..." oninput="filterOrders()">
+                <select class="filter-select" id="status-filter" onchange="filterOrders()">
+                    <option value="">Semua Status</option>
+                    <option value="Baharu">Baharu</option>
+                    <option value="Diproses">Diproses</option>
+                    <option value="Dihantar">Dihantar</option>
+                    <option value="Selesai">Selesai</option>
+                </select>
+            </div>
+
+            <div id="orders-loading" class="loading-state">
+                <div class="spinner"></div>
+                <p>Memuatkan pesanan...</p>
+            </div>
+
+            <div id="orders-list"></div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+<div id="order-modal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-box">
+        <button class="modal-close" onclick="document.getElementById('order-modal').style.display='none'">✕</button>
+        <h3 class="modal-title">Detail Pesanan</h3>
+        <div id="modal-content"></div>
+        <div class="modal-actions">
+            <button class="btn-copy-detail" onclick="copyOrderDetail()">📋 Copy Detail Invois</button>
+            <button class="btn-wa-detail" onclick="waOrderDetail()">💬 WhatsApp Pelanggan</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

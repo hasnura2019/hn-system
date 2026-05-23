@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasnura Shop — Produk Tradisional Premium</title>
+    <meta name="description" content="Hasnura Shop - Sambal, Pekasam & Kerepek Premium dari Terengganu">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="main-header">
+    <div class="header-inner">
+        <div class="logo">
+            HASNURA<span class="logo-dot">.</span>
+        </div>
+        <div class="header-right">
+            <span class="header-badge">🔒 Selamat &amp; Dipercayai</span>
+        </div>
+    </div>
+    <nav class="category-nav" id="category-nav">
+        <div class="cat-wrapper" data-cat="all">
+            <button class="cat-btn active" onclick="filterCategory('all', this)">Semua</button>
+        </div>
+        <div class="cat-wrapper" data-cat="Sambal">
+            <button class="cat-btn" onclick="filterCategory('Sambal', this)">Sambal</button>
+        </div>
+        <div class="cat-wrapper" data-cat="Pekasam">
+            <button class="cat-btn" onclick="filterCategory('Pekasam', this)">Pekasam</button>
+        </div>
+        <div class="cat-wrapper" data-cat="Kerepek">
+            <button class="cat-btn" onclick="filterCategory('Kerepek', this)">Kerepek</button>
+        </div>
+        <div class="cat-wrapper" data-cat="Borong Pekasam 10 pek">
+            <button class="cat-btn" onclick="filterCategory('Borong Pekasam 10 pek', this)">Borong 10</button>
+        </div>
+        <div class="cat-wrapper" data-cat="Borong Pekasam 5 pek">
+            <button class="cat-btn" onclick="filterCategory('Borong Pekasam 5 pek', this)">Borong 5</button>
+        </div>
+        <div class="cat-wrapper" data-cat="Kecantikan">
+            <button class="cat-btn" onclick="filterCategory('Kecantikan', this)">Kecantikan</button>
+        </div>
+    </nav>
+</header>
+
+<!-- HERO STRIP -->
+<div class="hero-strip">
+    <span>✦ Penghantaran ke seluruh Malaysia</span>
+    <span>✦ Produk 100% Asli & Halal</span>
+    <span>✦ Diperbuat dengan Cinta dari Terengganu</span>
+    <span>✦ Penghantaran ke seluruh Malaysia</span>
+    <span>✦ Produk 100% Asli & Halal</span>
+    <span>✦ Diperbuat dengan Cinta dari Terengganu</span>
+</div>
+
+<!-- MAIN WRAPPER -->
+<div class="shop-wrapper">
+
+    <!-- PRODUCT GRID -->
+    <div class="section-header">
+        <h2 class="section-title">Koleksi Produk</h2>
+        <p class="section-sub">Dipilih khas, berkualiti tinggi</p>
+    </div>
+
+    <div class="product-grid" id="main-grid">
+
+        <!-- SAMBAL -->
+        <div class="product-card" data-category="Sambal" id="prod-sambal-garing">
+            <div class="card-badge">Paling Laris</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-sambal-garing', 'Sambal Garing Ikan Bilis Che Nor')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEgIEXvYoukEWirXn0LoscWXNAoCjThik_oyeIYx1_OpTAYUNVReSczB_G0-qrKb89c0Zf-mCqIv49GXOoGCZGg2juu71KF1UnQ9ugPh1M4KkJ68_mbBXMFZV4BIC0l8qesw4989JLRBzDp87obHu_f8-RLFKEIt3EZjrv-xvYhWoQ8q_bUYGbpF62fBAPYU=s16000" alt="Sambal Garing Ikan Bilis Che Nor" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Sambal Garing Ikan Bilis Che Nor</div>
+                <a href="https://hasnura.blogspot.com/2026/04/sambal-garing-chenor-pelopor-sambal.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 20.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Sambal Ikan Bilis', 20.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Sambal" id="prod-sambal-bilko">
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-sambal-bilko', 'Sambal Garing Bilko Che Nor')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEhEj5b8zPZujJw6-kcMixrULH9BaOeSW5gQBs9tGfdLgOM9nmYv2y_FIP9y2FFM9hMG0xdT_0X9E8oN4J6Gbwn5rjqDb8a2m048bqgwZMclXo_csIMCzWdfvlVoau00RhvRt1IjNar3OyJtFA2J5f1Ll33Lo_ujG_YG7X1yj7yU1JdggpIbSU5IIC0OlywH=s16000" alt="Sambal Garing Bilko Che Nor" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Sambal Garing Bilko Che Nor</div>
+                <a href="https://hasnura.blogspot.com/2026/04/chenor-sambal-garing-bilko-bilis-kopek.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 20.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Sambal Bilko', 20.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Sambal" id="prod-sambal-spicy-cute">
+            <div class="card-badge hot">🔥 Pedas!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-sambal-spicy-cute', 'Sambal Spicy Cute Che Nor')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEhxvmFGo3v2hUPN_7u4pGCSEo-_2lwqm7Z2ZKMARQ3pAjNH9893qyrFPOx2KZg31R3LgZOunf2eSnddbeGymwA2_qoK5juB5LptzZ2_ypeJTwO5vdEsEaJoRV30he-7aJRjayPtNI4klSjraP7FtmZRpgSMbJ1Nylb52mDhI7Ct4ZRh6lgePpYRlEQKlC7O=s16000" alt="Sambal Spicy Cute" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Sambal Garing Ikan Bilis Spicy Cute Che Nor</div>
+                <a href="https://hasnura.blogspot.com/2026/04/chenor-sambal-garing-ikan-bilis-super.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 10.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Sambal Spicy Cute', 10.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <!-- PEKASAM -->
+        <div class="product-card" data-category="Pekasam" id="prod-pekasam-lampan">
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-pekasam-lampan', 'Pekasam Ikan Lampan')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEgeuLhZXR8NTP3ofj8xYdYGbzDQ778TtXkVUpTc_lxZOtJRV1jit-0x1MHR_tN4qIXblJho-t5MnLIcWc_5OQzjISvqacMLyKDk2xnAEBluOcuWyicBoAYUSRbWJFxRCR3mpjlSwZKWiZB9YxjXeAMxtpPHxDHG1R1DkykBvHdF3fa2JCHX2AAS0CL72Bdd=s16000" alt="Pekasam Ikan Lampan" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Pekasam Ikan Lampan Tok Yah</div>
+                <a href="https://hasnura.blogspot.com/2026/04/pekasam-ikan-siap-2-minit.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 10.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Pekasam Ikan Lampan', 10.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Pekasam" id="prod-pekasam-daging">
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-pekasam-daging', 'Pekasam Daging Tok Yah')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiTBSMgBVkUB0VMtEPv23R9DhzqOa4p9S01J_bKAYqarproB-ThlNDdnl53jcfjRUeU-u9mH_IJloT3lm_7_gLmH103XE_pAJkSH6Yu1u-9KsJdZm43iB09hNgasH9HA8l_icKB8RGtkq7ZkPe6hO7vMVjdgKGhcBHd3OGrPtyYBnb1menYDTlqeY9aTJhJ=s16000" alt="Pekasam Daging" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Pekasam Daging Tok Yah</div>
+                <a href="https://hasnura.blogspot.com/2026/04/pekasam-daging-sedap-cepat.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 12.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Pekasam Daging', 12.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Pekasam" id="prod-telur-sotong">
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-telur-sotong', 'Pekasam Telur Sotong')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiuSJGGLpa-NMYuMMcpqIvJ8Ol-J9wXgpPXppZEfdNrDCzrlRPd47xtS51Up-jO5py_ZL1ipxbMZBjskbB_8c1pro01Abx8qlG6jxJ1_Ng4VGrvT6rH7p3BUF3XS1jW3W_n0dHEeY6VLlWoLxFXHcBa40Vqp4S3W-xp3opXDZypzYCF2is-8v16q1Stb0fH=s16000" alt="Pekasam Telur Sotong" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Pekasam Telur Sotong Tok Yah</div>
+                <a href="https://hasnura.blogspot.com/2026/04/pekasam-telur-sotong-resepi-orang-lama.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 15.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Pekasam Telur Sotong', 15.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <!-- KEREPEK -->
+        <div class="product-card" data-category="Kerepek" id="prod-kerepek-pisang">
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-kerepek-pisang', 'Kerepek Pisang Nipis Manis')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiTP-PaCfNs3fZcPdQbem-gIlEpU02sN_c_SnQjryeiNzI3VBDLBsnM7Q4K7eBIbgwG3gI1Tn7vCDGZRniFLymo9obU4ss1zRAhidxl9bb8FJ1p2TuSgsSSkgw2nlrc5XRmmhPlVp64Lf2j3AMjOUMx5AuKmzwl4MDUzhy4kkBMSQjmzXSwBg8JxfKGcIUP=s16000" alt="Kerepek Pisang Manis" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Kerepek Pisang Nipis (Perisa Manis)</div>
+                <a href="https://hasnura.blogspot.com/2026/04/kerepek-pisang-rangup-snek-ringan.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 14.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Kerepek Pisang (Manis)', 14.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Kerepek" id="prod-kerepek-pisang-masin">
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-kerepek-pisang-masin', 'Kerepek Pisang Nipis Masin')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiTP-PaCfNs3fZcPdQbem-gIlEpU02sN_c_SnQjryeiNzI3VBDLBsnM7Q4K7eBIbgwG3gI1Tn7vCDGZRniFLymo9obU4ss1zRAhidxl9bb8FJ1p2TuSgsSSkgw2nlrc5XRmmhPlVp64Lf2j3AMjOUMx5AuKmzwl4MDUzhy4kkBMSQjmzXSwBg8JxfKGcIUP=s16000" alt="Kerepek Pisang Masin" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">Kerepek Pisang Nipis (Perisa Masin)</div>
+                <a href="https://hasnura.blogspot.com/2026/04/kerepek-pisang-rangup-snek-ringan.html" target="_blank" class="btn-info">ℹ Info Produk</a>
+                <div class="price-row">
+                    <div class="price-tag">RM 14.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Kerepek Pisang (Masin)', 14.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <!-- BORONG 10 -->
+        <div class="product-card" data-category="Borong Pekasam 10 pek" id="prod-borong-10-lampan">
+            <div class="card-badge">💎 Jimat!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-borong-10-lampan', 'Borong 10 Pek Ikan Lampan')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEjvC7XFf0zYvu_7ZNlpVUfsNGqEg429SRYG56KpghJXAURgiGEYw3UpsY_v1LTrS6j-uSXA_paTUmVMkH4bs5XOXAuipTv1WqRHDnhvhs7lPc7hHkIJ-7ck-kMk7Z8Uv6jiQsbUMTIhTwglhW2wHwxoaDeBSkHkahU1EMf-p-JUf-Rd4YOCAo1W_iZkL0mH=s16000" alt="Borong 10 Ikan Lampan" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">[ Borong Pekasam ] 10 Pek Ikan Lampan</div>
+                <div class="price-row">
+                    <div class="price-tag">RM 80.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Borong 10 Ikan Lampan', 80.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Borong Pekasam 10 pek" id="prod-borong-10-daging">
+            <div class="card-badge">💎 Jimat!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-borong-10-daging', 'Borong 10 Pek Pekasam Daging')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEhGptgGVzF3vjBh3gAnH6XhniRbLRaq2TXuXVzNRAodF6kp6irM5R3n0w1f0FFN6EKjh9_BDZXtR9Wq1Vx4b1bCNbiopuhwF8ol0bEJ6ILSt5k1IjzVG4JZy10nueq9qHbBhOkCANJhNsaq8SL6L2pgZrs8xn5U3NnERg4IKWP07EJ51HS-8Y4dfnnMJU82=s16000" alt="Borong 10 Pekasam Daging" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">[ Borong Pekasam ] 10 Pek Pekasam Daging</div>
+                <div class="price-row">
+                    <div class="price-tag">RM 100.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Borong 10 Pekasam Daging', 100.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Borong Pekasam 10 pek" id="prod-borong-10-sotong">
+            <div class="card-badge">💎 Jimat!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-borong-10-sotong', 'Borong 10 Pek Pekasam Telur Sotong')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEgf9AX8WMRSlIOoHY4X5FfrT9992Gvk2-WN3DlrGwWjLx9i8WLzoSUZHkTh76hgqeF3jyVkaHi-WTVku_D7kpK17tApEeJYh1iKfEPgaoMufO32XqZdDusnkBfW6PBEf8XPbdKWlMefZYd8JqztquFwUzLh5kZ0i2oqeZShPvdBWmMm-AXwYtNO0W5yKJjd=s16000" alt="Borong 10 Telur Sotong" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">[ Borong Pekasam ] 10 Pek Pekasam Telur Sotong</div>
+                <div class="price-row">
+                    <div class="price-tag">RM 130.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Borong 10 Telur Sotong', 130.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <!-- BORONG 5 -->
+        <div class="product-card" data-category="Borong Pekasam 5 pek" id="prod-borong-5-ikan">
+            <div class="card-badge">⭐ Nilai!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-borong-5-ikan', 'Borong 5 Pek Pekasam Ikan')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiJmJfJM6ssiiQwtMXxFhxXhGW9inijlaez9PDX7zFHRl4nVf_J4duz8phHVCBp05A_QMCh2pTUhAKuyVckI_8KeRtT02ivGZ7VuKw3-gv7bF8KmBZL0_-e3q0sj2I3Knm2xEzn1cRmHuP7Ln1V56dZBl0dVwmAVThW6qBLdB_JZPXfFFGwe8daSDa9FgzS=s16000" alt="Borong 5 Pekasam Ikan" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">[ Borong Pekasam ] 5 Pek Pekasam Ikan</div>
+                <div class="price-row">
+                    <div class="price-tag">RM 45.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Borong 5 Pekasam Ikan', 45.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Borong Pekasam 5 pek" id="prod-borong-5-daging">
+            <div class="card-badge">⭐ Nilai!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-borong-5-daging', 'Borong 5 Pek Pekasam Daging')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEgAqtxWs8R6RNOmZdAXEzoNG3nrMNli4qOqrrvggeFVQBO59LvK9kwhwbKYOri9SSm_iqGYNQjUZB6tm2XWHykwMRIjIlfPnrQ9gsouZlXcWJK7-zvEdbQIRgsk6SltntKiTOsA6vnDDqRfsRQATLB76z7kpu_5LK6MGT-gcGkHRq28ltmsRpGjCD5f8Dmh=s16000" alt="Borong 5 Pekasam Daging" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">[ Borong Pekasam ] 5 Pek Pekasam Daging</div>
+                <div class="price-row">
+                    <div class="price-tag">RM 55.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Borong 5 Pekasam Daging', 55.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+        <div class="product-card" data-category="Borong Pekasam 5 pek" id="prod-borong-5-sotong">
+            <div class="card-badge">⭐ Nilai!</div>
+            <div class="share-btn" title="Tahan untuk salin pautan" onpointerdown="startShareHold(this, 'prod-borong-5-sotong', 'Borong 5 Pek Telur Sotong')" onpointerup="cancelShareHold()" onpointerleave="cancelShareHold()">🔗</div>
+            <div class="product-img-wrap">
+                <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEgHetVjbHwPtPilnvZfgp093jDL_bWG3K6f2wmY2PvkQVJ2sqihwK7koIZWhLzOfUZYE9MzdmWSeUsMz5Gm98eQZkXSfpWhQ-GOSr0uF4bdNf63nq98QLxIoqNMwY6027Fm1giQFoOAU0iKDNtvAjn_c3z5Fs9H7IOrtjj8QC8_0-ePdH9BoaNrGmQhN-Q0=s16000" alt="Borong 5 Telur Sotong" loading="lazy">
+            </div>
+            <div class="card-body">
+                <div class="product-title">[ Borong Pekasam ] 5 Pek Pekasam Telur Sotong</div>
+                <div class="price-row">
+                    <div class="price-tag">RM 70.00</div>
+                    <div class="stock-badge">Stok Ada</div>
+                </div>
+                <button class="btn-primary" onclick="addToCart('Borong 5 Telur Sotong', 70.00)">
+                    <span>🛒</span> Tambah Ke Troli
+                </button>
+            </div>
+        </div>
+
+    </div><!-- end product-grid -->
+
+    <!-- TRUST STRIP -->
+    <div class="trust-strip">
+        <div class="trust-item">🛡️ <span>100% Halal</span></div>
+        <div class="trust-item">🚚 <span>Pos Malaysia / J&T</span></div>
+        <div class="trust-item">💬 <span>Balas Pantas WhatsApp</span></div>
+        <div class="trust-item">🏆 <span>Kualiti Terjamin</span></div>
+    </div>
+
+    <!-- CHECKOUT SECTION -->
+    <div id="checkout-section">
+        <div class="checkout-header">
+            <h2 class="checkout-title">Semakan Pesanan</h2>
+            <p class="checkout-sub">Isi butiran penghantaran anda</p>
+        </div>
+
+        <div class="checkout-grid">
+            <!-- Borang -->
+            <div class="checkout-form-col">
+                <div id="cart-items-container"></div>
+
+                <div class="total-display">
+                    <span class="total-label">Jumlah Produk:</span>
+                    <span id="display-total" class="total-amount">RM 0.00</span>
+                </div>
+                <p class="total-note">* Kos penghantaran akan ditetapkan oleh admin selepas pesanan diterima.</p>
+            </div>
+
+            <!-- Info Penghantaran -->
+            <div class="checkout-delivery-col">
+                <div class="delivery-form-box">
+                    <h3 class="form-section-title">📦 Maklumat Penghantaran</h3>
+                    <div class="input-group">
+                        <label class="input-label">Nama Penuh</label>
+                        <input class="form-input" id="custName" placeholder="Contoh: Siti Hasnura binti Ahmad" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">No. Telefon</label>
+                        <input class="form-input" id="custPhone" placeholder="Contoh: 011-1234 5678" type="tel">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Alamat Penghantaran Lengkap</label>
+                        <textarea class="form-input" id="custAddr" placeholder="No. Rumah, Jalan, Taman, Poskod, Negeri" rows="4"></textarea>
+                    </div>
+                    <button class="btn-whatsapp" onclick="finalizeOrder()">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Hantar Pesanan via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-logo">HASNURA<span>.</span></div>
+        <p>Produk tradisional berkualiti tinggi dari Terengganu</p>
+        <p style="font-size:12px; opacity:0.5; margin-top:10px;">© 2026 Hasnura Shop. Hak Cipta Terpelihara.</p>
+    </footer>
+
+</div><!-- end shop-wrapper -->
+
+<!-- CART FLOAT BUTTON -->
+<div class="cart-float" id="cartBtn" onclick="showCheckout()">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-text">CHECKOUT</span>
+    <span class="cart-badge" id="cart-count">0</span>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+<script src="js/shop.js"></script>
+</body>
+</html>
