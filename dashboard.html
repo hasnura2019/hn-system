@@ -262,7 +262,7 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
@@ -290,11 +290,91 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Dynamic subtle accent glows for stats */
         .stat-card[data-type="total"] { border-left: 4px solid var(--gold-primary); }
         .stat-card[data-type="baharu"] { border-left: 4px solid var(--color-baharu); }
         .stat-card[data-type="proses"] { border-left: 4px solid var(--color-diproses); }
         .stat-card[data-type="selesai"] { border-left: 4px solid var(--color-selesai); }
+
+        /* ==========================================================================
+           PENAMBAHAN 1: REMINDER BOX SYSTEM (FINTECH PREMIUM STYLE)
+           ========================================================================== */
+        .reminder-container {
+            background: rgba(245, 158, 11, 0.03);
+            border: 1px dashed rgba(245, 158, 11, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 40px;
+            display: none;
+        }
+        .reminder-container.active {
+            display: block;
+        }
+        .reminder-title-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .reminder-title-area h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-diproses);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .reminder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        .reminder-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .reminder-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .reminder-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .reminder-item:hover {
+            border-color: rgba(245, 158, 11, 0.3);
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .reminder-info {
+            font-size: 13.5px;
+            color: var(--text-light);
+        }
+        .reminder-info span {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .btn-scroll-to {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--color-diproses);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-scroll-to:hover {
+            background: var(--color-diproses);
+            color: #000;
+        }
 
         /* ==========================================================================
            4. SEARCH & ADVANCED FILTER CONTROLS
@@ -358,6 +438,7 @@
             grid-template-columns: 1.2fr 1.5fr 1fr 1fr auto;
             align-items: center;
             gap: 20px;
+            scroll-margin-top: 40px; /* Lancarkan auto-scroll */
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .order-card:hover {
@@ -395,7 +476,6 @@
             font-size: 16px;
         }
 
-        /* Fintech Badges Layout */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -478,7 +558,6 @@
             margin-bottom: 24px;
         }
 
-        /* Invoice Sheet Layout inside Modal */
         .invoice-sheet {
             display: flex;
             flex-direction: column;
@@ -668,6 +747,15 @@
                     </div>
                 </div>
 
+                <div class="reminder-container" id="reminder-box">
+                    <div class="reminder-title-area">
+                        <span>⚠️</span>
+                        <h4>Peringatan: Pesanan Belum Selesai</h4>
+                    </div>
+                    <div class="reminder-list" id="reminder-items-container">
+                        </div>
+                </div>
+
                 <div class="controls-row">
                     <div class="search-wrapper">
                         <input type="text" class="search-input" id="search-order" placeholder="Cari berasaskan Nama, Telefon, atau No. ID..." oninput="filterOrders()">
@@ -717,7 +805,7 @@
             </div>
 
             <div class="modal-actions">
-                <button class="btn-modal copy" onclick="copyOrderDetail()">📋 Salin Log Data Invois</button>
+                <button class="btn-modal copy" onclick="copySpecificDetail()">📋 Salin Data Pelanggan</button>
                 <button class="btn-modal wa" onclick="waOrderDetail()">💬 Pautkan ke WhatsApp</button>
             </div>
         </div>
@@ -728,6 +816,7 @@
     <script>
         'use strict';
 
+        // PENAMBAHAN 3: KOD WEB APP URL GAS TERBARU ANDA
         const CONFIG = {
             webAppUrl: "https://script.google.com/macros/s/AKfycbyGXgb9grZJgHd_aJuRYgIOIX0-Kz97VjcGmDklS1Ufqydb5SAbsBPo4Ta8buG9AdFp/exec",
             whatsappNumber: "601119471916",
@@ -770,6 +859,7 @@
                     allOrders = data.orders;
                     renderOrders(allOrders);
                     updateStats(allOrders);
+                    generateReminders(allOrders); // Proses kotak peringatan
                 }
                 loading.style.display = 'none';
             } catch (e) {
@@ -794,6 +884,7 @@
             orders.forEach(o => {
                 const card = document.createElement('div');
                 card.className = 'order-card';
+                card.id = `order-node-${o.id}`; // Ditambah sebagai sauh (anchor) auto-scroll
                 
                 const statusClass = (o.status || 'Baharu').toLowerCase();
 
@@ -811,7 +902,7 @@
                         <span class="status-badge ${statusClass}">${o.status || 'Baharu'}</span>
                     </div>
                     <div class="order-action-box">
-                        <button class="btn-action-view" onclick="openOrderDetail('${o.id}')">Papar Perincian</button>
+                        <button class="btn-action-view" onclick="openOrderDetail('${o.id}')">Lihat</button>
                     </div>
                 `;
                 listContainer.appendChild(card);
@@ -824,6 +915,51 @@
             document.getElementById('stat-baharu').textContent = orders.filter(o => o.status === 'Baharu').length;
             document.getElementById('stat-proses').textContent = orders.filter(o => o.status === 'Diproses' || o.status === 'Dihantar').length;
             document.getElementById('stat-selesai').textContent = orders.filter(o => o.status === 'Selesai').length;
+        }
+
+        // PENAMBAHAN 1 JS: LOGIK JANA REMINDER DAN AUTO SCROLL
+        function generateReminders(orders) {
+            const reminderBox = document.getElementById('reminder-box');
+            const container = document.getElementById('reminder-items-container');
+            container.innerHTML = '';
+
+            // Tapis pesanan yang belum selesai
+            const uncompletedOrders = orders.filter(o => o.status !== 'Selesai');
+
+            if (uncompletedOrders.length === 0) {
+                reminderBox.classList.remove('active');
+                return;
+            }
+
+            uncompletedOrders.forEach(o => {
+                const item = document.createElement('div');
+                item.className = 'reminder-item';
+                item.innerHTML = `
+                    <div class="reminder-info">
+                        <strong>${o.nama}</strong> [${o.id}] — <span style="color:var(--gold-primary); font-weight:700;">${o.jumlah}</span>
+                        <span>Status: ${o.status}</span>
+                    </div>
+                    <button class="btn-scroll-to" onclick="scrollToOrder('${o.id}')">Pergi ➔</button>
+                `;
+                container.appendChild(item);
+            });
+
+            reminderBox.classList.add('active');
+        }
+
+        function scrollToOrder(id) {
+            const element = document.getElementById(`order-node-${id}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Beri kesan visual ringkas pada kad yang di-scroll
+                element.style.borderColor = 'var(--color-diproses)';
+                setTimeout(() => {
+                    element.style.borderColor = 'var(--border-color)';
+                }, 2000);
+            } else {
+                showToast('⚠️ Kad pesanan tidak ditemui pada halaman semasa (Semak penapis carian).');
+            }
         }
 
         // FILTER MANAGEMENT CONTROLLER
@@ -891,17 +1027,31 @@
             
             renderOrders(allOrders);
             updateStats(allOrders);
+            generateReminders(allOrders); // Kemaskini kotak reminder secara live
             document.getElementById('order-modal').classList.remove('open');
             showToast(`✅ Status berjaya dikemaskini ke: ${newStatus}`);
         }
 
-        // COMMUNICATIONS FUNCTIONS
-        function copyOrderDetail() {
+        // PENAMBAHAN 2 JS: FUNGSIONALITI BUTANG SALIN DATA KHAS
+        function copySpecificDetail() {
             if (!currentOrder) return;
-            const text = `INVOIS: ${currentOrder.id}\nPelanggan: ${currentOrder.nama}\nTelefon: ${currentOrder.tel}\nAlamat: ${currentOrder.alamat}\nPesanan:\n${currentOrder.pesanan}\nJumlah: ${currentOrder.jumlah}\nStatus: ${currentOrder.status}`;
             
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('✅ Log data invois disalin ke papan keratan.');
+            const textToCopy = `Produk & Jumlah Harga:
+${currentOrder.pesanan} (${currentOrder.jumlah})
+
+Nama Penuh Pelanggan:
+${currentOrder.nama}
+
+No. Telefon:
+${currentOrder.tel}
+
+Alamat Pelanggan:
+${currentOrder.alamat}`;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('✅ Maklumat pelanggan berjaya disalin!');
+            }).catch(() => {
+                showToast('⚠️ Gagal menyalin maklumat. Sila salin secara manual.');
             });
         }
 
