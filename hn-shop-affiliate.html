@@ -121,22 +121,6 @@ header {
     border-left: 1px solid var(--border-mid);
     padding-left: 13px;
 }
-.admin-trigger {
-    position: absolute; top: 50%; right: 0;
-    transform: translateY(-50%);
-    background: var(--surface);
-    width: 38px; height: 38px;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    z-index: 100;
-    box-shadow: var(--shadow-xs);
-    border: 1.5px solid var(--border);
-    transition: all 0.3s ease;
-    font-size: 16px;
-    margin-right: 24px;
-}
-.admin-trigger:hover { transform: translateY(-50%) rotate(90deg); border-color: var(--admin-blue); }
 
 /* ── CATEGORY NAV ── */
 .category-nav {
@@ -166,6 +150,8 @@ header {
     transition: all 0.22s ease;
     color: var(--text-2);
     letter-spacing: 0.2px;
+    -webkit-user-select: none;
+    user-select: none;
 }
 .cat-btn:hover { border-color: var(--primary); color: var(--primary); }
 .cat-btn.active {
@@ -176,14 +162,17 @@ header {
 }
 .copy-cat-link {
     font-size: 9px;
-    color: var(--admin-blue);
-    cursor: pointer;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    opacity: 0.75;
-    transition: 0.2s;
+    color: var(--text-3);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.3s;
 }
-.copy-cat-link:hover { opacity: 1; }
+.copy-cat-link.copied {
+    color: var(--primary);
+    opacity: 1;
+}
 
 /* ── SHOP WRAPPER ── */
 .shop-wrapper {
@@ -192,24 +181,31 @@ header {
     padding: 158px 24px 120px;
 }
 
-/* ── ADMIN PANEL ── */
-#admin-panel {
-    display: none;
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 30px;
-    margin-bottom: 38px;
-    border: 1.5px solid rgba(26,122,248,0.14);
-    box-shadow: 0 0 0 4px rgba(26,122,248,0.04), var(--shadow-md);
+/* ── SECTION HEADER ── */
+.shop-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
-#admin-panel h3 {
-    color: var(--admin-blue);
-    margin-bottom: 20px;
-    font-size: 14.5px;
-    font-weight: 800;
-    letter-spacing: -0.2px;
+.shop-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: var(--text-1);
+    letter-spacing: -0.5px;
 }
-#admin-panel h3::before { content: '⚙️  '; }
+.shop-section-title em { color: var(--primary); font-style: italic; }
+.product-count-chip {
+    background: var(--surface-3);
+    border: 1.5px solid var(--border-mid);
+    padding: 6px 15px;
+    border-radius: 99px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-2);
+}
 
 /* ── INFO BTN ── */
 .btn-info {
@@ -230,33 +226,6 @@ header {
 }
 .btn-info::before { content: '📋'; font-size: 10px; }
 .btn-info:hover { background: var(--surface-3); color: var(--text-1); border-color: #c5d0e0; }
-
-/* ── SECTION HEADER ── */
-.shop-section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 26px;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-.shop-section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 30px;
-    color: var(--text-1);
-    letter-spacing: -0.5px;
-}
-.shop-section-title em { color: var(--primary); font-style: italic; }
-.shop-section-subtitle { font-size: 12.5px; color: var(--text-3); font-weight: 500; margin-top: 3px; }
-.product-count-chip {
-    background: var(--surface-3);
-    border: 1.5px solid var(--border-mid);
-    padding: 6px 15px;
-    border-radius: 99px;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: var(--text-2);
-}
 
 /* ── PRODUCT GRID ── */
 .product-grid {
@@ -730,31 +699,6 @@ select.form-input {
 .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(32,198,90,0.32); }
 .btn-whatsapp:active { transform: scale(0.98); }
 
-.btn-confirm {
-    width: 100%;
-    padding: 16px;
-    border-radius: var(--radius-md);
-    border: none;
-    font-size: 14.5px;
-    font-weight: 800;
-    font-family: 'Sora', sans-serif;
-    cursor: pointer;
-    transition: all 0.28s ease;
-    letter-spacing: 0.2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-.btn-confirm-primary {
-    background: linear-gradient(135deg, var(--secondary) 0%, #1c2d42 100%);
-    color: #fff;
-    box-shadow: 0 8px 24px rgba(11,22,34,0.2);
-    margin-bottom: 12px;
-}
-.btn-confirm-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(11,22,34,0.26); }
-.btn-confirm-primary:active { transform: scale(0.98); }
-
 /* ── ORDER NOTIFICATION CARD ── */
 .order-noti-card {
     display: none;
@@ -889,7 +833,6 @@ select.form-input {
 }
 .cart-icon { font-size: 16px; }
 .cart-text { font-weight: 800; }
-.cart-badge { /* alias */ }
 
 /* ── TOAST ── */
 .toast {
@@ -961,56 +904,37 @@ select.form-input {
     <div class="header-inner">
         <div class="brand-logo">HASNURA<span>.</span></div>
         <div class="brand-tagline">Keluaran Pilihan Rakyat</div>
-        <div class="admin-trigger" onclick="loginAdmin()">⚙️</div>
     </div>
     <nav class="category-nav">
         <div class="cat-wrapper">
-            <button class="cat-btn active" onclick="filterCategory('all', this)">Semua</button>
-            <span class="copy-cat-link" onclick="copyCategoryLink('all')">Salin Pautan</span>
+            <button class="cat-btn active" onclick="filterCategory('all', this)" oncontextmenu="handleCatLongPress(event,'all')" data-cat="all">Semua</button>
+            <span class="copy-cat-link" id="hint-all">Tahan untuk salin</span>
         </div>
         <div class="cat-wrapper">
-            <button class="cat-btn" onclick="filterCategory('Sambal', this)">Sambal</button>
-            <span class="copy-cat-link" onclick="copyCategoryLink('Sambal')">Salin Pautan</span>
+            <button class="cat-btn" onclick="filterCategory('Sambal', this)" oncontextmenu="handleCatLongPress(event,'Sambal')" data-cat="Sambal">Sambal</button>
+            <span class="copy-cat-link" id="hint-Sambal">Tahan untuk salin</span>
         </div>
         <div class="cat-wrapper">
-            <button class="cat-btn" onclick="filterCategory('Pekasam', this)">Pekasam</button>
-            <span class="copy-cat-link" onclick="copyCategoryLink('Pekasam')">Salin Pautan</span>
+            <button class="cat-btn" onclick="filterCategory('Pekasam', this)" oncontextmenu="handleCatLongPress(event,'Pekasam')" data-cat="Pekasam">Pekasam</button>
+            <span class="copy-cat-link" id="hint-Pekasam">Tahan untuk salin</span>
         </div>
         <div class="cat-wrapper">
-            <button class="cat-btn" onclick="filterCategory('Kerepek', this)">Kerepek</button>
-            <span class="copy-cat-link" onclick="copyCategoryLink('Kerepek')">Salin Pautan</span>
+            <button class="cat-btn" onclick="filterCategory('Kerepek', this)" oncontextmenu="handleCatLongPress(event,'Kerepek')" data-cat="Kerepek">Kerepek</button>
+            <span class="copy-cat-link" id="hint-Kerepek">Tahan untuk salin</span>
         </div>
         <div class="cat-wrapper">
-            <button class="cat-btn" onclick="filterCategory('Kecantikan', this)">Kecantikan</button>
-            <span class="copy-cat-link" onclick="copyCategoryLink('Kecantikan')">Salin Pautan</span>
+            <button class="cat-btn" onclick="filterCategory('Kecantikan', this)" oncontextmenu="handleCatLongPress(event,'Kecantikan')" data-cat="Kecantikan">Kecantikan</button>
+            <span class="copy-cat-link" id="hint-Kecantikan">Tahan untuk salin</span>
         </div>
     </nav>
 </header>
 
 <div class="shop-wrapper">
 
-    <!-- ADMIN PANEL -->
-    <div id="admin-panel">
-        <h3>Tambah Produk Baru</h3>
-        <div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
-            <input class="form-input" id="newProdName" placeholder="Nama Produk" type="text" style="margin:0;">
-            <input class="form-input" id="newProdPrice" placeholder="Harga (RM)" type="number" style="margin:0;">
-            <input class="form-input" id="newProdImg" placeholder="Link Gambar (URL)" type="text" style="margin:0;">
-            <select class="form-input" id="newProdCat" style="margin:0;">
-                <option value="Sambal">Sambal</option>
-                <option value="Pekasam">Pekasam</option>
-                <option value="Kerepek">Kerepek</option>
-                <option value="Kecantikan">Kecantikan</option>
-            </select>
-            <button class="btn-primary" onclick="addNewProduct()" style="background:var(--admin-blue);border-radius:var(--radius-sm);height:48px;">Simpan Produk</button>
-        </div>
-    </div>
-
     <!-- PRODUCT SECTION HEADER -->
     <div class="shop-section-header">
         <div>
             <div class="shop-section-title">Produk <em>Pilihan</em></div>
-            <div class="shop-section-subtitle">Keluaran asli Pahang — segar, berkualiti, terus dari kampung</div>
         </div>
         <div class="product-count-chip" id="productCountChip">8 produk</div>
     </div>
@@ -1065,7 +989,7 @@ select.form-input {
         <div class="product-card" data-category="Pekasam" id="prod-pekasam-daging">
             <div class="share-btn" onclick="shareProduct('prod-pekasam-daging', 'Pekasam Daging Tok Yah')" title="Salin Pautan Affiliate">🔗</div>
             <div class="prod-badge">Pekasam</div>
-            <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiTBSMgBVkUB0VMtEPv23R9DhzqOa4p9S01J_bKAYqarproB-ThlNDdnl53jcfjRUeU-u9mH_IJloT3lm_7_gLmH103XE_pAJkSH6Yu1u-9KsJdZm43iB09hNgasH9HA8l_icKB8RGtkq7ZkPe6hO7vMVjdgKGhcBHd3OGrPtyYBnb1menYDTlqeY9aTJhJ=s16000" alt="Pekasam Daging" loading="lazy">
+            <img class="product-img" src="https://blogger.googleusercontent.com/img/a/AVvXsEiTBSMgBVkUB0VMtEPv23R9DhzqOa4p9S01J_bKAYqarproB-ThlNDdnl53jcfjRUeU-u9KsJdZm43iB09hNgasH9HA8l_icKB8RGtkq7ZkPe6hO7vMVjdgKGhcBHd3OGrPtyYBnb1menYDTlqeY9aTJhJ=s16000" alt="Pekasam Daging" loading="lazy">
             <div class="product-meta"><span class="product-cat-tag">Pekasam</span></div>
             <div class="product-title">Pekasam Daging Tok Yah</div>
             <a class="btn-info" href="https://hasnura.blogspot.com/2026/04/pekasam-daging-sedap-cepat.html" target="_blank">Info Produk</a>
@@ -1272,6 +1196,13 @@ select.form-input {
 </div>
 
 <script>
+// ── CONFIG ──────────────────────────────────────────
+const CONFIG = {
+    webAppUrl: "https://script.google.com/macros/s/AKfycbyGXgb9grZJgHd_aJuRYgIOIX0-Kz97VjcGmDklS1Ufqydb5SAbsBPo4Ta8buG9AdFp/exec",
+    whatsappNumber: "601119471916",
+    shopName: "HASNURA SHOP"
+};
+
 let cart = [];
 let affiliateID = "HQ";
 let affiliateName = "HASNURA HQ";
@@ -1311,8 +1242,44 @@ function copyCategoryLink(cat) {
     const baseUrl = window.location.origin + window.location.pathname;
     const refSuffix = affiliateID !== "HQ" ? `&ref=${sessionStorage.getItem('hasnura_ref')}` : "";
     const shareUrl = `${baseUrl}?cat=${encodeURIComponent(cat)}${refSuffix}`;
-    navigator.clipboard.writeText(shareUrl).then(() => showToast(`✓ Pautan '${cat}' disalin!`));
+    navigator.clipboard.writeText(shareUrl).then(() => {
+        showToast(`✓ Pautan '${cat}' disalin!`);
+        const hintEl = document.getElementById('hint-' + cat);
+        if (hintEl) {
+            hintEl.textContent = '✓ Disalin!';
+            hintEl.classList.add('copied');
+            setTimeout(() => {
+                hintEl.textContent = 'Tahan untuk salin';
+                hintEl.classList.remove('copied');
+            }, 2000);
+        }
+    });
 }
+
+/* Long press / right-click handler for category buttons */
+function handleCatLongPress(e, cat) {
+    e.preventDefault();
+    copyCategoryLink(cat);
+}
+
+/* Mobile long-press support */
+(function setupLongPress() {
+    let timer = null;
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.addEventListener('touchstart', function(e) {
+            const cat = this.getAttribute('data-cat');
+            timer = setTimeout(() => {
+                copyCategoryLink(cat);
+            }, 600);
+        }, { passive: true });
+        btn.addEventListener('touchend', function() {
+            clearTimeout(timer);
+        });
+        btn.addEventListener('touchmove', function() {
+            clearTimeout(timer);
+        });
+    });
+})();
 
 function shareProduct(prodId, prodName) {
     const baseUrl = window.location.href.split('?')[0].split('#')[0];
@@ -1320,44 +1287,6 @@ function shareProduct(prodId, prodName) {
     const refSuffix = ref ? `?ref=${ref}` : "";
     const url = baseUrl + refSuffix + '#' + prodId;
     navigator.clipboard.writeText(url).then(() => showToast(`✓ Pautan '${prodName}' disalin!`));
-}
-
-/* ── ADMIN ── */
-function loginAdmin() {
-    const pw = prompt("Masukkan Kata Laluan Admin:");
-    if (pw === "Hasnura9697") {
-        const panel = document.getElementById('admin-panel');
-        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    } else if (pw !== null) {
-        showToast("⚠️ Akses Ditolak!");
-    }
-}
-
-function addNewProduct() {
-    const name  = document.getElementById('newProdName').value;
-    const price = document.getElementById('newProdPrice').value;
-    const img   = document.getElementById('newProdImg').value;
-    const cat   = document.getElementById('newProdCat').value;
-    if (!name || !price || !img) { showToast("⚠️ Sila lengkapkan semua medan."); return; }
-    const prodId = 'prod-' + Date.now();
-    const grid = document.getElementById('main-grid');
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.setAttribute('data-category', cat);
-    card.id = prodId;
-    card.innerHTML = `
-        <div class="share-btn" onclick="shareProduct('${prodId}','${name}')">🔗</div>
-        <div class="prod-badge">${cat}</div>
-        <img src="${img}" class="product-img" loading="lazy">
-        <div class="product-meta"><span class="product-cat-tag">${cat}</span></div>
-        <div class="product-title">${name}</div>
-        <div class="price-row"><span class="price-tag">RM ${parseFloat(price).toFixed(2)}</span><span class="price-unit">/ unit</span></div>
-        <button class="btn-primary" onclick="addToCart('${name}',${price},2.00)">Tambah Ke Troli</button>
-    `;
-    grid.appendChild(card);
-    updateProductCount();
-    document.getElementById('admin-panel').style.display = 'none';
-    showToast(`✓ '${name}' berjaya ditambah!`);
 }
 
 /* ── CATEGORY FILTER ── */
@@ -1514,7 +1443,7 @@ function finalizeOrder() {
 
 function openWhatsApp() {
     if (lastOrderMsg) {
-        window.open(`https://wa.me/601119471916?text=${lastOrderMsg}`, '_blank');
+        window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${lastOrderMsg}`, '_blank');
     }
 }
 
@@ -1524,7 +1453,7 @@ window.addEventListener('load', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const catParam  = urlParams.get('cat');
     if (catParam) {
-        const targetBtn = document.querySelector(`.cat-btn[onclick*="'${catParam}'"]`);
+        const targetBtn = document.querySelector(`.cat-btn[data-cat="${catParam}"]`);
         if (targetBtn) filterCategory(catParam, targetBtn);
     }
     const hash = window.location.hash;
@@ -1539,6 +1468,11 @@ window.addEventListener('load', () => {
         }
     }
     updateProductCount();
+
+    /* Disable browser context menu on cat buttons (mobile long-press) */
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.addEventListener('contextmenu', e => e.preventDefault());
+    });
 });
 </script>
 </body>
