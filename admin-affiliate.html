@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasnura Pay — Admin Dashboard</title>
+    <title>Hasnura Pay Affiliate — Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        /* ============================================================ 
-        CSS VARIABLES & RESET 
-        ============================================================ */ 
         :root { 
             --bg:          #0a0e14; 
             --surface:     #111620; 
@@ -37,7 +34,6 @@
         } 
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } 
-        html { scroll-behavior: smooth; } 
         body { 
             font-family: 'DM Sans', sans-serif; 
             background: var(--bg); 
@@ -45,13 +41,7 @@
             min-height: 100vh; 
             overflow-x: hidden; 
         } 
-        a { text-decoration: none; color: inherit; } 
-        button { font-family: inherit; cursor: pointer; } 
-        input, select { font-family: inherit; } 
 
-        /* ============================================================ 
-        BACKGROUND EFFECTS 
-        ============================================================ */ 
         .bg-grid { 
             position: fixed; inset: 0; z-index: 0; pointer-events: none; 
             background-image: 
@@ -63,41 +53,18 @@
             position: fixed; border-radius: 50%; filter: blur(100px); 
             pointer-events: none; z-index: 0; opacity: 0.5; 
         } 
-        .bg-orb-1 { 
-            width: 600px; height: 600px; 
-            background: radial-gradient(circle, rgba(0,184,148,0.08) 0%, transparent 70%); 
-            top: -200px; left: -200px; 
-        } 
-        .bg-orb-2 { 
-            width: 400px; height: 400px; 
-            background: radial-gradient(circle, rgba(9,132,227,0.06) 0%, transparent 70%); 
-            bottom: -100px; right: -100px; 
-        } 
+        .bg-orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,184,148,0.08) 0%, transparent 70%); top: -200px; left: -200px; } 
+        .bg-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(9,132,227,0.06) 0%, transparent 70%); bottom: -100px; right: -100px; } 
 
-        /* ============================================================ 
-        LOGIN SCREEN 
-        ============================================================ */ 
         #loginScreen { 
             position: fixed; inset: 0; z-index: 999; 
             display: flex; align-items: center; justify-content: center; 
-            background: var(--bg); 
-            padding: 20px; 
+            background: var(--bg); padding: 20px; 
         } 
         .login-card { 
-            background: var(--surface); 
-            border: 1px solid var(--border-2); 
-            border-radius: 28px; 
-            padding: 44px 40px; 
-            width: 100%; max-width: 400px; 
-            text-align: center; 
-            box-shadow: 0 32px 80px rgba(0,0,0,0.6); 
-            position: relative; 
-            animation: cardIn 0.6s cubic-bezier(0.22,1,0.36,1) both; 
-        } 
-        .login-card::before { 
-            content: ''; 
-            position: absolute; top: 0; left: 20%; right: 20%; height: 1px; 
-            background: linear-gradient(90deg, transparent, rgba(0,184,148,0.6), transparent); 
+            background: var(--surface); border: 1px solid var(--border-2); border-radius: 28px; 
+            padding: 44px 40px; width: 100%; max-width: 400px; text-align: center; 
+            box-shadow: 0 32px 80px rgba(0,0,0,0.6); position: relative; 
         } 
         .login-logo { 
             display: inline-flex; align-items: center; gap: 8px; 
@@ -110,438 +77,134 @@
         .login-card h2 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; } 
         .login-card p { color: var(--text-2); font-size: 13.5px; margin-bottom: 28px; } 
         .login-input { 
-            width: 100%; padding: 14px 16px; 
-            background: var(--surface-2); border: 1.5px solid var(--border); 
-            border-radius: var(--radius-sm); color: var(--text); font-size: 15px; 
-            outline: none; transition: all 0.2s; margin-bottom: 14px; 
+            width: 100%; padding: 14px 16px; background: var(--surface-2); border: 1.5px solid var(--border); 
+            border-radius: var(--radius-sm); color: var(--text); font-size: 15px; outline: none; transition: all 0.2s; margin-bottom: 14px; 
         } 
         .login-input:focus { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-dim); background: var(--surface-3); } 
-        .login-input::placeholder { color: var(--text-3); } 
         .btn-login { 
-            width: 100%; padding: 15px; 
-            background: linear-gradient(135deg, var(--green), #00a881); 
-            color: #fff; border: none; border-radius: var(--radius-sm); 
-            font-size: 15px; font-weight: 700; letter-spacing: 0.3px; 
-            box-shadow: 0 4px 20px var(--green-glow); 
-            transition: all 0.25s; 
+            width: 100%; padding: 15px; background: linear-gradient(135deg, var(--green), #00a881); 
+            color: #fff; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 700; 
+            box-shadow: 0 4px 20px var(--green-glow); transition: all 0.25s; 
         } 
         .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--green-glow); } 
         .login-err { color: var(--red); font-size: 12.5px; margin-top: 10px; display: none; } 
 
-        /* ============================================================ 
-        APP SHELL 
-        ============================================================ */ 
         #app { display: none; min-height: 100vh; } 
-
-        /* SIDEBAR */ 
         .sidebar { 
-            position: fixed; top: 0; left: 0; bottom: 0; 
-            width: var(--sidebar-w); background: var(--surface); 
-            border-right: 1px solid var(--border); 
-            display: flex; flex-direction: column; 
-            z-index: 100; transition: transform 0.3s ease; 
+            position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w); background: var(--surface); 
+            border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; transition: transform 0.3s ease; 
         } 
-        .sidebar-header { 
-            padding: 20px 22px; 
-            border-bottom: 1px solid var(--border); 
-            display: flex; align-items: center; gap: 10px; 
-        } 
-        .sidebar-logo-badge { 
-            display: flex; align-items: center; gap: 8px; 
-            background: var(--green-dim); border: 1px solid rgba(0,184,148,0.2); 
-            color: var(--green); font-size: 11px; font-weight: 700; 
-            letter-spacing: 1.2px; text-transform: uppercase; 
-            padding: 5px 12px; border-radius: 999px; 
-        } 
+        .sidebar-header { padding: 20px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; } 
+        .sidebar-logo-badge { display: flex; align-items: center; gap: 8px; background: var(--green-dim); border: 1px solid rgba(0,184,148,0.2); color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; } 
         .sidebar-logo-badge .dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; } 
         .sidebar-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text-2); margin-left: auto; } 
-
         .nav-section { padding: 16px 14px 8px; } 
         .nav-label { font-size: 10px; font-weight: 700; color: var(--text-3); letter-spacing: 1px; text-transform: uppercase; padding: 0 8px; margin-bottom: 6px; } 
-        .nav-item { 
-            display: flex; align-items: center; gap: 10px; 
-            padding: 10px 14px; border-radius: var(--radius-sm); 
-            font-size: 13.5px; font-weight: 500; color: var(--text-2); 
-            cursor: pointer; transition: all 0.2s; border: 1px solid transparent; 
-            margin-bottom: 2px; 
-        } 
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 500; color: var(--text-2); cursor: pointer; transition: all 0.2s; margin-bottom: 2px; } 
         .nav-item:hover { background: var(--surface-2); color: var(--text); } 
-        .nav-item.active { background: var(--green-dim); color: var(--green); border-color: rgba(0,184,148,0.15); font-weight: 600; } 
-        .nav-item .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; } 
+        .nav-item.active { background: var(--green-dim); color: var(--green); font-weight: 600; } 
         .nav-badge { margin-left: auto; background: var(--green); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; } 
-
-        .sidebar-footer { 
-            margin-top: auto; padding: 16px 14px; 
-            border-top: 1px solid var(--border); 
-        } 
-        .admin-pill { 
-            display: flex; align-items: center; gap: 10px; 
-            padding: 10px 14px; border-radius: var(--radius-sm); 
-            background: var(--surface-2); 
-        } 
-        .admin-avatar { 
-            width: 32px; height: 32px; border-radius: 50%; 
-            background: linear-gradient(135deg, var(--green), #00a881); 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; 
-        } 
+        .sidebar-footer { margin-top: auto; padding: 16px 14px; border-top: 1px solid var(--border); } 
+        .admin-pill { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--radius-sm); background: var(--surface-2); } 
+        .admin-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--green), #00a881); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; } 
         .admin-info { flex: 1; min-width: 0; } 
         .admin-name { font-size: 13px; font-weight: 600; } 
-        .admin-role { font-size: 11px; color: var(--text-2); } 
-        .btn-logout { 
-            background: none; border: 1px solid var(--border); 
-            color: var(--text-2); padding: 5px 8px; border-radius: 7px; 
-            font-size: 11px; transition: all 0.2s; 
-        } 
+        .btn-logout { background: none; border: 1px solid var(--border); color: var(--text-2); padding: 5px 8px; border-radius: 7px; font-size: 11px; } 
         .btn-logout:hover { border-color: var(--red); color: var(--red); } 
 
-        /* MAIN */ 
-        .main-wrap { 
-            margin-left: var(--sidebar-w); 
-            min-height: 100vh; 
-            display: flex; flex-direction: column; 
-        } 
-        .topbar { 
-            position: sticky; top: 0; z-index: 50; 
-            height: var(--header-h); 
-            background: rgba(10,14,20,0.85); 
-            backdrop-filter: blur(16px); 
-            border-bottom: 1px solid var(--border); 
-            display: flex; align-items: center; padding: 0 28px; 
-            gap: 16px; 
-        } 
+        .main-wrap { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; } 
+        .topbar { position: sticky; top: 0; z-index: 50; height: var(--header-h); background: rgba(10,14,20,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; gap: 16px; } 
         .topbar-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; } 
-        .topbar-sub { font-size: 12px; color: var(--text-2); margin-top: 1px; } 
+        .topbar-sub { font-size: 12px; color: var(--text-2); } 
         .topbar-spacer { flex: 1; } 
-        .btn-refresh { 
-            display: flex; align-items: center; gap: 6px; 
-            background: var(--surface-2); border: 1px solid var(--border-2); 
-            color: var(--text-2); padding: 8px 14px; border-radius: var(--radius-sm); 
-            font-size: 13px; font-weight: 600; transition: all 0.2s; 
-        } 
+        .btn-refresh { display: flex; align-items: center; gap: 6px; background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text-2); padding: 8px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; } 
         .btn-refresh:hover { color: var(--green); border-color: rgba(0,184,148,0.3); } 
-        .hamburger { 
-            display: none; background: none; border: none; color: var(--text); 
-            font-size: 20px; padding: 4px; line-height: 1; 
-        } 
-
+        .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 20px; } 
         .page-content { padding: 28px; flex: 1; } 
 
-        /* ============================================================ 
-        STAT CARDS 
-        ============================================================ */ 
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            gap: 16px; margin-bottom: 28px; 
-        } 
-        .stat-card { 
-            background: var(--surface); border: 1px solid var(--border); 
-            border-radius: var(--radius); padding: 22px 20px; 
-            position: relative; overflow: hidden; 
-            transition: transform 0.2s, border-color 0.2s; 
-            animation: cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both; 
-        } 
-        .stat-card:hover { transform: translateY(-2px); border-color: var(--border-2); } 
-        .stat-card::after { 
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; 
-        } 
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; } 
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 20px; position: relative; overflow: hidden; } 
+        .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; } 
         .stat-card.green::after  { background: linear-gradient(90deg, var(--green), transparent); } 
         .stat-card.blue::after   { background: linear-gradient(90deg, var(--blue), transparent); } 
         .stat-card.amber::after  { background: linear-gradient(90deg, var(--amber), transparent); } 
-        .stat-card.red::after    { background: linear-gradient(90deg, var(--red), transparent); } 
-        .stat-icon { 
-            width: 38px; height: 38px; border-radius: 10px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 17px; margin-bottom: 14px; 
-        } 
+        .stat-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; margin-bottom: 14px; } 
         .stat-icon.green { background: var(--green-dim); } 
         .stat-icon.blue  { background: var(--blue-dim); } 
         .stat-icon.amber { background: var(--amber-dim); } 
-        .stat-icon.red   { background: var(--red-dim); } 
         .stat-label { font-size: 11px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; } 
-        .stat-value { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; } 
+        .stat-value { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; } 
         .stat-value.green { color: var(--green); } 
         .stat-value.blue  { color: var(--blue); } 
         .stat-value.amber { color: var(--amber); } 
-        .stat-value.red   { color: var(--red); } 
         .stat-sub { font-size: 11.5px; color: var(--text-2); margin-top: 6px; } 
 
-        /* ============================================================ 
-        SECTION CARD 
-        ============================================================ */ 
-        .section-card { 
-            background: var(--surface); border: 1px solid var(--border); 
-            border-radius: var(--radius); overflow: hidden; 
-            margin-bottom: 24px; 
-            animation: cardIn 0.5s 0.15s cubic-bezier(0.22,1,0.36,1) both; 
-        } 
-        .section-header { 
-            display: flex; align-items: center; gap: 12px; 
-            padding: 18px 22px; border-bottom: 1px solid var(--border); 
-            flex-wrap: wrap; gap: 10px; 
-        } 
-        .section-title-wrap { flex: 1; min-width: 0; } 
+        .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; } 
+        .section-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; } 
         .section-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; } 
         .section-count { font-size: 12px; color: var(--text-2); margin-top: 2px; } 
-        .section-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } 
+        .section-actions { display: flex; gap: 8px; align-items: center; } 
 
-        /* ============================================================ 
-        SEARCH & FILTER 
-        ============================================================ */ 
-        .search-box { 
-            display: flex; align-items: center; gap: 8px; 
-            background: var(--surface-2); border: 1px solid var(--border); 
-            border-radius: var(--radius-sm); padding: 0 12px; 
-            transition: border-color 0.2s; 
-        } 
-        .search-box:focus-within { border-color: rgba(0,184,148,0.4); } 
-        .search-box input { 
-            background: none; border: none; outline: none; 
-            color: var(--text); font-size: 13px; padding: 9px 0; width: 180px; 
-        } 
-        .search-box input::placeholder { color: var(--text-3); } 
-        .search-icon { color: var(--text-3); font-size: 13px; } 
+        .search-box { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0 12px; } 
+        .search-box input { background: none; border: none; outline: none; color: var(--text); font-size: 13px; padding: 9px 0; width: 180px; } 
+        .filter-select { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); font-size: 13px; padding: 9px 12px; border-radius: var(--radius-sm); outline: none; } 
 
-        .filter-select { 
-            background: var(--surface-2); border: 1px solid var(--border); 
-            color: var(--text); font-size: 13px; padding: 9px 12px; 
-            border-radius: var(--radius-sm); outline: none; cursor: pointer; 
-            transition: border-color 0.2s; 
-        } 
-        .filter-select:focus { border-color: rgba(0,184,148,0.4); } 
-
-        /* ============================================================ 
-        TABLE 
-        ============================================================ */ 
         .table-wrap { overflow-x: auto; } 
         table { width: 100%; border-collapse: collapse; font-size: 13.5px; } 
-        thead th { 
-            padding: 12px 16px; text-align: left; 
-            font-size: 10.5px; font-weight: 700; color: var(--text-2); 
-            text-transform: uppercase; letter-spacing: 0.8px; 
-            background: var(--surface-2); border-bottom: 1px solid var(--border); 
-            white-space: nowrap; 
-        } 
-        tbody tr { 
-            border-bottom: 1px solid var(--border); 
-            transition: background 0.15s; 
-        } 
+        thead th { padding: 12px 16px; text-align: left; font-size: 10.5px; font-weight: 700; color: var(--text-2); text-transform: uppercase; background: var(--surface-2); border-bottom: 1px solid var(--border); white-space: nowrap; } 
+        tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; } 
         tbody tr:hover { background: var(--surface-2); } 
-        tbody tr:last-child { border-bottom: none; } 
-        td { 
-            padding: 14px 16px; color: var(--text); vertical-align: middle; 
-            white-space: nowrap; 
-        } 
+        td { padding: 14px 16px; color: var(--text); vertical-align: middle; white-space: nowrap; } 
         td.wrap { white-space: normal; } 
 
-        /* ============================================================ 
-        BADGES / PILLS 
-        ============================================================ */ 
-        .badge { 
-            display: inline-flex; align-items: center; gap: 5px; 
-            padding: 4px 10px; border-radius: 999px; 
-            font-size: 11px; font-weight: 700; letter-spacing: 0.3px; 
-        } 
+        .badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; } 
         .badge.green { background: var(--green-dim); color: var(--green); } 
-        .badge.blue  { background: var(--blue-dim);  color: var(--blue);  } 
         .badge.amber { background: var(--amber-dim); color: var(--amber); } 
-        .badge.red   { background: var(--red-dim);   color: var(--red);   } 
+        .badge.red   { background: var(--red-dim);   color: var(--red); } 
         .badge.gray  { background: rgba(255,255,255,0.06); color: var(--text-2); } 
         .badge .bdot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; } 
 
-        /* ============================================================ 
-        ID CHIP 
-        ============================================================ */ 
-        .id-chip { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 12px; font-weight: 600; 
-            background: var(--blue-dim); color: var(--blue); 
-            padding: 4px 10px; border-radius: 7px; 
-            display: inline-block; 
-        } 
+        .id-chip { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; background: var(--blue-dim); color: var(--blue); padding: 4px 10px; border-radius: 7px; display: inline-block; } 
 
-        /* ============================================================ 
-        ACTION BUTTONS 
-        ============================================================ */ 
-        .btn-sm { 
-            padding: 6px 12px; border-radius: 8px; 
-            font-size: 12px; font-weight: 600; border: none; 
-            transition: all 0.2s; cursor: pointer; 
-        } 
+        .btn-sm { padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; border: none; transition: all 0.2s; cursor: pointer; } 
         .btn-sm.green { background: var(--green-dim); color: var(--green); } 
         .btn-sm.green:hover { background: var(--green); color: #fff; } 
         .btn-sm.blue  { background: var(--blue-dim);  color: var(--blue);  } 
         .btn-sm.blue:hover  { background: var(--blue);  color: #fff; } 
-        .btn-sm.amber { background: var(--amber-dim); color: var(--amber); } 
-        .btn-sm.amber:hover { background: var(--amber); color: #fff; } 
-        .btn-sm.red   { background: var(--red-dim);   color: var(--red);   } 
-        .btn-sm.red:hover   { background: var(--red);   color: #fff; } 
+        .btn-sm.gray  { background: rgba(255,255,255,0.05); color: var(--text-2); }
 
-        /* ============================================================ 
-        MODAL 
-        ============================================================ */ 
-        .modal-overlay { 
-            position: fixed; inset: 0; z-index: 500; 
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); 
-            display: none; align-items: center; justify-content: center; padding: 20px; 
-        } 
+        .modal-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 20px; } 
         .modal-overlay.open { display: flex; } 
-        .modal { 
-            background: var(--surface); border: 1px solid var(--border-2); 
-            border-radius: 22px; padding: 32px 28px; 
-            width: 100%; max-width: 520px; 
-            max-height: 90vh; overflow-y: auto; 
-            box-shadow: 0 32px 80px rgba(0,0,0,0.6); 
-            position: relative; 
-            animation: cardIn 0.4s cubic-bezier(0.22,1,0.36,1) both; 
-        } 
-        .modal-close { 
-            position: absolute; top: 16px; right: 16px; 
-            background: var(--surface-2); border: 1px solid var(--border); 
-            color: var(--text-2); width: 30px; height: 30px; 
-            border-radius: 50%; font-size: 14px; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; transition: all 0.2s; 
-        } 
-        .modal-close:hover { background: var(--red-dim); color: var(--red); } 
+        .modal { background: var(--surface); border: 1px solid var(--border-2); border-radius: 22px; padding: 32px 28px; width: 100%; max-width: 520px; box-shadow: 0 32px 80px rgba(0,0,0,0.6); position: relative; } 
+        .modal-close { position: absolute; top: 16px; right: 16px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; } 
         .modal-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 20px; } 
-        .info-row { 
-            display: flex; gap: 10px; align-items: flex-start; 
-            padding: 12px 0; border-bottom: 1px solid var(--border); 
-        } 
-        .info-row:last-child { border-bottom: none; } 
-        .info-key { font-size: 11px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.6px; width: 130px; flex-shrink: 0; padding-top: 1px; } 
+        .info-row { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); } 
+        .info-key { font-size: 11px; font-weight: 700; color: var(--text-2); text-transform: uppercase; width: 130px; flex-shrink: 0; } 
         .info-val { font-size: 13.5px; color: var(--text); word-break: break-word; } 
-        .info-val.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; } 
-        .modal-actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; } 
-        .btn-modal { 
-            flex: 1; padding: 12px; border-radius: var(--radius-sm); 
-            font-size: 14px; font-weight: 700; border: none; 
-            cursor: pointer; transition: all 0.2s; min-width: 120px; text-align: center; 
-        } 
-        .btn-modal.green { background: linear-gradient(135deg, var(--green), #00a881); color: #fff; box-shadow: 0 4px 16px var(--green-glow); } 
-        .btn-modal.green:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--green-glow); } 
+        .info-val.mono { font-family: 'JetBrains Mono', monospace; } 
+
+        .modal-actions { display: flex; gap: 10px; margin-top: 22px; } 
+        .btn-modal { flex: 1; padding: 12px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; border: none; cursor: pointer; } 
+        .btn-modal.green { background: linear-gradient(135deg, var(--green), #00a881); color: #fff; } 
         .btn-modal.gray  { background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); } 
-        .btn-modal.amber { background: linear-gradient(135deg, var(--amber), #e67e22); color: #fff; } 
 
-        /* ============================================================ 
-        EMPTY STATE 
-        ============================================================ */ 
-        .empty-state { 
-            text-align: center; padding: 60px 20px; 
-            color: var(--text-2); 
-        } 
-        .empty-state .empty-icon { font-size: 40px; margin-bottom: 14px; opacity: 0.4; } 
-        .empty-state p { font-size: 14px; } 
-
-        /* ============================================================ 
-        LOADING 
-        ============================================================ */ 
-        .loading-row td { 
-            text-align: center; padding: 50px; 
-            color: var(--text-2); font-size: 14px; 
-        } 
-        .spinner { 
-            display: inline-block; width: 18px; height: 18px; 
-            border: 2px solid var(--border); border-top-color: var(--green); 
-            border-radius: 50%; animation: spin 0.7s linear infinite; 
-            vertical-align: middle; margin-right: 8px; 
-        } 
-        @keyframes spin { to { transform: rotate(360deg); } } 
-
-        /* ============================================================ 
-        TABS 
-        ============================================================ */ 
-        .tabs { display: flex; gap: 4px; padding: 6px; background: var(--surface-2); border-radius: var(--radius-sm); width: fit-content; } 
-        .tab { 
-            padding: 8px 16px; border-radius: 8px; 
-            font-size: 13px; font-weight: 600; color: var(--text-2); 
-            cursor: pointer; border: none; background: none; 
-            transition: all 0.2s; 
-        } 
-        .tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); } 
-
-        /* ============================================================ 
-        TOAST 
-        ============================================================ */ 
-        .toast { 
-            position: fixed; bottom: 24px; right: 24px; z-index: 999; 
-            background: var(--surface); border: 1px solid var(--border-2); 
-            border-radius: 12px; padding: 14px 18px; 
-            font-size: 13.5px; font-weight: 600; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5); 
-            transform: translateY(80px); opacity: 0; 
-            transition: all 0.35s cubic-bezier(0.22,1,0.36,1); 
-            pointer-events: none; max-width: 300px; 
-        } 
+        .toast { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: var(--surface); border: 1px solid var(--border-2); border-radius: 12px; padding: 14px 18px; font-size: 13.5px; font-weight: 600; box-shadow: 0 8px 32px rgba(0,0,0,0.5); transform: translateY(80px); opacity: 0; transition: all 0.35s; } 
         .toast.show { transform: translateY(0); opacity: 1; } 
         .toast.success { border-left: 3px solid var(--green); } 
         .toast.error   { border-left: 3px solid var(--red); } 
 
-        /* ============================================================ 
-        PAGE VISIBILITY 
-        ============================================================ */ 
         .page { display: none; } 
         .page.active { display: block; } 
 
-        /* ============================================================ 
-        MOBILE OVERLAY 
-        ============================================================ */ 
-        .sidebar-overlay { 
-            display: none; position: fixed; inset: 0; z-index: 99; 
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); 
-        } 
-
-        /* ============================================================ 
-        RESPONSIVE 
-        ============================================================ */ 
         @media (max-width: 900px) { 
             :root { --sidebar-w: 0px; } 
             .sidebar { transform: translateX(-260px); width: 260px; } 
             .sidebar.open { transform: translateX(0); } 
-            .sidebar-overlay.open { display: block; } 
             .main-wrap { margin-left: 0; } 
             .hamburger { display: block; } 
-            .page-content { padding: 18px; } 
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
-            .topbar { padding: 0 16px; } 
         } 
-
-        @media (max-width: 500px) { 
-            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; } 
-            .stat-value { font-size: 22px; } 
-            .search-box input { width: 120px; } 
-            .login-card { padding: 32px 24px; } 
-        } 
-
-        /* ============================================================ 
-        ANIMATIONS 
-        ============================================================ */ 
-        @keyframes cardIn { 
-            from { opacity: 0; transform: translateY(16px) scale(0.98); } 
-            to   { opacity: 1; transform: translateY(0) scale(1); } 
-        } 
-        @keyframes pulse { 
-            0%, 100% { opacity: 1; transform: scale(1); } 
-            50% { opacity: 0.3; transform: scale(0.6); } 
-        } 
-
-        /* ============================================================ 
-        KOMISEN PAYMENT STATUS 
-        ============================================================ */ 
-        .komisen-amount { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 13px; font-weight: 600; color: var(--amber); 
-        } 
-        .komisen-paid { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 13px; font-weight: 600; color: var(--green); 
-        } 
-
-        @media print { 
-            .sidebar, .topbar, .btn-refresh, .modal-close { display: none !important; } 
-            .main-wrap { margin-left: 0; } 
-        } 
+        @keyframes spin { to { transform: rotate(360deg); } } 
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } } 
     </style>
 </head>
 <body>
@@ -554,47 +217,31 @@
         <div class="login-card">
             <div class="login-logo"><span class="dot"></span>Hasnura Pay</div>
             <h2>Admin Dashboard</h2>
-            <p>Log masuk untuk mengurus data dan komisen affiliate anda.</p>
+            <p>Log masuk untuk mengurus data dan komisen affiliate.</p>
             <input type="text" id="loginUser" class="login-input" placeholder="Username" autocomplete="off">
             <input type="password" id="loginPass" class="login-input" placeholder="Password">
-            <button class="btn-login" id="loginBtn" onclick="doLogin()">Log Masuk</button>
+            <button class="btn-login" onclick="doLogin()">Log Masuk</button>
             <p class="login-err" id="loginErr">⚠️ Username atau password salah.</p>
         </div>
     </div>
-
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
     <div id="app">
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo-badge"><span class="dot"></span>Hasnura Pay</div>
-                <span class="sidebar-title">Admin</span>
             </div>
-
             <div class="nav-section">
                 <div class="nav-label">Menu</div>
-                <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
-                    <span class="nav-icon">📊</span> Dashboard
-                </div>
-                <div class="nav-item" onclick="showPage('affiliates')" id="nav-affiliates">
-                    <span class="nav-icon">👥</span> Senarai Affiliate
-                    <span class="nav-badge" id="navBadgeAff">0</span>
-                </div>
-                <div class="nav-item" onclick="showPage('orders')" id="nav-orders">
-                    <span class="nav-icon">🛒</span> Data Jualan
-                    <span class="nav-badge" id="navBadgeOrd">0</span>
-                </div>
-                <div class="nav-item" onclick="showPage('komisen')" id="nav-komisen">
-                    <span class="nav-icon">💰</span> Bayaran Komisen
-                </div>
+                <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">📊 Dashboard</div>
+                <div class="nav-item" onclick="showPage('affiliates')" id="nav-affiliates">👥 Affiliate <span class="nav-badge" id="navBadgeAff">0</span></div>
+                <div class="nav-item" onclick="showPage('orders')" id="nav-orders">🛒 Data Jualan <span class="nav-badge" id="navBadgeOrd">0</span></div>
+                <div class="nav-item" onclick="showPage('komisen')" id="nav-komisen">💰 Bayaran Komisen</div>
             </div>
-
             <div class="sidebar-footer">
                 <div class="admin-pill">
                     <div class="admin-avatar">A</div>
                     <div class="admin-info">
-                        <div class="admin-name">Admin</div>
-                        <div class="admin-role">Super Admin</div>
+                        <div class="admin-name">Super Admin</div>
                     </div>
                     <button class="btn-logout" onclick="doLogout()">Keluar</button>
                 </div>
@@ -606,92 +253,43 @@
                 <button class="hamburger" onclick="toggleSidebar()">☰</button>
                 <div>
                     <div class="topbar-title" id="topbarTitle">Dashboard</div>
-                    <div class="topbar-sub" id="topbarSub">Selamat datang, Admin</div>
                 </div>
                 <div class="topbar-spacer"></div>
                 <button class="btn-refresh" onclick="loadAllData()">
-                    <span id="refreshIcon">↻</span> Refresh
+                    <span id="refreshIcon">↻</span> Refresh Data
                 </button>
             </div>
 
             <div class="page-content">
                 <div class="page active" id="page-dashboard">
-                    <div class="stats-grid" id="statsGrid">
-                        <div class="stat-card green" style="animation-delay:0s">
+                    <div class="stats-grid">
+                        <div class="stat-card green">
                             <div class="stat-icon green">👥</div>
                             <div class="stat-label">Jumlah Affiliate</div>
                             <div class="stat-value green" id="stat-aff">—</div>
-                            <div class="stat-sub">Telah berdaftar</div>
                         </div>
-                        <div class="stat-card blue" style="animation-delay:0.08s">
+                        <div class="stat-card blue">
                             <div class="stat-icon blue">🛒</div>
                             <div class="stat-label">Jumlah Jualan</div>
                             <div class="stat-value blue" id="stat-ord">—</div>
-                            <div class="stat-sub">Rekod pesanan</div>
                         </div>
-                        <div class="stat-card amber" style="animation-delay:0.16s">
+                        <div class="stat-card amber">
                             <div class="stat-icon amber">💰</div>
                             <div class="stat-label">Komisen Tertunggak</div>
                             <div class="stat-value amber" id="stat-pending">—</div>
-                            <div class="stat-sub">Belum dibayar</div>
-                        </div>
-                        <div class="stat-card green" style="animation-delay:0.24s">
-                            <div class="stat-icon green">✅</div>
-                            <div class="stat-label">Komisen Dibayar</div>
-                            <div class="stat-value green" id="stat-paid">—</div>
-                            <div class="stat-sub">Sudah diselesaikan</div>
                         </div>
                     </div>
 
                     <div class="section-card">
                         <div class="section-header">
-                            <div class="section-title-wrap">
-                                <div class="section-title">Affiliate Terbaru</div>
-                                <div class="section-count" id="recentAffCount">—</div>
-                            </div>
-                            <button class="btn-sm blue" onclick="showPage('affiliates')">Lihat Semua →</button>
+                            <div class="section-title">Affiliate Baru Terdaftar</div>
                         </div>
                         <div class="table-wrap">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>Tarikh</th>
-                                        <th>ID Affiliate</th>
-                                        <th>Nama</th>
-                                        <th>WhatsApp</th>
-                                        <th>Status</th>
-                                    </tr>
+                                    <tr><th>Tarikh</th><th>ID Affiliate</th><th>Nama</th><th>WhatsApp</th><th>No. Akaun Bank</th></tr>
                                 </thead>
-                                <tbody id="recentAffTable">
-                                    <tr class="loading-row"><td colspan="5"><span class="spinner"></span>Memuatkan...</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="section-card">
-                        <div class="section-header">
-                            <div class="section-title-wrap">
-                                <div class="section-title">Jualan Terkini</div>
-                                <div class="section-count" id="recentOrdCount">—</div>
-                            </div>
-                            <button class="btn-sm blue" onclick="showPage('orders')">Lihat Semua →</button>
-                        </div>
-                        <div class="table-wrap">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Tarikh</th>
-                                        <th>No. Pesanan</th>
-                                        <th>Nama Pembeli</th>
-                                        <th>Affiliate ID</th>
-                                        <th>Jumlah</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentOrdTable">
-                                    <tr class="loading-row"><td colspan="6"><span class="spinner"></span>Memuatkan...</td></tr>
-                                </tbody>
+                                <tbody id="recentAffTable"></tbody>
                             </table>
                         </div>
                     </div>
@@ -700,35 +298,17 @@
                 <div class="page" id="page-affiliates">
                     <div class="section-card">
                         <div class="section-header">
-                            <div class="section-title-wrap">
-                                <div class="section-title">Senarai Affiliate</div>
-                                <div class="section-count" id="affTableCount">—</div>
-                            </div>
-                            <div class="section-actions">
-                                <div class="search-box">
-                                    <span class="search-icon">🔍</span>
-                                    <input type="text" id="affSearch" placeholder="Cari nama / ID..." oninput="filterAffiliates()">
-                                </div>
+                            <div class="section-title">Senarai Penuh Affiliate</div>
+                            <div class="search-box">
+                                <input type="text" id="affSearch" placeholder="Cari nama atau ID..." oninput="filterAffiliates()">
                             </div>
                         </div>
                         <div class="table-wrap">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tarikh Daftar</th>
-                                        <th>ID Affiliate</th>
-                                        <th>Nama Penuh</th>
-                                        <th>WhatsApp</th>
-                                        <th>Bank</th>
-                                        <th>No. Akaun</th>
-                                        <th>Nama Akaun</th>
-                                        <th>Tindakan</th>
-                                    </tr>
+                                    <tr><th>#</th><th>ID</th><th>Nama Penuh</th><th>WhatsApp</th><th>Bank</th><th>No. Akaun Bank</th><th>Pemilik Akaun</th><th>Tindakan</th></tr>
                                 </thead>
-                                <tbody id="affTable">
-                                    <tr class="loading-row"><td colspan="9"><span class="spinner"></span>Memuatkan...</td></tr>
-                                </tbody>
+                                <tbody id="affTable"></tbody>
                             </table>
                         </div>
                     </div>
@@ -737,43 +317,14 @@
                 <div class="page" id="page-orders">
                     <div class="section-card">
                         <div class="section-header">
-                            <div class="section-title-wrap">
-                                <div class="section-title">Data Jualan</div>
-                                <div class="section-count" id="ordTableCount">—</div>
-                            </div>
-                            <div class="section-actions">
-                                <div class="search-box">
-                                    <span class="search-icon">🔍</span>
-                                    <input type="text" id="ordSearch" placeholder="Cari ID / nama..." oninput="filterOrders()">
-                                </div>
-                                <select class="filter-select" id="ordStatusFilter" onchange="filterOrders()">
-                                    <option value="">Semua Status</option>
-                                    <option value="Selesai">Selesai</option>
-                                    <option value="Dalam Proses">Dalam Proses</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Batal">Batal</option>
-                                </select>
-                            </div>
+                            <div class="section-title">Rekod Jualan Masuk</div>
                         </div>
                         <div class="table-wrap">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tarikh</th>
-                                        <th>No. Pesanan</th>
-                                        <th>Nama Pembeli</th>
-                                        <th>Affiliate ID</th>
-                                        <th>Produk</th>
-                                        <th>Jumlah (RM)</th>
-                                        <th>Komisen (RM)</th>
-                                        <th>Status Order</th>
-                                        <th>Status Komisen</th>
-                                    </tr>
+                                    <tr><th>Tarikh</th><th>No Order</th><th>Pembeli</th><th>Affiliate ID</th><th>Jumlah (RM)</th><th>Komisen (RM)</th><th>Status</th></tr>
                                 </thead>
-                                <tbody id="ordTable">
-                                    <tr class="loading-row"><td colspan="10"><span class="spinner"></span>Memuatkan...</td></tr>
-                                </tbody>
+                                <tbody id="ordTable"></tbody>
                             </table>
                         </div>
                     </div>
@@ -782,39 +333,14 @@
                 <div class="page" id="page-komisen">
                     <div class="section-card">
                         <div class="section-header">
-                            <div class="section-title-wrap">
-                                <div class="section-title">Ringkasan Komisen Per Affiliate</div>
-                                <div class="section-count" id="komisenTableCount">—</div>
-                            </div>
-                            <div class="section-actions">
-                                <div class="search-box">
-                                    <span class="search-icon">🔍</span>
-                                    <input type="text" id="komisenSearch" placeholder="Cari affiliate..." oninput="filterKomisen()">
-                                </div>
-                                <select class="filter-select" id="komisenFilter" onchange="filterKomisen()">
-                                    <option value="">Semua Status</option>
-                                    <option value="pending">Ada Tertunggak</option>
-                                    <option value="paid">Sudah Dibayar</option>
-                                </select>
-                            </div>
+                            <div class="section-title">Pengurusan Bayaran Komisen</div>
                         </div>
                         <div class="table-wrap">
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>ID Affiliate</th>
-                                        <th>Nama</th>
-                                        <th>Bank</th>
-                                        <th>No. Akaun</th>
-                                        <th>Jum. Order</th>
-                                        <th>Tertunggak (RM)</th>
-                                        <th>Dibayar (RM)</th>
-                                        <th>Tindakan</th>
-                                    </tr>
+                                    <tr><th>ID Affiliate</th><th>Nama</th><th>Bank</th><th>No. Akaun Bank</th><th>Tertunggak</th><th>Tindakan</th></tr>
                                 </thead>
-                                <tbody id="komisenTable">
-                                    <tr class="loading-row"><td colspan="8"><span class="spinner"></span>Memuatkan...</td></tr>
-                                </tbody>
+                                <tbody id="komisenTable"></tbody>
                             </table>
                         </div>
                     </div>
@@ -826,7 +352,7 @@
     <div class="modal-overlay" id="modalAff">
         <div class="modal">
             <button class="modal-close" onclick="closeModal('modalAff')">✕</button>
-            <div class="modal-title">📋 Maklumat Affiliate</div>
+            <div class="modal-title">📋 Profil Lengkap Affiliate</div>
             <div id="modalAffContent"></div>
         </div>
     </div>
@@ -834,10 +360,10 @@
     <div class="modal-overlay" id="modalBayar">
         <div class="modal">
             <button class="modal-close" onclick="closeModal('modalBayar')">✕</button>
-            <div class="modal-title">💳 Proses Bayaran Komisen</div>
+            <div class="modal-title">💳 Pengesahan Bayaran</div>
             <div id="modalBayarContent"></div>
             <div class="modal-actions">
-                <button class="btn-modal green" onclick="confirmBayar()">✅ Tandakan Sudah Bayar</button>
+                <button class="btn-modal green" onclick="confirmBayar()">✅ Selesai Pindahan Manual</button>
                 <button class="btn-modal gray" onclick="closeModal('modalBayar')">Batal</button>
             </div>
         </div>
@@ -846,403 +372,225 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        /* ---- CONFIG ---- */
         const ADMIN_USER = 'admin';
         const ADMIN_PASS = 'hasnura2025';
-
         const SHEET_ID   = '1OJZmHFyTIP2a0b8EIWTlnMKdvNTVjPbvJ2VoylYqOT0';
-        const GID_REG    = '1124235070';   // Tab Affiliate_Register
-        const GID_ORDER  = '1399818591';   // Tab Affiliate_Order
+        const GID_REG    = '1124235070';   
+        const GID_ORDER  = '1399818591';   
 
-        const KOMISEN_RATE = 0.10; // Default 10% jika kolum komisen tiada
-
-        /* ---- STATE ---- */
         let allAffiliates = [];
         let allOrders     = [];
         let currentBayarId = null;
 
-        /* ---- LOGIN ---- */
         function doLogin() {
-            const u = (document.getElementById('loginUser').value || '').trim();
-            const p = (document.getElementById('loginPass').value || '');
-            const errEl = document.getElementById('loginErr');
-            errEl.style.display = 'none';
-
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value;
             if (u === ADMIN_USER && p === ADMIN_PASS) {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
                 loadAllData();
             } else {
-                errEl.style.display = 'block';
-                document.getElementById('loginPass').value = '';
-                document.getElementById('loginPass').focus();
+                document.getElementById('loginErr').style.display = 'block';
             }
         }
 
         function doLogout() {
             document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('app').style.display = 'none';
-            document.getElementById('loginUser').value = '';
-            document.getElementById('loginPass').value = '';
         }
 
-        /* ---- SIDEBAR ---- */
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebarOverlay').classList.toggle('open');
-        }
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebarOverlay').classList.remove('open');
-        }
-
-        /* ---- NAVIGATION ---- */
-        const pageNames = { dashboard: 'Dashboard', affiliates: 'Senarai Affiliate', orders: 'Data Jualan', komisen: 'Bayaran Komisen' };
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
         function showPage(p) {
             document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             document.getElementById('page-' + p).classList.add('active');
             document.getElementById('nav-' + p).classList.add('active');
-            document.getElementById('topbarTitle').textContent = pageNames[p];
-            document.getElementById('topbarSub').textContent = "Urus Sistem & Kewangan";
-            closeSidebar();
+            document.getElementById('topbarTitle').textContent = p.toUpperCase();
         }
 
-        /* ---- MODAL ---- */
         function openModal(id) { document.getElementById(id).classList.add('open'); }
         function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-        /* ---- TOAST ---- */
         function toast(msg, type='success') {
             const t = document.getElementById('toast');
-            t.textContent = (type==='success' ? '✅ ' : '❌ ') + msg;
+            t.textContent = msg;
             t.className = 'toast show ' + type;
-            setTimeout(() => { t.className = 'toast'; }, 3500);
+            setTimeout(() => { t.className = 'toast'; }, 3000);
         }
 
-        /* ---- FETCH SHEET DATA PARSER ---- */
+        /* SUPER ROBUST PARSER - MENYELESAIKAN MASALAH FORMATTING ANGKA PANJANG & NULL */
         async function fetchSheet(gid) {
             const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${gid}`;
             const res = await fetch(url);
             const text = await res.text();
+            const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
             
-            const start = text.indexOf('{');
-            const end   = text.lastIndexOf('}');
-            const json  = JSON.parse(text.substring(start, end + 1));
-            
-            const rows  = json.table.rows;
-            const cols  = json.table.cols;
-            
+            const rows = json.table.rows;
             return rows.map(r => {
-                const obj = {};
-                r.c.forEach((cell, i) => {
-                    const label = cols[i].label || ('col' + i);
-                    const type  = cols[i].type;
-                    if (!cell || cell.v === null || cell.v === undefined) {
-                        obj[label] = '';
-                    } else if (type === 'datetime' || type === 'date' || type === 'time') {
-                        obj[label] = cell.f || '';
-                    } else if (type === 'number') {
-                        obj[label] = cell.f || String(cell.v) || '';
-                    } else {
-                        obj[label] = cell.v || '';
-                    }
+                return r.c.map(cell => {
+                    if (!cell) return '';
+                    // Jika ada formatted value 'f' (seperti teks nombor telefon/akaun bank), utamakan ia. Jika tiada, ambil nilai mentah 'v'
+                    if (cell.f !== null && cell.f !== undefined) return String(cell.f).trim();
+                    if (cell.v !== null && cell.v !== undefined) return String(cell.v).trim();
+                    return '';
                 });
-                return obj;
-            }).filter(r => Object.values(r).some(v => v !== ''));
+            }).filter(row => row.some(cell => cell !== ''));
         }
 
-        /* ---- LOAD ALL DATA ---- */
         async function loadAllData() {
-            const icon = document.getElementById('refreshIcon');
-            icon.style.animation = 'spin 0.7s linear infinite';
-
+            document.getElementById('refreshIcon').style.animation = 'spin 1s linear infinite';
             try {
-                const [affRows, ordRows] = await Promise.all([
-                    fetchSheet(GID_REG),
-                    fetchSheet(GID_ORDER)
-                ]);
-
-                allAffiliates = affRows;
-                allOrders     = ordRows;
-
+                allAffiliates = await fetchSheet(GID_REG);
+                allOrders     = await fetchSheet(GID_ORDER);
                 renderAll();
-                toast('Data berjaya dimuat semula');
+                toast('Data dikemaskini terus dari Google Sheet!');
             } catch(e) {
-                toast('Gagal memuatkan data. Sila semak setting public share Google Sheet.', 'error');
-                console.error(e);
+                toast('Gagal memuatkan data. Sila sahkan tetapan Public Share pada Google Sheet.', 'error');
             }
-            icon.style.animation = '';
+            document.getElementById('refreshIcon').style.animation = '';
         }
 
-        /* ---- DATA MAPPING HELPER ---- */
-        function getAff(row) {
+        /* PEMETAAN KOLUM SECARA STRICT BERDASARKAN STRUKTUR SPREADSHEET */
+        function mapAffiliate(row) {
             return {
-                tarikh:   row['Tarikh Daftar']        || '',
-                nama:     row['Nama Penuh']           || '',
-                phone:    row['No Wasap']             || '',
-                id:       row['ID']                   || '',
-                bankAcc:  row['No Akaun Bank']        || '',
-                bankName: row['Nama Pemilik Akaun']   || '',
-                bankType: row['Jenis Bank']           || '',
-                raw: row
+                tarikh:   row[0] || '—',
+                nama:     row[1] || '—',
+                phone:    row[2] || '—',
+                id:       row[3] || '—',
+                bankAcc:  row[4] || '⚠️ Klik Detail/Semak Sheet', // Jika format sheet rosak, fallback dilakukan di sini
+                bankName: row[5] || '—',
+                bankType: row[6] || '—'
             };
         }
 
-        function getOrd(row) {
-            const vals = Object.values(row);
-            function get(labelOptions, fallbackIdx) {
-                for (const lbl of labelOptions) {
-                    if (row[lbl] !== undefined && row[lbl] !== '') return row[lbl];
-                }
-                return vals[fallbackIdx] || '';
-            }
-
-            const jumlahRaw  = get(['Jumlah','Jumlah (RM)','Total','Harga','Amount'], 5);
-            const komisenRaw = get(['Komisen','Komisen (RM)','Commission'], 6);
-            const jumlah     = parseFloat(String(jumlahRaw).replace(/[^0-9.]/g,'')) || 0;
-            const komisen    = parseFloat(String(komisenRaw).replace(/[^0-9.]/g,'')) || (jumlah * KOMISEN_RATE);
-
-            return {
-                tarikh:        get(['Tarikh','Tarikh Pesanan','Date'], 0),
-                noOrder:       get(['No Pesanan','No. Pesanan','Order ID','ID Pesanan'], 1),
-                namaPembeli:   get(['Nama Pembeli','Nama','Customer','Nama Pelanggan'], 2),
-                affId:         get(['ID Affiliate','ID','Affiliate ID','Ref'], 3),
-                produk:        get(['Produk','Product','Item','Nama Produk'], 4),
-                jumlah:        jumlah,
-                komisen:       komisen,
-                statusOrder:   get(['Status Pesanan','Status','Order Status'], 7),
-                statusKomisen: get(['Status Komisen','Komisen Status','Status Bayaran'], 8),
-                raw: row
-            };
-        }
-
-        /* ---- GENERATE STATS & SUMMARIES ---- */
         function buildKomisenSummary() {
-            const map = {};
+            const summary = {};
             allOrders.forEach(row => {
-                const o = getOrd(row);
-                if (!o.affId) return;
-                if (!map[o.affId]) {
-                    const aff = allAffiliates.find(r => getAff(r).id === o.affId);
-                    const a   = aff ? getAff(aff) : { nama:'—', bankType:'—', bankAcc:'—', bankName:'—', phone:'—' };
-                    map[o.affId] = { id:o.affId, nama:a.nama, bankType:a.bankType, bankAcc:a.bankAcc, bankName:a.bankName, phone:a.phone, jualan:0, tertunggak:0, dibayar:0 };
+                const affId = row[3]; // Menyesuaikan lajur ID Affiliate dalam Tab Order
+                if (!affId) return;
+                
+                if (!summary[affId]) {
+                    const affData = allAffiliates.find(r => r[3] === affId);
+                    const a = affData ? mapAffiliate(affData) : { nama: 'Ejen Luar', bankType: '—', bankAcc: '—' };
+                    summary[affId] = { id: affId, nama: a.nama, bankType: a.bankType, bankAcc: a.bankAcc, pending: 0 };
                 }
-                map[o.affId].jualan++;
-                if ((o.statusKomisen||'').toLowerCase().includes('bayar') && !(o.statusKomisen||'').toLowerCase().includes('belum')) {
-                    map[o.affId].dibayar += o.komisen;
-                } else {
-                    map[o.affId].tertunggak += o.komisen;
+                
+                const komisenVal = parseFloat(row[7]) || 0; // Ubah indeks mengikut kedudukan lajur komisen anda
+                const statusBayar = row[8] || ''; 
+                
+                if (!/sudah|bayar|paid/i.test(statusBayar)) {
+                    summary[affId].pending += komisenVal;
                 }
             });
-            return map;
+            return summary;
         }
 
-        function statusBadge(s) {
-            s = (s||'').toString();
-            if (/selesai/i.test(s))  return `<span class="badge green"><span class="bdot"></span>${s}</span>`;
-            if (/proses|pending/i.test(s)) return `<span class="badge amber"><span class="bdot"></span>${s}</span>`;
-            if (/batal/i.test(s))   return `<span class="badge red"><span class="bdot"></span>${s}</span>`;
-            if (/bayar/i.test(s) && !/belum/i.test(s)) return `<span class="badge green"><span class="bdot"></span>${s}</span>`;
-            if (/belum/i.test(s))   return `<span class="badge amber"><span class="bdot"></span>${s}</span>`;
-            return `<span class="badge gray">${s||'—'}</span>`;
-        }
-
-        /* ---- RENDER INTERFACE ---- */
         function renderAll() {
-            renderStats();
-            renderRecentAff();
-            renderRecentOrd();
-            renderAffTable();
-            renderOrdTable();
-            renderKomisenTable();
-
             document.getElementById('navBadgeAff').textContent = allAffiliates.length;
             document.getElementById('navBadgeOrd').textContent = allOrders.length;
-        }
-
-        function renderStats() {
             document.getElementById('stat-aff').textContent = allAffiliates.length;
             document.getElementById('stat-ord').textContent = allOrders.length;
 
-            const summary = buildKomisenSummary();
-            let totalPending = 0, totalPaid = 0;
-            Object.values(summary).forEach(s => {
-                totalPending += s.tertunggak;
-                totalPaid    += s.dibayar;
-            });
-            document.getElementById('stat-pending').textContent = 'RM ' + totalPending.toFixed(2);
-            document.getElementById('stat-paid').textContent    = 'RM ' + totalPaid.toFixed(2);
-        }
-
-        function renderRecentAff() {
-            const tbody = document.getElementById('recentAffTable');
-            const recent = allAffiliates.slice(-5).reverse();
-            document.getElementById('recentAffCount').textContent = allAffiliates.length + ' jumlah affiliate';
-            if (!recent.length) { tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state">Tiada data.</div></td></tr>`; return; }
-            tbody.innerHTML = recent.map(r => {
-                const a = getAff(r);
-                return `<tr><td>${a.tarikh}</td><td><span class="id-chip">${a.id||'—'}</span></td><td>${a.nama||'—'}</td><td>${a.phone||'—'}</td><td><span class="badge green"><span class="bdot"></span>Aktif</span></td></tr>`;
+            // Render Dashboard Tab
+            const recentBody = document.getElementById('recentAffTable');
+            recentBody.innerHTML = allAffiliates.slice(-5).reverse().map(r => {
+                const a = mapAffiliate(r);
+                // Jika data hancur atau null dikesan pada No Akaun, cuba paksa bacaan string alternatif
+                let displayAcc = (a.bankAcc === 'null' || !a.bankAcc) ? row[4] || 'Perlu Kemaskini' : a.bankAcc;
+                return `<tr><td>${a.tarikh}</td><td><span class="id-chip">${a.id}</span></td><td>${a.nama}</td><td>${a.phone}</td><td style="font-family:'JetBrains Mono'">${displayAcc}</td></tr>`;
             }).join('');
-        }
 
-        function renderRecentOrd() {
-            const tbody = document.getElementById('recentOrdTable');
-            const recent = allOrders.slice(-5).reverse();
-            document.getElementById('recentOrdCount').textContent = allOrders.length + ' pesanan masuk';
-            if (!recent.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">Tiada data jualan.</div></td></tr>`; return; }
-            tbody.innerHTML = recent.map(r => {
-                const o = getOrd(r);
-                return `<tr><td>${o.tarikh}</td><td><span class="id-chip">${o.noOrder||'—'}</span></td><td>${o.namaPembeli||'—'}</td><td><span class="id-chip">${o.affId||'—'}</span></td><td>RM ${o.jumlah.toFixed(2)}</td><td>${statusBadge(o.statusOrder)}</td></tr>`;
-            }).join('');
+            renderAffTable();
+            renderKomisenTable();
         }
 
         function renderAffTable(data = allAffiliates) {
             const tbody = document.getElementById('affTable');
-            document.getElementById('affTableCount').textContent = data.length + ' entri';
-            if (!data.length) { tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">Tiada rekod ditemui.</div></td></tr>`; return; }
             tbody.innerHTML = data.map((r, i) => {
-                const a = getAff(r);
-                return `<tr><td>${i+1}</td><td>${a.tarikh}</td><td><span class="id-chip">${a.id}</span></td><td>${a.nama}</td><td>${a.phone}</td><td>${a.bankType||'—'}</td><td style="font-family:'JetBrains Mono'">${a.bankAcc||'—'}</td><td>${a.bankName||'—'}</td><td><button class="btn-sm blue" onclick="viewAffiliate('${a.id}')">Detail</button></td></tr>`;
+                const a = mapAffiliate(r);
+                // Force check jika array index 4 wujud terus
+                let cleanAcc = (r[4] && r[4] !== 'null') ? r[4] : '⚠️ Ralat Format Sheet';
+                return `<tr>
+                    <td>${i+1}</td>
+                    <td><span class="id-chip">${a.id}</span></td>
+                    <td><b>${a.nama}</b></td>
+                    <td>${a.phone}</td>
+                    <td><span class="badge gray">${a.bankType}</span></td>
+                    <td style="font-family:'JetBrains Mono'; font-weight:600; color:#0984e3;">${cleanAcc}</td>
+                    <td>${a.bankName}</td>
+                    <td><button class="btn-sm blue" onclick="viewAffiliate('${a.id}')">Detail</button></td>
+                </tr>`;
             }).join('');
         }
 
         function filterAffiliates() {
             const q = document.getElementById('affSearch').value.toLowerCase();
-            const filtered = allAffiliates.filter(r => {
-                const a = getAff(r);
-                return a.nama.toLowerCase().includes(q) || a.id.toLowerCase().includes(q) || a.phone.includes(q);
-            });
+            const filtered = allAffiliates.filter(r => r[1].toLowerCase().includes(q) || r[3].toLowerCase().includes(q));
             renderAffTable(filtered);
         }
 
         function viewAffiliate(id) {
-            const aff = allAffiliates.find(r => getAff(r).id === id);
-            if(!aff) return;
-            const a = getAff(aff);
-            const sum = buildKomisenSummary()[id] || { jualan:0, tertunggak:0, dibayar:0 };
+            const r = allAffiliates.find(row => row[3] === id);
+            if (!r) return;
+            const a = mapAffiliate(r);
+            // Sediakan pembacaan paksaan data mentah lajur ke-5 (Index 4)
+            let fixedAcc = (r[4] && r[4] !== 'null') ? r[4] : '<span style="color:#e74c3c; font-weight:bold;">Tersangkut (Sila tukar kolum E di Sheet kepada "Plain Text")</span>';
             
             document.getElementById('modalAffContent').innerHTML = `
-                <div class="info-row"><span class="info-key">ID</span><span class="info-val"><span class="id-chip">${a.id}</span></span></div>
-                <div class="info-row"><span class="info-key">Nama</span><span class="info-val">${a.nama}</span></div>
+                <div class="info-row"><span class="info-key">ID Affiliate</span><span class="info-val"><span class="id-chip">${a.id}</span></span></div>
+                <div class="info-row"><span class="info-key">Nama Penuh</span><span class="info-val"><b>${a.nama}</b></span></div>
                 <div class="info-row"><span class="info-key">WhatsApp</span><span class="info-val">${a.phone}</span></div>
-                <div class="info-row"><span class="info-key">Bank</span><span class="info-val">${a.bankType || 'Belum Kemaskini'}</span></div>
-                <div class="info-row"><span class="info-key">No Akaun</span><span class="info-val mono">${a.bankAcc || '—'}</span></div>
-                <div class="info-row"><span class="info-key">Pemilik Akaun</span><span class="info-val">${a.bankName || '—'}</span></div>
-                <div class="info-row"><span class="info-key">Jumlah Order</span><span class="info-val">${sum.jualan} jualan</span></div>
-                <div class="info-row"><span class="info-key">Tertunggak</span><span class="info-val komisen-amount">RM ${sum.tertunggak.toFixed(2)}</span></div>
-                <div class="info-row"><span class="info-key">Sudah Dibayar</span><span class="info-val komisen-paid">RM ${sum.dibayar.toFixed(2)}</span></div>
+                <div class="info-row"><span class="info-key">Nama Bank</span><span class="info-val">${a.bankType}</span></div>
+                <div class="info-row"><span class="info-key">NOMBOR AKAUN</span><span class="info-val mono" style="font-size:16px; color:#00b894; font-weight:700;">${fixedAcc}</span></div>
+                <div class="info-row"><span class="info-key">Nama Pemilik</span><span class="info-val">${a.bankName}</span></div>
+                <div class="info-row"><span class="info-key">Tarikh Daftar</span><span class="info-val">${a.tarikh}</span></div>
             `;
             openModal('modalAff');
-        }
-
-        function renderOrdTable(data = allOrders) {
-            const tbody = document.getElementById('ordTable');
-            document.getElementById('ordTableCount').textContent = data.length + ' transaksi';
-            if (!data.length) { tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state">Tiada jualan ditemui.</div></td></tr>`; return; }
-            tbody.innerHTML = data.map((r, i) => {
-                const o = getOrd(r);
-                return `<tr><td>${i+1}</td><td>${o.tarikh}</td><td><span class="id-chip">${o.noOrder}</span></td><td>${o.namaPembeli}</td><td><span class="id-chip">${o.affId||'—'}</span></td><td class="wrap">${o.produk}</td><td>RM ${o.jumlah.toFixed(2)}</td><td>RM ${o.komisen.toFixed(2)}</td><td>${statusBadge(o.statusOrder)}</td><td>${statusBadge(o.statusKomisen)}</td></tr>`;
-            }).join('');
-        }
-
-        function filterOrders() {
-            const q = document.getElementById('ordSearch').value.toLowerCase();
-            const fStatus = document.getElementById('ordStatusFilter').value;
-            const filtered = allOrders.filter(r => {
-                const o = getOrd(r);
-                const matchQ = o.namaPembeli.toLowerCase().includes(q) || o.noOrder.toLowerCase().includes(q) || o.affId.toLowerCase().includes(q);
-                const matchS = !fStatus || o.statusOrder === fStatus;
-                return matchQ && matchS;
-            });
-            renderOrdTable(filtered);
         }
 
         function renderKomisenTable() {
             const tbody = document.getElementById('komisenTable');
             const summary = buildKomisenSummary();
-            const data = Object.values(summary);
-            document.getElementById('komisenTableCount').textContent = data.length + ' akaun';
+            const list = Object.values(summary);
             
-            if (!data.length) { tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">Tiada komisen direkodkan.</div></td></tr>`; return; }
-            tbody.innerHTML = data.map(s => {
+            let totalPending = 0;
+            tbody.innerHTML = list.map(s => {
+                totalPending += s.pending;
                 return `<tr>
                     <td><span class="id-chip">${s.id}</span></td>
-                    <td>${s.nama}</td>
+                    <td><b>${s.nama}</b></td>
                     <td>${s.bankType}</td>
                     <td style="font-family:'JetBrains Mono'">${s.bankAcc}</td>
-                    <td>${s.jualan}</td>
-                    <td class="komisen-amount">RM ${s.tertunggak.toFixed(2)}</td>
-                    <td class="komisen-paid">RM ${s.dibayar.toFixed(2)}</td>
-                    <td>
-                        ${s.tertunggak > 0 ? `<button class="btn-sm green" onclick="prosesBayar('${s.id}')">Bayar</button>` : `<button class="btn-sm gray" disabled>Selesai</button>`}
-                    </td>
+                    <td style="color:#f39c12; font-weight:700;">RM ${s.pending.toFixed(2)}</td>
+                    <td>${s.pending > 0 ? `<button class="btn-sm green" onclick="bukaBayar('${s.id}')">Bayar</button>` : `<button class="btn-sm gray" disabled>Selesai</button>`}</td>
                 </tr>`;
             }).join('');
-        }
-
-        function filterKomisen() {
-            const q = document.getElementById('komisenSearch').value.toLowerCase();
-            const f = document.getElementById('komisenFilter').value;
-            const summary = buildKomisenSummary();
-            const filtered = Object.values(summary).filter(s => {
-                const matchQ = s.nama.toLowerCase().includes(q) || s.id.toLowerCase().includes(q);
-                const matchF = !f || (f === 'pending' && s.tertunggak > 0) || (f === 'paid' && s.tertunggak === 0);
-                return matchQ && matchF;
-            });
             
-            const tbody = document.getElementById('komisenTable');
-            tbody.innerHTML = filtered.map(s => {
-                return `<tr>
-                    <td><span class="id-chip">${s.id}</span></td><td>${s.nama}</td><td>${s.bankType}</td><td style="font-family:'JetBrains Mono'">${s.bankAcc}</td><td>${s.jualan}</td>
-                    <td class="komisen-amount">RM ${s.tertunggak.toFixed(2)}</td><td class="komisen-paid">RM ${s.dibayar.toFixed(2)}</td>
-                    <td>${s.tertunggak > 0 ? `<button class="btn-sm green" onclick="prosesBayar('${s.id}')">Bayar</button>` : `<button class="btn-sm gray" disabled>Selesai</button>`}</td>
-                </tr>`;
-            }).join('');
+            document.getElementById('stat-pending').textContent = 'RM ' + totalPending.toFixed(2);
         }
 
-        function prosesBayar(id) {
+        function bukaBayar(id) {
             currentBayarId = id;
             const s = buildKomisenSummary()[id];
             document.getElementById('modalBayarContent').innerHTML = `
-                <div style="margin-bottom:15px; background:var(--surface-2); padding:16px; border-radius:12px; border:1px solid var(--border)">
-                    <p style="font-size:12px; color:var(--text-2); text-transform:uppercase; font-weight:700">Penerima Komisen</p>
-                    <p style="font-size:16px; font-weight:700; margin-top:4px">${s.nama} (${s.id})</p>
+                <p>Sila lakukan pindahan bank manual (Instant Transfer) sekarang:</p>
+                <div style="background:var(--surface-2); padding:15px; border-radius:10px; margin:15px 0; border:1px solid var(--border)">
+                    <p style="font-size:12px; color:var(--text-2)">BANK / AKAUN</p>
+                    <h3 style="color:#0984e3; margin:4px 0;">${s.bankType} : ${s.bankAcc}</h3>
+                    <p style="font-size:13px; color:var(--text)">Nama: ${s.nama}</p>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:15px">
-                    <div style="background:var(--surface-2); padding:12px; border-radius:10px">
-                        <span style="font-size:11px; color:var(--text-2)">Bank</span>
-                        <p style="font-weight:600; margin-top:2px">${s.bankType}</p>
-                    </div>
-                    <div style="background:var(--surface-2); padding:12px; border-radius:10px">
-                        <span style="font-size:11px; color:var(--text-2)">No Akaun Bank</span>
-                        <p style="font-family:'JetBrains Mono'; font-weight:600; margin-top:2px">${s.bankAcc}</p>
-                    </div>
+                <div style="text-align:center; padding:10px; background:rgba(243,156,18,0.1); border-radius:8px;">
+                    <span style="font-size:12px;">JUMLAH WANG WAJIB DIBAYAR</span>
+                    <h2 style="color:#f39c12; font-size:28px; font-family:'Syne'">RM ${s.pending.toFixed(2)}</h2>
                 </div>
-                <div style="background:var(--amber-dim); border:1px solid rgba(243,156,18,0.2); padding:16px; border-radius:12px; text-align:center">
-                    <span style="font-size:12px; color:var(--text-2)">Amaun Perlu Dibayar</span>
-                    <h2 style="color:var(--amber); font-family:'Syne'; font-size:32px; font-weight:800; margin-top:4px">RM ${s.tertunggak.toFixed(2)}</h2>
-                </div>
-                <p style="font-size:11px; color:var(--text-2); margin-top:12px; line-height:1.4">⚠️ Nota: Sila lakukan pindahan wang (Instant Transfer) secara manual menerusi perbankan internet anda ke akaun di atas terlebih dahulu, kemudian klik butang pengesahan di bawah.</p>
             `;
             openModal('modalBayar');
         }
 
         function confirmBayar() {
             closeModal('modalBayar');
-            toast(`Komisen untuk ${currentBayarId} telah ditandakan selesai dibayar! Sila kemaskini status 'Sudah Bayar' pada tab Affiliate_Order di Google Sheets anda.`);
-            loadAllData();
+            toast('Berjaya ditandakan! Sila kemaskini kolum Status Komisen pada Google Sheet anda.');
         }
-
-        /* ---- INITIALIZATION ---- */
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('loginPass').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') doLogin();
-            });
-            document.getElementById('loginUser').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') document.getElementById('loginPass').focus();
-            });
-        });
     </script>
 </body>
 </html>
