@@ -554,14 +554,14 @@ td.wrap { white-space: normal; }
 <!-- ============================================================
      LOGIN SCREEN
 ============================================================ -->
-<div id="loginScreen">
+<div id="loginScreen" style="position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px;">
   <div class="login-card">
     <div class="login-logo"><span class="dot"></span> Hasnura Pay</div>
     <h2>Admin Dashboard</h2>
     <p>Log masuk untuk mengurus data dan komisen affiliate anda.</p>
     <input type="text" id="loginUser" class="login-input" placeholder="Username" autocomplete="off">
-    <input type="password" id="loginPass" class="login-input" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="btn-login" onclick="doLogin()">Log Masuk</button>
+    <input type="password" id="loginPass" class="login-input" placeholder="Password">
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">Log Masuk</button>
     <p class="login-err" id="loginErr">⚠️ Username atau password salah.</p>
   </div>
 </div>
@@ -572,7 +572,7 @@ td.wrap { white-space: normal; }
 <!-- ============================================================
      APP
 ============================================================ -->
-<div id="app">
+<div id="app" style="display:none;">
 
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
@@ -850,7 +850,7 @@ td.wrap { white-space: normal; }
 <script>
 /* ---- CONFIG ---- */
 const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'hasnura9697';
+const ADMIN_PASS = 'hasnura2025';
 
 // Google Sheets IDs
 const SHEET_ID   = '1OJZmHFyTIP2a0b8EIWTlnMKdvNTVjPbvJ2VoylYqOT0';
@@ -867,14 +867,19 @@ let currentBayarId = null;
 
 /* ---- LOGIN ---- */
 function doLogin() {
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
+  const u = (document.getElementById('loginUser').value || '').trim();
+  const p = (document.getElementById('loginPass').value || '');
+  const errEl = document.getElementById('loginErr');
+  errEl.style.display = 'none';
+
   if (u === ADMIN_USER && p === ADMIN_PASS) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     loadAllData();
   } else {
-    document.getElementById('loginErr').style.display = 'block';
+    errEl.style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
   }
 }
 
@@ -1296,7 +1301,14 @@ function confirmBayar() {
 }
 
 /* ---- INIT ---- */
-document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('loginPass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+  document.getElementById('loginUser').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('loginPass').focus();
+  });
+});
 </script>
 
 </body>
