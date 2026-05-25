@@ -1,680 +1,608 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hasnura — Profil Pembayaran</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hasnura Pay — Profil Pembayaran Affiliate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root {
-  --gold: #C9A84C;
-  --gold-light: #E8C97A;
-  --gold-dim: rgba(201,168,76,0.12);
-  --dark: #0A0A0F;
-  --dark2: #12121A;
-  --dark3: #1A1A26;
-  --surface: #1E1E2E;
-  --surface2: #252538;
-  --border: rgba(201,168,76,0.2);
-  --border-dim: rgba(255,255,255,0.06);
-  --text: #F0EDE8;
-  --text-muted: rgba(240,237,232,0.5);
-  --text-dim: rgba(240,237,232,0.28);
-  --green: #2ECC71;
-  --red: #E74C3C;
-  --radius: 16px;
-  --radius-sm: 10px;
+    --primary: #00b894;
+    --primary-dark: #00a381;
+    --primary-glow: rgba(0, 184, 148, 0.18);
+    --accent: #00cfe8;
+    --secondary: #0d1117;
+    --surface: #161b22;
+    --surface-2: #1e2530;
+    --border: rgba(255,255,255,0.07);
+    --border-focus: rgba(0, 184, 148, 0.6);
+    --text-primary: #e6edf3;
+    --text-muted: #7d8fa1;
+    --text-label: #a0aec0;
+    --success-bg: rgba(0, 184, 148, 0.08);
+    --error-bg: rgba(255, 82, 82, 0.08);
+    --radius-card: 28px;
+    --radius-input: 14px;
+    --radius-btn: 14px;
 }
 
-html,body{
-  min-height:100%;
-  background: var(--dark);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+    background: var(--secondary);
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 40px 16px 60px;
-  background-image:
-    radial-gradient(ellipse 60% 40% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 20% 110%, rgba(201,168,76,0.04) 0%, transparent 60%);
-  background-attachment: fixed;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* ─── BRAND ─── */
-.brand {
-  text-align: center;
-  margin-bottom: 36px;
+/* === ANIMATED BACKGROUND === */
+.bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,184,148,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,184,148,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.brand-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--gold-dim);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 6px 16px 6px 10px;
-  margin-bottom: 20px;
+.bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: orbFloat 12s ease-in-out infinite alternate;
 }
 
-.brand-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 8px var(--gold);
-  animation: pulse 2s ease-in-out infinite;
+.bg-orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,184,148,0.12) 0%, transparent 70%);
+    top: -150px; left: -150px;
+    animation-delay: 0s;
+}
+
+.bg-orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,207,232,0.08) 0%, transparent 70%);
+    bottom: -100px; right: -100px;
+    animation-delay: -6s;
+}
+
+@keyframes orbFloat {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.05); }
+}
+
+/* === CARD === */
+.setup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px 36px;
+    border-radius: var(--radius-card);
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+    box-shadow:
+        0 0 0 1px rgba(0,184,148,0.05),
+        0 24px 64px rgba(0,0,0,0.5),
+        0 4px 16px rgba(0,0,0,0.3);
+    animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Subtle top highlight */
+.setup-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,184,148,0.5), transparent);
+    border-radius: 100%;
+}
+
+/* === HEADER === */
+.card-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-glow);
+    border: 1px solid rgba(0,184,148,0.25);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    animation: cardIn 0.6s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.logo-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.5;transform:scale(0.85)}
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
 }
 
-.brand-badge span {
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gold);
+h2 {
+    font-family: 'Syne', sans-serif;
+    color: var(--text-primary);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    animation: cardIn 0.6s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.brand h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(26px, 7vw, 38px);
-  font-weight: 800;
-  letter-spacing: -1px;
-  line-height: 1.1;
+.subtitle {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.6;
+    font-weight: 300;
+    animation: cardIn 0.6s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.brand h1 span { color: var(--gold); }
-
-.brand p {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-top: 8px;
-  font-weight: 300;
+/* === DIVIDER === */
+.divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 0 28px;
 }
 
-/* ─── CARD ─── */
-.card {
-  width: 100%;
-  max-width: 440px;
-  background: var(--surface);
-  border: 1px solid var(--border-dim);
-  border-radius: 24px;
-  overflow: hidden;
-  position: relative;
+/* === FORM === */
+.form-group {
+    margin-bottom: 18px;
+    animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.card::before {
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:1px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
-  opacity: 0.6;
-}
-
-.card-inner { padding: 32px 28px; }
-
-/* ─── STEPS ─── */
-.step-indicator {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin-bottom: 28px;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-}
-
-.step-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--dark2);
-  border: 1px solid var(--border-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Syne', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-dim);
-  position: relative;
-  z-index: 1;
-}
-
-.step.active .step-circle {
-  background: var(--gold-dim);
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-.step-label {
-  font-size: 10px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  color: var(--text-dim);
-  margin-top: 6px;
-  white-space: nowrap;
-}
-
-.step.active .step-label { color: var(--gold); }
-
-.step-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border-dim);
-  margin-bottom: 16px;
-}
-
-/* ─── FORM ─── */
-.form-group { margin-bottom: 20px; }
+.form-group:nth-child(1) { animation-delay: 0.25s; }
+.form-group:nth-child(2) { animation-delay: 0.3s; }
+.form-group:nth-child(3) { animation-delay: 0.35s; }
+.form-group:nth-child(4) { animation-delay: 0.4s; }
 
 label {
-  display: block;
-  font-family: 'Syne', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-label);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 9px;
 }
 
-.input-wrap { position: relative; }
-
-.input-icon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.35;
-  pointer-events: none;
+label .label-icon {
+    width: 4px; height: 4px;
+    background: var(--primary);
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
-input[type=text],
-input[type=tel],
-select {
-  width: 100%;
-  background: var(--dark2);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-sm);
-  padding: 15px 16px 15px 46px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.25s, box-shadow 0.25s;
-  -webkit-appearance: none;
-  appearance: none;
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-input);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-input[type=text]::placeholder,
-input[type=tel]::placeholder {
-  color: var(--text-dim);
-  font-weight: 300;
+.form-input::placeholder { color: #3d4f63; }
+
+.form-input:focus {
+    border-color: var(--border-focus);
+    background: #1a2230;
+    box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.08);
 }
 
-input[type=text]:focus,
-input[type=tel]:focus,
-select:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+select.form-input {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237d8fa1' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
 }
 
-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='rgba(240,237,232,0.3)' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 44px;
-  cursor: pointer;
+select.form-input option {
+    background: var(--surface);
+    color: var(--text-primary);
 }
 
-select option {
-  background: var(--dark2);
-  color: var(--text);
+/* === BUTTON === */
+.btn-save {
+    background: linear-gradient(135deg, var(--primary) 0%, #00a881 100%);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 184, 148, 0.3);
+    animation: cardIn 0.5s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ─── SECURITY BADGE ─── */
-.security-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(46,204,113,0.06);
-  border: 1px solid rgba(46,204,113,0.15);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  margin-bottom: 24px;
+.btn-save::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
 }
 
-.security-row svg { color: var(--green); flex-shrink: 0; }
-
-.security-text {
-  font-size: 12px;
-  color: rgba(46,204,113,0.8);
-  line-height: 1.4;
+.btn-save:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 184, 148, 0.45);
 }
 
-/* ─── BUTTON ─── */
-.btn-primary {
-  width: 100%;
-  padding: 16px;
-  background: var(--gold);
-  color: var(--dark);
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.25s;
-  margin-top: 4px;
-  position: relative;
-  overflow: hidden;
+.btn-save:active:not(:disabled) { transform: translateY(0); }
+
+.btn-save:disabled {
+    background: var(--surface-2);
+    color: #3d4f63;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
-.btn-primary:hover::after {
-  content:'';
-  position:absolute;
-  inset:0;
-  background: white;
-  opacity: 0.1;
-}
-
-.btn-primary:active { transform: scale(0.99); }
-
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
+/* Spinner inside button */
 .btn-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(0,0,0,0.2);
-  border-top-color: var(--dark);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  vertical-align: middle;
-  margin-right: 8px;
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ─── ALERT ─── */
-.alert {
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
-  margin-top: 16px;
-  display: none;
-  align-items: center;
-  gap: 10px;
-  line-height: 1.4;
+/* === STATUS === */
+#statusMsg {
+    display: none;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    animation: cardIn 0.4s ease both;
 }
 
-.alert.error {
-  background: rgba(231,76,60,0.1);
-  border: 1px solid rgba(231,76,60,0.25);
-  color: #E74C3C;
+/* === AFFILIATE LINK SECTION === */
+#affiliateLinkSection {
+    display: none;
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid rgba(0, 184, 148, 0.2);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(0,184,148,0.06) 0%, rgba(0,207,232,0.04) 100%);
+    animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    position: relative;
+    overflow: hidden;
 }
 
-.alert.info {
-  background: rgba(201,168,76,0.08);
-  border: 1px solid var(--border);
-  color: var(--gold-light);
-}
-
-.alert.success {
-  background: rgba(46,204,113,0.08);
-  border: 1px solid rgba(46,204,113,0.2);
-  color: #2ECC71;
-}
-
-/* ─── DIVIDER ─── */
-.divider {
-  height: 1px;
-  background: var(--border-dim);
-  margin: 24px 0;
-}
-
-/* ─── AFFILIATE LINK ─── */
-#linkSection {
-  display: none;
-  margin-top: 20px;
-  padding: 20px;
-  background: var(--dark2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  animation: fadeUp 0.4s ease forwards;
-}
-
-@keyframes fadeUp {
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:translateY(0)}
+#affiliateLinkSection::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
 }
 
 .link-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
 }
 
-.link-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 6px var(--green);
+.link-icon {
+    width: 34px; height: 34px;
+    background: var(--primary-glow);
+    border: 1px solid rgba(0,184,148,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
 }
 
-.link-header span {
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-muted);
+.link-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
-.link-promo {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 14px;
-  line-height: 1.5;
+.link-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 1px;
+    line-height: 1.4;
 }
 
-.link-promo strong {
-  color: var(--gold);
-  font-weight: 500;
+.copy-box {
+    display: flex;
+    gap: 8px;
+    background: var(--surface);
+    padding: 6px 6px 6px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    align-items: center;
 }
 
-.link-box {
-  display: flex;
-  gap: 8px;
-  background: var(--dark3);
-  border: 1px solid var(--border-dim);
-  border-radius: 8px;
-  padding: 6px 6px 6px 12px;
-  align-items: center;
-}
-
-.link-text {
-  flex: 1;
-  font-size: 10px;
-  color: var(--text-muted);
-  word-break: break-all;
-  line-height: 1.5;
-  padding: 5px 0;
+.link-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', monospace;
+    outline: none;
+    min-width: 0;
 }
 
 .btn-copy {
-  flex-shrink: 0;
-  background: var(--surface2);
-  color: var(--gold);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 7px 12px;
-  font-family: 'Syne', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,184,148,0.3);
 }
 
-.btn-copy:hover { background: var(--gold-dim); }
+.btn-copy:hover { background: var(--primary-dark); }
 
-@media(max-width:380px){
-  .card-inner { padding: 24px 18px; }
-  .step-label { font-size: 9px; }
+/* === FOOTER NOTE === */
+.footer-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 24px;
+    font-size: 11px;
+    color: #3d4f63;
+    animation: cardIn 0.5s 0.5s both;
+}
+
+.footer-note span { color: var(--primary); }
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+    .setup-card { padding: 28px 22px; }
+    h2 { font-size: 22px; }
+    .btn-save { font-size: 14px; }
+}
+
+@media (max-width: 360px) {
+    .setup-card { padding: 22px 18px; border-radius: 22px; }
+    h2 { font-size: 20px; }
 }
 </style>
 </head>
 <body>
 
-<div class="brand">
-  <div class="brand-badge">
-    <div class="brand-dot"></div>
-    <span>Profil Pembayaran</span>
-  </div>
-  <h1>Maklumat<br><span>Akaun Bank</span></h1>
-  <p>Untuk urusan pengeluaran komisen affiliate</p>
-</div>
+<div class="bg-grid"></div>
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
 
-<div class="card">
-  <div class="card-inner">
+<div class="setup-card">
 
-    <!-- STEP INDICATOR -->
-    <div class="step-indicator">
-      <div class="step">
-        <div class="step-circle">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="card-header">
+        <div class="logo-badge">
+            <span class="dot"></span>
+            Hasnura Pay
         </div>
-        <span class="step-label">Daftar</span>
-      </div>
-      <div class="step-line"></div>
-      <div class="step active">
-        <div class="step-circle">2</div>
-        <span class="step-label">Bank</span>
-      </div>
-      <div class="step-line"></div>
-      <div class="step">
-        <div class="step-circle">3</div>
-        <span class="step-label">Aktif</span>
-      </div>
+        <h2>Profil Pembayaran</h2>
+        <p class="subtitle">Lengkapkan maklumat bank anda untuk urusan pengeluaran komisen affiliate.</p>
     </div>
 
-    <!-- SECURITY -->
-    <div class="security-row">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-      <span class="security-text">Maklumat anda dienkripsi dan disimpan dengan selamat.</span>
-    </div>
+    <div class="divider"></div>
 
-    <!-- FORM -->
     <div class="form-group">
-      <label>ID Affiliate</label>
-      <div class="input-wrap">
-        <div class="input-icon">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-            <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
-          </svg>
-        </div>
-        <input type="text" id="affId" placeholder="Contoh: HN01" autocomplete="off" style="text-transform:uppercase">
-      </div>
+        <label><span class="label-icon"></span> ID Affiliate</label>
+        <input type="text" id="affId" class="form-input" placeholder="Contoh: HN001">
     </div>
 
     <div class="form-group">
-      <label>No. Akaun Bank</label>
-      <div class="input-wrap">
-        <div class="input-icon">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-            <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-          </svg>
-        </div>
-        <input type="tel" id="bankAccNo" placeholder="Tanpa tanda sempang (-)" inputmode="numeric">
-      </div>
+        <label><span class="label-icon"></span> No. Akaun Bank</label>
+        <input type="tel" id="bankAccNo" class="form-input" placeholder="Tanpa tanda sengkang (-)">
     </div>
 
     <div class="form-group">
-      <label>Nama Pemilik Akaun</label>
-      <div class="input-wrap">
-        <div class="input-icon">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        </div>
-        <input type="text" id="bankAccName" placeholder="Nama penuh seperti dalam buku bank" style="text-transform:uppercase">
-      </div>
+        <label><span class="label-icon"></span> Nama Pemilik Akaun</label>
+        <input type="text" id="bankAccName" class="form-input" placeholder="Nama penuh seperti dalam kad pengenalan">
     </div>
 
     <div class="form-group">
-      <label>Jenis Bank / E-Wallet</label>
-      <div class="input-wrap">
-        <div class="input-icon">
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-          </svg>
-        </div>
-        <select id="bankType">
-          <option value="">— Pilih Bank —</option>
-          <optgroup label="Bank Tempatan">
+        <label><span class="label-icon"></span> Jenis Bank</label>
+        <select id="bankType" class="form-input">
+            <option value="">— Pilih Institusi Bank —</option>
             <option value="Maybank">Maybank</option>
-            <option value="CIMB Bank">CIMB Bank</option>
+            <option value="CIMB">CIMB Bank</option>
             <option value="Public Bank">Public Bank</option>
             <option value="RHB Bank">RHB Bank</option>
             <option value="Hong Leong Bank">Hong Leong Bank</option>
             <option value="AmBank">AmBank</option>
             <option value="Bank Islam">Bank Islam</option>
-            <option value="Bank Muamalat">Bank Muamalat</option>
             <option value="Bank Rakyat">Bank Rakyat</option>
             <option value="BSN">BSN</option>
-            <option value="Affin Bank">Affin Bank</option>
-            <option value="Alliance Bank">Alliance Bank</option>
-          </optgroup>
-          <optgroup label="E-Wallet">
             <option value="TNG eWallet">TNG eWallet</option>
-            <option value="GrabPay">GrabPay</option>
-            <option value="ShopeePay">ShopeePay</option>
-          </optgroup>
         </select>
-      </div>
     </div>
 
-    <div id="statusAlert" class="alert"></div>
+    <button class="btn-save" id="saveBtn" onclick="saveBankInfo()">Simpan Maklumat</button>
 
-    <button class="btn-primary" id="saveBtn" onclick="saveBankInfo()">
-      SIMPAN MAKLUMAT
-    </button>
+    <div id="statusMsg"></div>
 
-    <!-- AFFILIATE LINK (revealed after success) -->
-    <div id="linkSection">
-      <div class="link-header">
-        <div class="link-dot"></div>
-        <span>Link Affiliate Anda</span>
-      </div>
-      <p class="link-promo">Promosikan link ini dan <strong>jana komisen</strong> setiap kali berlaku jualan.</p>
-      <div class="link-box">
-        <span class="link-text" id="generatedLink">—</span>
-        <button class="btn-copy" id="btnCopy" onclick="copyAffiliateLink()">Salin</button>
-      </div>
+    <div id="affiliateLinkSection">
+        <div class="link-header">
+            <div class="link-icon">🔗</div>
+            <div>
+                <div class="link-title">Link Affiliate Anda</div>
+                <div class="link-desc">Kongsi link ini untuk mula menjana komisen</div>
+            </div>
+        </div>
+        <div class="copy-box">
+            <input type="text" id="generatedLink" class="link-input" readonly>
+            <button class="btn-copy" onclick="copyAffiliateLink()">Salin</button>
+        </div>
     </div>
 
-  </div>
+    <div class="footer-note">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Maklumat anda dilindungi &amp; selamat — <span>256-bit SSL</span>
+    </div>
+
 </div>
 
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwMy4Hm6Tl1JQg9eveWBfL19fqfLfrtkkyRQFlmG91jVI9TPp0dVA6kluqb9RlVJZH6/exec";
-
-function setAlert(type, msg) {
-  const el = document.getElementById('statusAlert');
-  el.className = 'alert ' + type;
-  el.style.display = 'flex';
-  el.innerHTML = msg;
-}
-
-function clearAlert() {
-  document.getElementById('statusAlert').style.display = 'none';
-}
+const webAppUrl = "https://script.google.com/macros/s/AKfycbzUU3-1ohnbuFOePEcCxf75MqAJXFraJNo56EUAQDMQI5Hrim1Ku54wZDIgoy9CFRXF3A/exec";
 
 function saveBankInfo() {
-  const id = document.getElementById('affId').value.toUpperCase().trim();
-  const accNo = document.getElementById('bankAccNo').value.trim();
-  const accName = document.getElementById('bankAccName').value.toUpperCase().trim();
-  const bankType = document.getElementById('bankType').value;
-  const btn = document.getElementById('saveBtn');
+    const id = document.getElementById('affId').value.toUpperCase().trim();
+    const accNo = document.getElementById('bankAccNo').value;
+    const accName = document.getElementById('bankAccName').value.toUpperCase().trim();
+    const bankType = document.getElementById('bankType').value;
+    const saveBtn = document.getElementById('saveBtn');
+    const status = document.getElementById('statusMsg');
+    const linkSection = document.getElementById('affiliateLinkSection');
+    const linkInput = document.getElementById('generatedLink');
 
-  clearAlert();
-
-  if (!id || !accNo || !accName || !bankType) {
-    setAlert('error', '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>&nbsp; Sila lengkapkan semua maklumat.');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="btn-spinner"></span> Menyimpan...';
-  setAlert('info', '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>&nbsp; Memproses maklumat anda...');
-
-  const payload = {
-    kategori: "Affiliate",
-    data: [
-      new Date().toLocaleString('ms-MY'),
-      id, "", "",
-      accNo,
-      accName,
-      bankType
-    ]
-  };
-
-  fetch(GAS_URL, {
-    method: 'POST',
-    body: JSON.stringify(payload)
-  })
-  .then(r => r.json())
-  .then(result => {
-    if (result.status === "success") {
-      setAlert('success', '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>&nbsp; Maklumat bank berjaya disimpan!');
-      btn.innerHTML = '✓ Selesai';
-
-      const encodedName = encodeURIComponent(result.namaPenuh || accName);
-      const fullLink = `https://hasnura.blogspot.com/p/hn-affiliate.html?ref=${id}-${encodedName}`;
-      document.getElementById('generatedLink').textContent = fullLink;
-      document.getElementById('linkSection').style.display = 'block';
-
-      setTimeout(() => {
-        document.getElementById('bankAccNo').value = '';
-        document.getElementById('bankAccName').value = '';
-        document.getElementById('bankType').value = '';
-        btn.disabled = false;
-        btn.innerHTML = 'SIMPAN MAKLUMAT';
-        clearAlert();
-      }, 6000);
-    } else {
-      throw new Error(result.message || 'Ralat tidak diketahui');
+    if (!id || !accNo || !accName || !bankType) {
+        alert("Sila isi semua maklumat sebelum simpan.");
+        return;
     }
-  })
-  .catch(err => {
-    setAlert('error', `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>&nbsp; Ralat: ${err.message}`);
-    btn.disabled = false;
-    btn.innerHTML = 'SIMPAN MAKLUMAT';
-  });
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="btn-spinner"></span> Sedang Memproses...';
+
+    status.style.display = "block";
+    status.style.background = "rgba(0,184,148,0.06)";
+    status.style.color = "#7ecfc0";
+    status.style.borderColor = "rgba(0,184,148,0.15)";
+    status.innerText = "⏳ Menyimpan maklumat anda ke sistem...";
+
+    const payload = {
+        kategori: "Affiliate",
+        data: [
+            new Date().toLocaleString('ms-MY'),
+            id,
+            "",
+            "",
+            accNo,
+            accName,
+            bankType
+        ]
+    };
+
+    fetch(webAppUrl, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.status === "success") {
+            status.style.background = "rgba(0,184,148,0.08)";
+            status.style.color = "#4dd4bc";
+            status.style.borderColor = "rgba(0,184,148,0.2)";
+            status.innerText = "✅ Maklumat bank berjaya disimpan!";
+            saveBtn.innerHTML = "✓ Selesai!";
+
+            const encodedName = encodeURIComponent(result.namaPenuh);
+            const fullLink = "https://hasnura.pages.dev/shop?ref=" + id + "-" + encodedName;
+
+            linkInput.value = fullLink;
+            linkSection.style.display = "block";
+
+            setTimeout(() => {
+                document.getElementById('bankAccNo').value = "";
+                document.getElementById('bankAccName').value = "";
+                document.getElementById('bankType').value = "";
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = "Simpan Maklumat";
+                status.style.display = "none";
+            }, 5000);
+        } else {
+            throw new Error(result.message);
+        }
+    })
+    .catch(err => {
+        status.style.background = "rgba(255,82,82,0.06)";
+        status.style.color = "#ff8585";
+        status.style.borderColor = "rgba(255,82,82,0.15)";
+        status.innerText = "❌ Ralat: " + err.message;
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = "Simpan Maklumat";
+    });
 }
 
 function copyAffiliateLink() {
-  const txt = document.getElementById('generatedLink').textContent;
-  const btn = document.getElementById('btnCopy');
-  navigator.clipboard.writeText(txt).then(() => {
-    btn.textContent = '✓ Disalin';
-    setTimeout(() => { btn.textContent = 'Salin'; }, 2500);
-  });
+    const linkInput = document.getElementById('generatedLink');
+    linkInput.select();
+    linkInput.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(linkInput.value).then(() => {
+        const copyBtn = document.querySelector('.btn-copy');
+        copyBtn.innerText = "✓ Berjaya!";
+        setTimeout(() => { copyBtn.innerText = "Salin"; }, 2000);
+    });
 }
 </script>
 </body>
