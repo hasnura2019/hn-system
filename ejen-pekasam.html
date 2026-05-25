@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistem Ejen Pekasam Hasnura</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+    :root {
+        --fintech-black: #0d1117;
+        --fintech-card: #161b22;
+        --fintech-gold: #d4af37;
+        --fintech-gold-hover: #aa8c2c;
+        --fintech-text: #f0f6fc;
+        --fintech-muted: #8b949e;
+        --whatsapp-green: #218838;
+        --danger-red: #f85149;
+        --border-color: #30363d;
+        --bg-global: #090d13;
+    }
+    
+    body { 
+        font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif; 
+        background: var(--bg-global); 
+        margin: 0; 
+        padding: 20px; 
+        color: var(--fintech-text);
+        line-height: 1.5;
+    }
+    
+    .container { max-width: 1100px; margin: 0 auto; padding-bottom: 100px; }
+    
+    .header { 
+        text-align: center; 
+        padding: 60px 20px; 
+        background: linear-gradient(135deg, var(--fintech-black) 0%, #1f2937 100%); 
+        color: white; 
+        border-radius: 24px; 
+        margin-bottom: 40px; 
+        border: 1px solid var(--border-color);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    .header::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, transparent, var(--fintech-gold), transparent);
+    }
+    .header h1 { margin: 0; font-size: 36px; color: var(--fintech-gold); text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
+    .header p { margin: 10px 0 0 0; color: var(--fintech-muted); font-size: 16px; }
+    
+    /* Fintech Catalog Design */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+    .card { 
+        background: var(--fintech-card); 
+        border-radius: 24px; 
+        overflow: hidden; 
+        border: 1px solid var(--border-color); 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 30px rgba(0,0,0,0.4); border-color: var(--fintech-gold); }
+    .card-header { background: rgba(212, 175, 55, 0.1); padding: 22px; text-align: center; font-weight: 800; color: var(--fintech-gold); font-size: 20px; border-bottom: 1px solid var(--border-color); }
+    
+    .table-price { width: 100%; border-collapse: collapse; }
+    .table-price td { padding: 16px; border-bottom: 1px solid var(--border-color); text-align: center; font-weight: 600; color: var(--fintech-text); }
+    .table-price tr:last-child td { border-bottom: none; }
+    .table-price td:first-child { color: var(--fintech-muted); font-weight: 500; }
+
+    .selection-area { padding: 25px; background: var(--fintech-black); border-top: 1px solid var(--border-color); }
+    .btn-add { 
+        width: 100%; 
+        background: linear-gradient(135deg, var(--fintech-gold) 0%, #b89324 100%); 
+        color: var(--fintech-black); 
+        padding: 16px; 
+        border: none; 
+        border-radius: 14px; 
+        cursor: pointer; 
+        font-weight: 800; 
+        text-transform: uppercase; 
+        letter-spacing: 1px;
+        transition: all 0.2s;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    }
+    .btn-add:hover { transform: scale(1.02); background: var(--fintech-gold-hover); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); }
+
+    /* Form Design */
+    .cart-box { 
+        margin-top: 50px; 
+        background: var(--fintech-card); 
+        padding: 40px; 
+        border-radius: 28px; 
+        border: 1px solid var(--border-color); 
+        display:none; 
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4); 
+    }
+    .form-group { margin-bottom: 24px; }
+    .form-group label { display: block; margin-bottom: 10px; font-weight: 600; font-size: 14px; color: var(--fintech-muted); letter-spacing: 0.5px; }
+    input, select { 
+        width: 100%; 
+        padding: 16px; 
+        border-radius: 14px; 
+        border: 1px solid var(--border-color); 
+        background: var(--fintech-black); 
+        font-size: 15px; 
+        color: var(--fintech-text);
+        box-sizing: border-box;
+        transition: all 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--fintech-gold); outline: none; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); }
+
+    /* Quantity Control in Form */
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px dashed var(--border-color); }
+    .cart-item > span { font-weight: 600; }
+    .qty-box { display: flex; align-items: center; gap: 12px; background: var(--fintech-black); padding: 6px 14px; border-radius: 10px; border: 1px solid var(--border-color); }
+    .btn-qty { background: none; border: none; font-weight: bold; cursor: pointer; font-size: 20px; padding: 0 5px; color: var(--fintech-gold); }
+    .btn-qty:hover { color: white; }
+    .btn-remove { color: var(--danger-red); border: none; background: none; cursor: pointer; font-weight: bold; margin-left: 15px; font-size: 16px; transition: transform 0.2s; }
+    .btn-remove:hover { transform: scale(1.2); }
+    
+    .total-area { font-size: 28px; font-weight: 800; text-align: right; margin-top: 30px; color: var(--fintech-gold); letter-spacing: 0.5px; }
+
+    /* Professional Invoice Screenshot Area */
+    #invoice-card { background: #fff; padding: 40px; width: 500px; position: fixed; left: -9999px; color: #1a1a1a; }
+    .invoice-box { border: 2px solid #eee; padding: 30px; border-radius: 16px; }
+    .inv-header { text-align: center; margin-bottom: 30px; border-bottom: 4px solid #ffcc00; padding-bottom: 15px; }
+    
+    .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+    .btn-action { padding: 18px; border-radius: 14px; border: none; font-weight: 800; cursor: pointer; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; }
+    .btn-action:hover { transform: translateY(-2px); opacity: 0.95; }
+    .btn-save { background: #2563eb; color: white; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
+    .btn-wa { background: var(--whatsapp-green); color: white; box-shadow: 0 4px 15px rgba(33, 136, 56, 0.3); }
+
+    /* Sticky Fintech Checkout Bar */
+    .sticky-checkout {
+        position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+        width: calc(100% - 40px); max-width: 500px;
+        background: rgba(22, 27, 34, 0.95);
+        border: 1px solid var(--fintech-gold);
+        backdrop-filter: blur(12px);
+        padding: 14px 24px; border-radius: 20px;
+        display: none; justify-content: space-between; align-items: center;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        z-index: 999;
+        animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes slideUp { from { bottom: -80px; opacity: 0; } to { bottom: 24px; opacity: 1; } }
+    .sticky-info { display: flex; flex-direction: column; }
+    .sticky-info .label { font-size: 12px; color: var(--fintech-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .sticky-info .price { font-size: 20px; font-weight: 800; color: var(--fintech-gold); }
+    .btn-checkout {
+        background: var(--fintech-gold); color: var(--fintech-black);
+        padding: 12px 24px; border-radius: 12px; border: none;
+        font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px;
+        cursor: pointer; transition: all 0.2s;
+    }
+    .btn-checkout:hover { background: #fff; color: var(--fintech-black); }
+
+    /* Custom Scrollbar for Premium Feel */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-global); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--fintech-muted); }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Sistem Ejen Pekasam Hasnura</h1>
+        <p>Sistem Pesanan Digital Ejen & Master Agent</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-header">Pekasam Daging (130g)</div>
+            <table class="table-price">
+                <tr><td>Agent (10 Pek)</td><td>RM 90</td></tr>
+                <tr><td>Master (50 Pek)</td><td>RM 400</td></tr>
+            </table>
+            <div class="selection-area">
+                <select id="select-daging">
+                    <option value="" data-price="90">-- Pilih Tahap --</option>
+                    <option value="Pekasam Daging (Agent)" data-price="90">Agent (10 Pek) - RM 90</option>
+                    <option value="Pekasam Daging (Master)" data-price="400">Master Agent (50 Pek) - RM 400</option>
+                </select>
+                <button class="btn-add" onclick="addToCart('select-daging')">Tambah Bakul</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Pekasam Ikan (250g)</div>
+            <table class="table-price">
+                <tr><td>Agent (10 Pek)</td><td>RM 70</td></tr>
+                <tr><td>Master (50 Pek)</td><td>RM 300</td></tr>
+            </table>
+            <div class="selection-area">
+                <select id="select-ikan">
+                    <option value="" data-price="70">-- Pilih Tahap --</option>
+                    <option value="Pekasam Ikan (Agent)" data-price="70">Agent (10 Pek) - RM 70</option>
+                    <option value="Pekasam Ikan (Master)" data-price="300">Master Agent (50 Pek) - RM 300</option>
+                </select>
+                <button class="btn-add" onclick="addToCart('select-ikan')">Tambah Bakul</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Pekasam Telur Sotong</div>
+            <table class="table-price">
+                <tr><td>Agent (10 Pek)</td><td>RM 120</td></tr>
+                <tr><td>Master (30 Pek)</td><td>RM 330</td></tr>
+            </table>
+            <div class="selection-area">
+                <select id="select-sotong">
+                    <option value="" data-price="120">-- Pilih Tahap --</option>
+                    <option value="Pekasam Telur Sotong (Agent)" data-price="120">Agent (10 Pek) - RM 120</option>
+                    <option value="Pekasam Telur Sotong (Master)" data-price="330">Master Agent (30 Pek) - RM 330</option>
+                </select>
+                <button class="btn-add" onclick="addToCart('select-sotong')">Tambah Bakul</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-box" id="cart-display">
+        <h2 style="margin-top:0; border-left: 5px solid var(--fintech-gold); padding-left: 15px; color: white;">Butiran Pesanan</h2>
+        
+        <div id="cart-items-list"></div>
+
+        <div class="form-group" style="margin-top:20px;">
+            <label>Nama Penuh</label>
+            <input type="text" id="cust-name" placeholder="Nama anda">
+        </div>
+
+        <div class="form-group">
+            <label>No. WhatsApp (Untuk Terima Invois)</label>
+            <input type="tel" id="cust-phone" placeholder="Contoh: 0123456789">
+        </div>
+
+        <div class="form-group">
+            <label>Lokasi (Daerah & Negeri)</label>
+            <input type="text" id="cust-loc" placeholder="Contoh: Kemaman, Terengganu">
+        </div>
+
+        <div class="form-group">
+            <label>Jenis Penghantaran</label>
+            <select id="ship-method" onchange="updateTotal()">
+                <option value="Postage">Postage</option>
+                <option value="COD">COD / Self-Collect</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Kos Penghantaran (RM)</label>
+            <input type="number" id="ship-cost" value="10" oninput="updateTotal()">
+        </div>
+
+        <div class="total-area">
+            JUMLAH BESAR: RM <span id="grand-total">0</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn-action btn-save" onclick="processInvoice()">SIMPAN INVOIS</button>
+            <button class="btn-action btn-wa" onclick="sendWhatsApp()">HANTAR WHATSAPP</button>
+        </div>
+    </div>
+</div>
+
+<div class="sticky-checkout" id="sticky-bar">
+    <div class="sticky-info">
+        <span class="label">Jumlah Pesanan</span>
+        <span class="price">RM <span id="sticky-total">0</span></span>
+    </div>
+    <button class="btn-checkout" onclick="scrollToCart()">Checkout</button>
+</div>
+
+<div id="invoice-card">
+    <div class="invoice-box">
+        <div class="inv-header">
+            <div style="font-size: 22px; font-weight: 900;">INVOIS EJEN PEKASAM HASNURA</div>
+            <div style="font-size:12px; margin-top:5px;" id="inv-date"></div>
+        </div>
+        <div style="margin-bottom:20px;">
+            <p><strong>Nama:</strong> <span id="inv-name"></span></p>
+            <p><strong>Lokasi:</strong> <span id="inv-loc"></span></p>
+            <p><strong>Penghantaran:</strong> <span id="inv-ship-type"></span></p>
+        </div>
+        <div id="inv-items-detail" style="margin-bottom:20px;"></div>
+        <div style="border-top:2px solid #eee; padding-top:10px; text-align:right;">
+            <h2 style="margin:0;">JUMLAH: RM <span id="inv-total"></span></h2>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbx-vafxPI9THw0uMw8IlndWyI5ohs7aJxofkJJMGeBPqVs0s7l4r6O_wDO8ll7X7w7KOw/exec";
+
+    function addToCart(selectId) {
+        const sel = document.getElementById(selectId);
+        const opt = sel.options[sel.selectedIndex];
+        if (opt.value === "") return alert("Sila pilih pakej!");
+
+        const existing = cart.find(i => i.name === opt.value);
+        if(existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({
+                id: Date.now(),
+                name: opt.value,
+                price: parseInt(opt.getAttribute('data-price')),
+                qty: 1
+            });
+        }
+        sel.selectedIndex = 0;
+        updateDisplay();
+    }
+
+    function changeQty(id, delta) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            item.qty += delta;
+            if (item.qty < 1) item.qty = 1;
+        }
+        updateDisplay();
+    }
+
+    function removeItem(id) {
+        cart = cart.filter(i => i.id !== id);
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        const list = document.getElementById('cart-items-list');
+        const box = document.getElementById('cart-display');
+        const sticky = document.getElementById('sticky-bar');
+        
+        box.style.display = cart.length > 0 ? 'block' : 'none';
+        sticky.style.display = cart.length > 0 ? 'flex' : 'none';
+        
+        if(cart.length > 0) box.scrollIntoView({ behavior: 'smooth' });
+
+        list.innerHTML = "";
+        cart.forEach(item => {
+            list.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <div style="display:flex; align-items:center;">
+                        <div class="qty-box">
+                            <button class="btn-qty" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="btn-qty" onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                        <button class="btn-remove" onclick="removeItem(${item.id})">✖</button>
+                    </div>
+                </div>`;
+        });
+        updateTotal();
+    }
+
+    function updateTotal() {
+        let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        let ship = parseFloat(document.getElementById('ship-cost').value) || 0;
+        let grandTotal = subtotal + ship;
+        
+        document.getElementById('grand-total').innerText = grandTotal;
+        document.getElementById('sticky-total').innerText = grandTotal;
+    }
+
+    function scrollToCart() {
+        const box = document.getElementById('cart-display');
+        if(box) box.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function processInvoice() {
+        const name = document.getElementById('cust-name').value;
+        if(!name) return alert("Sila isi nama!");
+
+        document.getElementById('inv-date').innerText = new Date().toLocaleString('ms-MY');
+        document.getElementById('inv-name').innerText = name;
+        document.getElementById('inv-loc').innerText = document.getElementById('cust-loc').value;
+        document.getElementById('inv-ship-type').innerText = document.getElementById('ship-method').value;
+        
+        let subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        let ship = parseFloat(document.getElementById('ship-cost').value) || 0;
+        document.getElementById('inv-total').innerText = subtotal + ship;
+
+        let itemsHtml = "";
+        cart.forEach(item => {
+            itemsHtml += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span>${item.name} x${item.qty}</span>
+                <span>RM ${item.price * item.qty}</span>
+            </div>`;
+        });
+        document.getElementById('inv-items-detail').innerHTML = itemsHtml;
+
+        const target = document.getElementById('invoice-card');
+        target.style.left = "0";
+        html2canvas(target).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'Invois-' + name + '.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            target.style.left = "-9999px";
+        });
+    }
+
+    function sendWhatsApp() {
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+        const loc = document.getElementById('cust-loc').value;
+        const ship = document.getElementById('ship-method').value;
+        const shipCost = document.getElementById('ship-cost').value;
+        const total = document.getElementById('grand-total').innerText;
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+        if(!name || !phone) return alert("Sila isi Nama dan No. WhatsApp!");
+
+        let pakejStr = "";
+        cart.forEach(item => { pakejStr += `${item.name} x${item.qty}\n`; });
+
+        // Save to Google Sheets
+        fetch(webAppUrl, {
+            method: "POST", mode: "no-cors",
+            body: JSON.stringify({
+                kategori: "Ejen_Pekasam",
+                data: [new Date().toLocaleString('ms-MY'), name, phone, loc, pakejStr.replace(/\n/g, ", "), subtotal, shipCost]
+            })
+        });
+
+        let msg = `*INVOIS EJEN PEKASAM TOKYAH*\n\n`;
+        msg += `👤 ${name}\n`;
+        msg += `📍 ${loc}\n`;
+        msg += `🚚 ${ship}\n\n`;
+        msg += `🛒 *Pakej:*\n${pakejStr}\n`;
+        msg += `*Harga Produk:* RM${subtotal}\n`;
+        msg += `*Kos ${ship}:* RM${shipCost}\n`;
+        msg += `*JUMLAH: RM${total}*\n\n`;
+        msg += `*Sila buat pembayaran disini :*\n`;
+        msg += `https://hasnura.blogspot.com/p/borang-pembayaran.html`;
+
+        // Format number to 60...
+        let formattedPhone = phone.startsWith('0') ? '6' + phone : phone;
+        const finalUrl = "https://wa.me/" + formattedPhone + "?text=" + encodeURIComponent(msg);
+        window.open(finalUrl, '_blank');
+    }
+</script>
+
+</body>
+</html>
