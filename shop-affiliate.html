@@ -1178,7 +1178,7 @@ select.form-input {
 // ── CONFIG ──────────────────────────────────────────
 const CONFIG = {
     // ═══ SHEET 1 — Kekal URL asal (jangan tukar) ═══
-    webAppUrl: "https://script.google.com/macros/s/AKfycbw2ZKK-ZEAxi99OiR2fcS1HiqUtK3f6-qMhKWwlids5kS53EJDGpg-hRZ9eEiPKC8Ukbg/exec",
+    webAppUrl: "https://script.google.com/macros/s/AKfycbx-vafxPI9THw0uMw8IlndWyI5ohs7aJxofkJJMGeBPqVs0s7l4r6O_wDO8ll7X7w7KOw/exec",
     // ═══ SHEET 2 — Tampal URL baru selepas deploy hasnura-shop-sheet2.gs ═══
     webAppUrl2: "https://script.google.com/macros/s/AKfycbx5Q9E0GYvs9F_RTQ4oQ8PQsmcSjaxdTHwk9x4G8dS8B8hGS_tKICre8l3r2N4MqbKemw/exec",
     whatsappNumber: "601119471916",
@@ -1369,21 +1369,31 @@ function finalizeOrder() {
     const phoneStr = phone ? `%0A*Telefon:* ${phone}` : '';
     lastOrderMsg = `*PESANAN BARU (SHOP ONLINE)*%0A%0A*Nama:* ${name}${phoneStr}%0A*Alamat:* ${fullAddr}%0A%0A*Pesanan:*%0A${details}%0A*JUMLAH: RM ${total.toFixed(2)}*%0A%0A*Affiliate:* ${affiliateID} (${affiliateName})%0A%0ANota : Jumlah harga tidak dikira penghantaran (COD/Postage).`;
 
-    /* ── Hantar ke Google Sheets — sertakan telefon & alamat sebagai field berasingan ── */
+    /* Send to Google Sheets — Sheet 1 */
     const dataHantar = {
         kategori: "ShopOnline",
-        telefon : phone,      // ← J (10) : No. Telefon pelanggan
-        alamat  : fullAddr,   // ← K (11) : Alamat penghantaran penuh
         data: [
-            new Date().toLocaleString('ms-MY'), // d[0] → A : Tarikh & Masa
-            name,                               // d[1] → B : Nama Pelanggan
-            itemSummary.slice(0, -2),           // d[2] → C : Senarai Produk
-            "RM " + total.toFixed(2),           // d[3] → D : Jumlah Harga
-            affiliateID,                        // d[4] → E : ID Affiliate
-            affiliateName,                      // d[5] → F : Nama Affiliate
-            "RM " + totalComm.toFixed(2)        // d[6] → (komisyen — tidak disimpan)
+            new Date().toLocaleString('ms-MY'),
+            name,
+            itemSummary.slice(0, -2),
+            "RM " + total.toFixed(2),
+            affiliateID,
+            affiliateName,
+            "RM " + totalComm.toFixed(2)
         ]
     };
+    fetch(CONFIG.webAppUrl, {
+        method: 'POST', mode: 'no-cors', cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataHantar)
+    }).then(() => console.log("Data direkodkan (Sheet 1).")).catch(err => console.error("Ralat Sheet 1:", err));
+
+    /* Send to Google Sheets — Sheet 2 */
+    fetch(CONFIG.webAppUrl2, {
+        method: 'POST', mode: 'no-cors', cache: 'no-cache',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataHantar)
+    }).then(() => console.log("Data direkodkan (Sheet 2).")).catch(err => console.error("Ralat Sheet 2:", err));
 
     /* Build order summary */
     let summaryHtml = `
