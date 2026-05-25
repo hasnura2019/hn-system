@@ -19,14 +19,12 @@
         
         /* Gredien Warna Tema Kategori (Gaya Fintech Premium) */
         --theme-shop: linear-gradient(135deg, #38bdf8, #0369a1);
-        --theme-dashboard: linear-gradient(135deg, #818cf8, #4338ca);
         --theme-admin: linear-gradient(135deg, #34d399, #047857);
         --theme-affiliate: linear-gradient(135deg, #fb7185, #be123c);
         --theme-location: linear-gradient(135deg, #fbbf24, #b45309);
         
         /* Warna Solid untuk Text/Shadow Accents */
         --color-shop: #38bdf8;
-        --color-dashboard: #818cf8;
         --color-admin: #34d399;
         --color-affiliate: #fb7185;
         --color-location: #fbbf24;
@@ -124,7 +122,6 @@
     }
 
     .filter-btn[onclick*="shop-group"].active { color: var(--color-shop); border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.05); }
-    .filter-btn[onclick*="dashboard-group"].active { color: var(--color-dashboard); border-color: rgba(129, 207, 248, 0.3); background: rgba(129, 140, 248, 0.05); }
     .filter-btn[onclick*="admin-group"].active { color: var(--color-admin); border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.05); }
     .filter-btn[onclick*="affiliate-group"].active { color: var(--color-affiliate); border-color: rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.05); }
     .filter-btn[onclick*="location-group"].active { color: var(--color-location); border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.05); }
@@ -216,9 +213,6 @@
     .shop-group .icon-box { background: var(--theme-shop); color: #fff; }
     .shop-group:hover { border-color: rgba(56, 189, 248, 0.25); }
 
-    .dashboard-group .icon-box { background: var(--theme-dashboard); color: #fff; }
-    .dashboard-group:hover { border-color: rgba(129, 140, 248, 0.25); }
-
     .admin-group .icon-box { background: var(--theme-admin); color: #fff; }
     .admin-group:hover { border-color: rgba(52, 211, 153, 0.25); }
 
@@ -284,8 +278,7 @@
     <div class="filter-wrapper">
         <button class="filter-btn active" onclick="filterCards('semua', this)">Semua</button>
         <button class="filter-btn" onclick="filterCards('shop-group', this)">Hasnura Shop</button>
-        <button class="filter-btn" onclick="filterCards('dashboard-group', this)">Dashboard Semakan</button>
-        <button class="filter-btn" onclick="filterCards('admin-group', this)">Pesanan & Admin</button>
+        <button class="filter-btn" onclick="filterCards('admin-group', this)">Pembekal & Ejen</button>
         <button class="filter-btn" onclick="filterCards('affiliate-group', this)">Affiliate</button>
         <button class="filter-btn" onclick="filterCards('location-group', this)">Lokasi</button>
     </div>
@@ -341,75 +334,27 @@
             </div>
         </div>
 
-        <div class="hub-card dashboard-group" data-category="dashboard-group">
-            <a href="https://hasnura.blogspot.com/p/dashboard-shop-online.html" class="card-main-link">
-                <div class="icon-box">📊</div>
-                <h3>Shop Online</h3>
-                <p>Pantau jualan harian, jumlah revenue, dan senarai pelanggan secara real-time.</p>
-                <span class="badge">Sales Data</span>
-            </a>
-            <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-shop-online.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
-            </div>
-        </div>
-
-        <div class="hub-card dashboard-group" data-category="dashboard-group">
-            <a href="https://hasnura.blogspot.com/p/dashboard-pembekal.html" class="card-main-link">
-                <div class="icon-box">📦</div>
-                <h3>Database Pembekal</h3>
-                <p>Rujuk lokasi pembekal, perbelanjaan stok, dan senarai premis pembekalan.</p>
-                <span class="badge">Inventory</span>
-            </a>
-            <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-pembekal.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
-            </div>
-        </div>
-
-        <div class="hub-card dashboard-group" data-category="dashboard-group">
-            <a href="https://hasnura.blogspot.com/p/dashboard-ejen-pekasam.html" class="card-main-link">
-                <div class="icon-box">📈</div>
-                <h3>Dashboard Ejen Pekasam</h3>
-                <p>Analisis prestasi jualan ejen, stok pekasam, dan pertumbuhan rangkaian niaga.</p>
-                <span class="badge">Ejen Stats</span>
-            </a>
-            <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/dashboard-ejen-pekasam.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
-            </div>
-        </div>
-
         <div class="hub-card admin-group" data-category="admin-group">
-            <a href="https://hasnura.blogspot.com/p/pembekal-admin.html" class="card-main-link">
+            <a href="https://hasnura.pages.dev/pembekal" class="card-main-link">
                 <div class="icon-box">🛡️</div>
-                <h3>Pembekal-Admin</h3>
+                <h3>Pembekal</h3>
                 <p>Pengurusan utama pesanan pembekal, rekod inventori, dan kawalan sistem admin.</p>
                 <span class="badge">Management</span>
             </a>
             <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/pembekal-admin.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/pembekal', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
             </div>
         </div>
 
         <div class="hub-card admin-group" data-category="admin-group">
-            <a href="https://hasnura.blogspot.com/p/shop-online-admin.html" class="card-main-link">
-                <div class="icon-box">🛒</div>
-                <h3>Shop Online-Admin</h3>
-                <p>Pengurusan pesanan pelanggan, kemaskini produk, dan kawalan sistem jualan online.</p>
-                <span class="badge">Admin Control</span>
-            </a>
-            <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/shop-online-admin.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
-            </div>
-        </div>
-
-        <div class="hub-card admin-group" data-category="admin-group">
-            <a href="https://hasnura.blogspot.com/p/ejen-pekasam-admin_22.html" class="card-main-link">
+            <a href="https://hasnura.pages.dev/ejen-pekasam" class="card-main-link">
                 <div class="icon-box">🐟</div>
-                <h3>Ejen Pekasam - Admin</h3>
+                <h3>Ejen Pekasam</h3>
                 <p>Urus pesanan ejen, pendaftaran ahli baharu, dan rekod komisen ejen pekasam.</p>
                 <span class="badge">Agent Orders</span>
             </a>
             <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/ejen-pekasam-admin_22.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/ejen-pekasam', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
             </div>
         </div>
 
@@ -464,14 +409,14 @@
         </div>
 
         <div class="hub-card location-group" data-category="location-group">
-            <a href="https://hasnura.blogspot.com/p/lokasi-jualan-produk-kami.html" class="card-main-link">
+            <a href="https://hasnura.pages.dev/lokasi-produk-kami" class="card-main-link">
                 <div class="icon-box">📍</div>
                 <h3>Lokasi Produk</h3>
                 <p>Cari premis dan pasaraya terdekat yang menjual produk kami di kawasan anda.</p>
                 <span class="badge">Store Locator</span>
             </a>
             <div class="card-action-area">
-                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.blogspot.com/p/lokasi-jualan-produk-kami.html', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
+                <button class="copy-btn" onclick="copyToClipboard('https://hasnura.pages.dev/lokasi-produk-kami', this, '📋 Salin Pautan')">📋 Salin Pautan</button>
             </div>
         </div>
       
