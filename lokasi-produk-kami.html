@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokasi Jualan Produk Kami</title>
+<style>
+    /* Premium Fintech Design Tokens */
+    :root {
+        --primary: #0f172a;       /* Slate 900 - Sangat Elegan & Profesional */
+        --primary-light: #1e293b; /* Slate 800 */
+        --accent: #10b981;        /* Emerald Green - Warna Utama Fintech */
+        --accent-hover: #059669;  /* Deep Emerald */
+        --bg: #f8fafc;            /* Off-white premium */
+        --text-main: #334155;     /* Slate 700 */
+        --text-muted: #64748b;    /* Slate 500 */
+        --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+        --card-hover-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.1), 0 10px 10px -5px rgba(16, 185, 129, 0.04);
+    }
+
+    body { 
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        background: var(--bg); 
+        color: var(--text-main); 
+        margin: 0; 
+        padding: 24px; 
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Pembungkus Maksimum Untuk Desktop */
+    .main-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Notifikasi Makluman Premium */
+    .info-notification {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border-left: 5px solid #3b82f6;
+        padding: 14px 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .info-notification svg {
+        width: 20px;
+        height: 20px;
+        fill: #3b82f6;
+        flex-shrink: 0;
+    }
+    .info-notification span {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1e40af;
+    }
+
+    /* Ringkasan Statistik */
+    .stats-container { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 16px; 
+        margin-bottom: 24px; 
+    }
+    .stat-box { 
+        background: white; 
+        padding: 24px 20px; 
+        border-radius: 16px; 
+        text-align: center; 
+        box-shadow: var(--card-shadow); 
+        border-top: 4px solid var(--accent);
+        transition: transform 0.3s;
+    }
+    .stat-box:hover {
+        transform: translateY(-2px);
+    }
+    .stat-box h3 { 
+        margin: 0; 
+        font-size: 12px; 
+        color: var(--text-muted); 
+        text-transform: uppercase; 
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+    .stat-box div { 
+        font-size: 32px; 
+        font-weight: 800; 
+        color: var(--primary); 
+        margin-top: 6px;
+    }
+
+    /* Search Bar Fintech Style */
+    .search-wrapper { margin-bottom: 20px; }
+    .search-input {
+        width: 100%;
+        padding: 16px 24px;
+        border-radius: 14px;
+        border: 2px solid transparent;
+        background: white;
+        box-shadow: var(--card-shadow);
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        color: var(--primary);
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { 
+        border-color: var(--accent); 
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15); 
+    }
+
+    /* Bahagian Filter */
+    .filter-section { 
+        background: white; 
+        padding: 24px; 
+        border-radius: 16px; 
+        margin-bottom: 30px; 
+        box-shadow: var(--card-shadow); 
+    }
+    .filter-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+        gap: 16px; 
+    }
+    .filter-group label { 
+        display: block; 
+        font-size: 12px; 
+        font-weight: 700; 
+        margin-bottom: 8px; 
+        color: var(--primary); 
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    select { 
+        width: 100%; 
+        padding: 10px 14px; 
+        border-radius: 8px; 
+        border: 1px solid #e2e8f0; 
+        background-color: #f8fafc;
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 500;
+        outline: none; 
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    select:focus {
+        border-color: var(--accent);
+        background-color: white;
+    }
+
+    /* Kad Kedai Grid */
+    .shop-container { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+        gap: 24px; 
+    }
+    .shop-card { 
+        background: white; 
+        border-radius: 20px; 
+        overflow: hidden; 
+        box-shadow: var(--card-shadow); 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        display: flex; 
+        flex-direction: column; 
+        position: relative; 
+        border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .shop-card:hover { 
+        transform: translateY(-6px); 
+        box-shadow: var(--card-hover-shadow);
+        border-color: rgba(16, 185, 129, 0.3);
+    }
+    
+    /* Image container dengan pointer klik */
+    .shop-img { 
+        width: 100%; 
+        height: 190px; 
+        object-fit: cover; 
+        cursor: pointer;
+        transition: transform 0.5s ease;
+    }
+    .shop-card:hover .shop-img {
+        transform: scale(1.03);
+    }
+    
+    .shop-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+    
+    /* Badges Style */
+    .badge { 
+        display: inline-block; 
+        padding: 4px 12px; 
+        border-radius: 8px; 
+        font-size: 11px; 
+        font-weight: 700; 
+        margin-bottom: 12px; 
+        text-transform: uppercase; 
+        align-self: flex-start;
+        letter-spacing: 0.05em;
+    }
+    .badge-runcit { background: #e0f2fe; color: #0369a1; }
+    .badge-pasaraya { background: #fef3c7; color: #b45309; }
+    
+    .shop-name { 
+        font-size: 16px; 
+        font-weight: 700; 
+        margin-bottom: 12px; 
+        color: var(--primary); 
+        min-height: 44px; 
+        line-height: 1.4;
+    }
+    .shop-info { 
+        font-size: 13px; 
+        color: var(--text-main); 
+        margin-bottom: 6px; 
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    /* Tombol Actions */
+    .btn-group { display: flex; gap: 10px; margin-top: auto; padding-top: 15px; }
+    .btn-maps { 
+        flex: 4; 
+        text-align: center; 
+        background: var(--accent); 
+        color: white; 
+        text-decoration: none; 
+        padding: 12px; 
+        border-radius: 10px; 
+        font-weight: 600; 
+        font-size: 14px;
+        transition: all 0.2s; 
+        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+    }
+    .btn-maps:hover { 
+        background: var(--accent-hover); 
+        box-shadow: 0 4px 12px -1px rgba(16, 185, 129, 0.3);
+    }
+    
+    /* Button Copy */
+    .btn-copy { 
+        flex: 1;
+        background: #f1f5f9; 
+        border: none; 
+        border-radius: 10px; 
+        cursor: pointer; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        transition: all 0.2s;
+    }
+    .btn-copy:hover { background: #e2e8f0; }
+    .btn-copy svg { width: 18px; height: 18px; fill: var(--primary-light); }
+
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted); font-weight: 500; }
+
+    /* Alert Copy (Toast) */
+    .copy-toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 500;
+        display: none;
+        z-index: 1000;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+    }
+
+    /* Lightbox Modal Gambar Penuh */
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(15, 23, 42, 0.9); /* Gelap premium */
+        backdrop-filter: blur(8px);
+        justify-content: center;
+        align-items: center;
+        cursor: zoom-out;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .image-modal.show {
+        display: flex;
+        opacity: 1;
+    }
+    .image-modal-content {
+        max-width: 90%;
+        max-height: 85%;
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+    .image-modal.show .image-modal-content {
+        transform: scale(1);
+    }
+
+    /* Animasi Blink */
+    @keyframes blinkEffect {
+        0% { outline: 4px solid var(--accent); }
+        50% { outline: 4px solid transparent; }
+        100% { outline: 4px solid var(--accent); }
+    }
+    .blink-card { animation: blinkEffect 0.8s 3; scroll-margin-top: 100px; }
+</style>
+</head>
+<body>
+
+<div class="main-wrapper">
+
+    <div class="info-notification">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        <span>Nota: Lokasi akan dikemaskini dari masa ke semasa untuk keselesaan anda.</span>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-box">
+            <h3>Pasaraya</h3>
+            <div id="count-pasaraya">0</div>
+        </div>
+        <div class="stat-box">
+            <h3>Kedai Runcit</h3>
+            <div id="count-runcit">0</div>
+        </div>
+    </div>
+
+    <div class="search-wrapper">
+        <input type="text" id="search-bar" class="search-input" placeholder="Cari nama kedai atau kawasan..." onkeyup="filterShops()">
+    </div>
+
+    <div class="filter-section">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label>Produk</label>
+                <select id="filter-produk" onchange="filterShops()">
+                    <option value="all">Semua Produk</option>
+                    <option value="Pekasam">Pekasam</option>
+                    <option value="Sambal Che Nor">Sambal Che Nor</option>
+                    <option value="Kerepek">Kerepek</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Premis</label>
+                <select id="filter-premis" onchange="filterShops()">
+                    <option value="all">Semua Premis</option>
+                    <option value="Pasaraya">Pasaraya</option>
+                    <option value="Kedai Runcit">Kedai Runcit</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Daerah</label>
+                <select id="filter-daerah" onchange="filterShops()">
+                    <option value="all">Semua Daerah</option>
+                    <option value="Kemaman">Kemaman</option>
+                    <option value="Kuantan">Kuantan</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Kawasan</label>
+                <select id="filter-kawasan" onchange="filterShops()">
+                    <option value="all">Semua Kawasan</option>
+                    <option value="Balok">Balok</option>
+                    <option value="Sungai Ular">Sungai Ular</option>
+                    <option value="Mak Chili">Mak Chili</option>
+                    <option value="Taman Ghulam">Taman Ghulam</option>
+                    <option value="Kg Fikri">Kg Fikri</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="shop-container" class="shop-container"></div>
+</div>
+
+<div id="copy-toast" class="copy-toast">Link kad kedai disalin!</div>
+
+<div id="image-modal" class="image-modal" onclick="closeImageModal()">
+    <img id="modal-img" class="image-modal-content" src="" alt="Paparan Penuh">
+</div>
+
+<script>
+const shops = [
+    {
+        id: "sgu-fresh",
+        name: "SGU FRESH & FROZEN, SUNGAI ULAR",
+        img: "https://blogger.googleusercontent.com/img/a/AVvXsEiR4nQll2ImFvyytkGRhJP0gCia8B5nRxIb3wA-HJZPonPst6egmBd54gvLmsgvdJDAf7-jzwq-yPIHytztlDZOTg2m4M0695e3tBVNi9NRiSHXpVSUArwAnRNBMkZYuhwU3jqfaaI3-QaLi2VsZBvY1G7WOtLRhI1tP3Rhnxya2brnwML-YlF759oFNuxQ=s600",
+        premis: "Kedai Runcit",
+        maps: "http://maps.google.com/?q=SGU+Fresh+Frozen+Sungai+Ular",
+        produk: ["Pekasam"],
+        daerah: "Kuantan",
+        kawasan: "Sungai Ular"
+    },
+    {
+        id: "gerai-cheyah",
+        name: "Gerai Ikan Cheyah Balok",
+        img: "https://blogger.googleusercontent.com/img/a/AVvXsEi_Q3XkT6-u9nNV2HOPwCwTE_OJQVUxq_cQXIt_AJIo8eq060UXg1VgTl7Eq9FIcPZqJV72-DQiRNd7LiNButpS6FUIfGNoxYzBmVk2fa4j_2s2NOWKjUEEL6lInkXfWf68YHF9vnynAh-V9CZwxIIaoIC2OZe33RF0Cui22BqUoRTHN-aaOXP8qqwI6QID=s600",
+        premis: "Kedai Runcit",
+        maps: "http://maps.google.com/?q=Gerai+Ikan+Cheyah+Balok",
+        produk: ["Pekasam"],
+        daerah: "Kuantan",
+        kawasan: "Balok"
+    },
+    {
+        id: "kemaman-jaya",
+        name: "KEMAMAN JAYA TRADING MOK CHILI",
+        img: "https://blogger.googleusercontent.com/img/a/AVvXsEinNCA7IE5XyUFiEEVwJ7s9_7CjK0pfW9QFDDHU3_NAaA_2G5PnSoQrYaY3nX_b-fHNlHEnWfIAYPNvI5U0dX5vkiJ14ixUjIDUQKaQAe6jv4LAOFZQwK3aGrO-8in4Wn-x4kS_9RR8Vv3CYSgaP9Q30-7rnfBEq73P8UZADp1LQcMYdYbVYupQAdo6hFfv=s600",
+        premis: "Kedai Runcit",
+        maps: "http://maps.google.com/?q=Kemaman+Jaya+Trading+Mak+Chili",
+        produk: ["Pekasam"],
+        daerah: "Kemaman",
+        kawasan: "Mak Chili"
+    },
+    {
+        id: "che-mat-ghulam",
+        name: "KEDAI RUNCIT CHE MAT, TAMAN GHULAM",
+        img: "https://blogger.googleusercontent.com/img/a/AVvXsEjcfTVwqaOECGkr87YDzZKIyIP8j6Y-CiP5ALBr9JrJKJMEY2nhqqFcyWI6SIQRvydmYp4Gm-_GdVmdIMcurFoZGnpwrbWE6MRls2hYny_LHwCciKIqFFzNDBq-Yq5meiKARBZ8b3FoIHwlroZgB4UdO5oUkmC9qx7LN1apT-8M9Hi-7OJew1H_mjANqO3z=s600",
+        premis: "Kedai Runcit",
+        maps: "http://maps.google.com/?q=Kedai+Runcit+Che+Mat+Taman+Ghulam",
+        produk: ["Pekasam"],
+        daerah: "Kemaman",
+        kawasan: "Taman Ghulam"
+    },
+    {
+        id: "fresh-choice",
+        name: "Fresh Choice",
+        img: "https://blogger.googleusercontent.com/img/a/AVvXsEhXBtnymYWTdrqdYwqVnffE02iZevms_s6Sj6-vU1EXM3Mx-BaNlmtozGezdq4PvrwJvD5lEBrOa3XqAZ6ozPHePf0jiOf9z8J3i88tRVXOOBXaHsiFZ088ILBTaiWCf2ilv1jgKKSKc9YKV1cLc8ISMRmKG8z580jmsV_TDjRjrOHJyynU3ipEvY2rvEdd=s600",
+        premis: "Pasaraya",
+        maps: "http://maps.google.com/?q=Fresh+Choice+Kemaman",
+        produk: ["Pekasam", "Sambal Che Nor"],
+        daerah: "Kemaman",
+        kawasan: "Kg Fikri"
+    }
+];
+
+function filterShops() {
+    const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+    const fProduk = document.getElementById('filter-produk').value;
+    const fPremis = document.getElementById('filter-premis').value;
+    const fDaerah = document.getElementById('filter-daerah').value;
+    const fKawasan = document.getElementById('filter-kawasan').value;
+
+    const filtered = shops.filter(shop => {
+        const matchesSearch = shop.name.toLowerCase().includes(searchTerm) || 
+                              shop.kawasan.toLowerCase().includes(searchTerm);
+        const matchesProduk = (fProduk === 'all' || shop.produk.includes(fProduk));
+        const matchesPremis = (fPremis === 'all' || shop.premis === fPremis);
+        const matchesDaerah = (fDaerah === 'all' || shop.daerah === fDaerah);
+        const matchesKawasan = (fKawasan === 'all' || shop.kawasan === fKawasan);
+
+        return matchesSearch && matchesProduk && matchesPremis && matchesDaerah && matchesKawasan;
+    });
+
+    displayShops(filtered);
+    updateStats(filtered);
+}
+
+function updateStats(data) {
+    const runcit = data.filter(s => s.premis === "Kedai Runcit").length;
+    const pasaraya = data.filter(s => s.premis === "Pasaraya").length;
+    document.getElementById('count-runcit').innerText = runcit;
+    document.getElementById('count-pasaraya').innerText = pasaraya;
+}
+
+function copyLink(shopId) {
+    const baseUrl = window.location.href.split('?')[0];
+    const link = `${baseUrl}?id=${shopId}`;
+    
+    navigator.clipboard.writeText(link).then(() => {
+        const toast = document.getElementById('copy-toast');
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    });
+}
+
+/* Fungsi Tambahan Baru: Buka Gambar Penuh */
+function openImageModal(imgSrc) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    modalImg.src = imgSrc;
+    modal.classList.add('show');
+}
+
+/* Fungsi Tambahan Baru: Tutup Gambar Penuh */
+function closeImageModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.remove('show');
+}
+
+function displayShops(data) {
+    const container = document.getElementById('shop-container');
+    container.innerHTML = '';
+
+    if (data.length === 0) {
+        container.innerHTML = '<div class="no-results">Tiada kedai ditemui dengan kriteria tersebut.</div>';
+        return;
+    }
+
+    data.forEach((shop) => {
+        const badgeClass = shop.premis === "Pasaraya" ? "badge-pasaraya" : "badge-runcit";
+        const card = `
+            <div class="shop-card" id="${shop.id}">
+                <img src="${shop.img}" class="shop-img" alt="${shop.name}" onclick="openImageModal('${shop.img}')" onerror="this.src='https://via.placeholder.com/300x180?text=Tiada+Gambar'">
+                <div class="shop-content">
+                    <span class="badge ${badgeClass}">${shop.premis}</span>
+                    <div class="shop-name">${shop.name}</div>
+                    <div class="shop-info">📍 ${shop.kawasan}, ${shop.daerah}</div>
+                    <div class="shop-info">📦 Produk: ${shop.produk.join(', ')}</div>
+                    <br>
+                    <div class="btn-group">
+                        <a href="${shop.maps}" target="_blank" class="btn-maps">Buka Maps</a>
+                        <button class="btn-copy" onclick="copyLink('${shop.id}')" title="Salin Link Kad">
+                            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += card;
+    });
+
+    // Check if URL has ID to scroll and blink
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetId = urlParams.get('id');
+    if (targetId) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            setTimeout(() => {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetElement.classList.add('blink-card');
+            }, 500);
+        }
+    }
+}
+
+// Initial display
+displayShops(shops);
+updateStats(shops);
+</script>
+
+</body>
+</html>
