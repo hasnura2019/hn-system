@@ -1370,29 +1370,9 @@ function finalizeOrder() {
     lastOrderMsg = `*PESANAN BARU (SHOP ONLINE)*%0A%0A*Nama:* ${name}${phoneStr}%0A*Alamat:* ${fullAddr}%0A%0A*Pesanan:*%0A${details}%0A*JUMLAH: RM ${total.toFixed(2)}*%0A%0A*Affiliate:* ${affiliateID} (${affiliateName})%0A%0ANota : Jumlah harga tidak dikira penghantaran (COD/Postage).`;
 
     /* Send to Google Sheets — Sheet 1 */
-    // ═══════════════════════════════════════════════════════════════════════
-//  KEMASKINI INI dalam shop-affiliate.html
-//  Cari bahagian "Send to Google Sheets — Sheet 1" dalam finalizeOrder()
-//  Gantikan KESELURUHAN blok const dataHantar = { ... } dengan kod ini.
-//  Lakukan pada KEDUA-DUA fetch (Sheet 1 dan Sheet 2) — gunakan
-//  objek dataHantar yang sama untuk kedua-duanya.
-// ═══════════════════════════════════════════════════════════════════════
-
-    /* ── Hantar ke Google Sheets ── */
     const dataHantar = {
-        kategori : "ShopOnline",
-        telefon  : phone,      // ← Kolum J — No. Telefon pelanggan
-        alamat   : fullAddr,   // ← Kolum K — Alamat penghantaran penuh
+        kategori: "ShopOnline",
         data: [
-            new Date().toLocaleString('ms-MY'), // d[0] → Kolum A : Tarikh & Masa
-            name,                               // d[1] → Kolum B : Nama Pelanggan
-            itemSummary.slice(0, -2),           // d[2] → Kolum C : Senarai Produk
-            "RM " + total.toFixed(2),           // d[3] → Kolum D : Jumlah Harga
-            affiliateID,                        // d[4] → Kolum E : ID Affiliate
-            affiliateName,                      // d[5] → Kolum F : Nama Affiliate
-            "RM " + totalComm.toFixed(2)        // d[6] → (Komisyen — tidak disimpan ke sheet)
-        ]
-    };
             new Date().toLocaleString('ms-MY'),
             name,
             itemSummary.slice(0, -2),
