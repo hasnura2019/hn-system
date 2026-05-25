@@ -1371,17 +1371,20 @@ function finalizeOrder() {
 
     /* Send to Google Sheets — Sheet 1 */
     const dataHantar = {
-        kategori: "ShopOnline",
+        kategori : "ShopOnline",
+        telefon  : phone,      // ← Kolum J — No. Telefon pelanggan
+        alamat   : fullAddr,   // ← Kolum K — Alamat penghantaran penuh
         data: [
-            new Date().toLocaleString('ms-MY'),
-            name,
-            itemSummary.slice(0, -2),
-            "RM " + total.toFixed(2),
-            affiliateID,
-            affiliateName,
-            "RM " + totalComm.toFixed(2)
+            new Date().toLocaleString('ms-MY'), // d[0] → Kolum A : Tarikh & Masa
+            name,                               // d[1] → Kolum B : Nama Pelanggan
+            itemSummary.slice(0, -2),           // d[2] → Kolum C : Senarai Produk
+            "RM " + total.toFixed(2),           // d[3] → Kolum D : Jumlah Harga
+            affiliateID,                        // d[4] → Kolum E : ID Affiliate
+            affiliateName,                      // d[5] → Kolum F : Nama Affiliate
+            "RM " + totalComm.toFixed(2)        // d[6] → (Komisyen — tidak disimpan ke sheet)
         ]
     };
+
     fetch(CONFIG.webAppUrl, {
         method: 'POST', mode: 'no-cors', cache: 'no-cache',
         headers: { 'Content-Type': 'application/json' },
