@@ -415,41 +415,36 @@
   .stat-card.dark .stat-value { color: white; }
   .stat-card.green .stat-value { color: var(--emerald); }
 
-  /* ── Folder cards ── */
+  /* ── Monthly compact list ── */
   .monthly-wrap { margin-bottom: 20px; }
-  .folder-card {
-    margin-bottom: 10px;
-    border-radius: 16px;
-    border: 1.5px solid var(--border-light);
-    overflow: hidden;
-    background: white;
-    transition: box-shadow 0.2s;
-  }
-  .folder-card:hover { box-shadow: 0 4px 20px rgba(10,10,30,0.07); }
 
-  .folder-header {
-    padding: 14px 16px;
-    background: var(--surface);
-    cursor: pointer;
+  .month-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    user-select: none;
-    transition: background 0.15s;
+    justify-content: space-between;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1.5px solid var(--border-light);
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .folder-header:hover { background: #edebf5; }
-  .folder-month {
+  .month-row:hover { border-color: var(--gold); box-shadow: 0 2px 12px rgba(201,168,76,0.08); }
+
+  .month-row-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .month-icon { font-size: 14px; line-height: 1; }
+  .month-name {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
     font-size: 13px;
     color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
-  .folder-icon { font-size: 15px; }
 
-  .folder-right { display: flex; align-items: center; gap: 8px; }
+  .month-row-right { display: flex; align-items: center; gap: 8px; }
 
   .badge-status {
     font-size: 8px;
@@ -473,20 +468,30 @@
   .btn-lihat {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
     background: var(--ink-soft);
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 5px 11px;
+    padding: 6px 12px;
     font-family: 'Syne', sans-serif;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     cursor: pointer;
     position: relative;
     white-space: nowrap;
+    transition: background 0.15s;
   }
+  .btn-lihat:hover { background: var(--ink); }
+  .btn-lihat .chevron {
+    font-style: normal;
+    font-size: 9px;
+    transition: transform 0.25s;
+    display: inline-block;
+  }
+  .btn-lihat.open .chevron { transform: rotate(180deg); }
+
   .notif-dot {
     width: 7px; height: 7px;
     background: var(--emerald);
@@ -501,14 +506,20 @@
     50% { box-shadow: 0 0 0 4px rgba(0,200,150,0); }
   }
 
+  /* drawer detail */
   .folder-body {
     display: none;
-    padding: 18px 20px;
-    border-top: 1px solid var(--border-light);
+    margin-top: -4px;
+    margin-bottom: 8px;
+    padding: 16px 18px;
+    border-radius: 0 0 14px 14px;
+    background: white;
+    border: 1.5px solid var(--border-light);
+    border-top: none;
     animation: slideDown 0.25s ease;
   }
   @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-8px); }
+    from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
@@ -707,54 +718,61 @@
       const monthData = data[monthRaw];
       const folderId = 'folder-' + Math.random().toString(36).substr(2, 9);
       const dotId = 'dot-' + folderId;
+      const btnId = 'btn-' + folderId;
       const monthDisplay = formatMonthYear(monthRaw);
       const statusLabel = monthData.status;
       const isPending = (statusLabel.includes('BELUM') || statusLabel.includes('PROSES'));
       const statusClass = isPending ? 'badge-pending' : 'badge-done';
       container.innerHTML += `
-        <div class="folder-card">
-          <div class="folder-header" onclick="toggleFolder('${folderId}','${dotId}')">
-            <div class="folder-month">
-              <span class="folder-icon">📂</span>${monthDisplay}
-            </div>
-            <div class="folder-right">
-              <span class="badge-status ${statusClass}">${statusLabel}</span>
-              <div class="btn-lihat">
-                LIHAT
-                <div class="notif-dot" id="${dotId}"></div>
-              </div>
-            </div>
+        <div class="month-row" id="row-${folderId}">
+          <div class="month-row-left">
+            <span class="month-icon">📂</span>
+            <span class="month-name">${monthDisplay}</span>
           </div>
-          <div class="folder-body" id="${folderId}">
-            <div class="folder-row">
-              <span class="folder-row-label">Tarikh</span>
-              <span class="folder-row-val">${monthData.tarikhA}</span>
-            </div>
-            <div class="folder-row">
-              <span class="folder-row-label">Jualan</span>
-              <span class="folder-row-val">RM ${monthData.totalSale.toFixed(2)}</span>
-            </div>
-            <div class="folder-row">
-              <span class="folder-row-label">Komisen</span>
-              <span class="folder-row-val green">RM ${monthData.totalKomisen.toFixed(2)}</span>
-            </div>
-            <div class="folder-row">
-              <span class="folder-row-label">Status Bayaran</span>
-              <span class="badge-status ${statusClass}">${statusLabel}</span>
-            </div>
+          <div class="month-row-right">
+            <span class="badge-status ${statusClass}">${statusLabel}</span>
+            <button class="btn-lihat" id="${btnId}" onclick="toggleFolder('${folderId}','${dotId}','${btnId}')">
+              LIHAT <i class="chevron">▾</i>
+              <div class="notif-dot" id="${dotId}"></div>
+            </button>
+          </div>
+        </div>
+        <div class="folder-body" id="${folderId}">
+          <div class="folder-row">
+            <span class="folder-row-label">Tarikh</span>
+            <span class="folder-row-val">${monthData.tarikhA}</span>
+          </div>
+          <div class="folder-row">
+            <span class="folder-row-label">Jualan</span>
+            <span class="folder-row-val">RM ${monthData.totalSale.toFixed(2)}</span>
+          </div>
+          <div class="folder-row">
+            <span class="folder-row-label">Komisen</span>
+            <span class="folder-row-val green">RM ${monthData.totalKomisen.toFixed(2)}</span>
+          </div>
+          <div class="folder-row">
+            <span class="folder-row-label">Status Bayaran</span>
+            <span class="badge-status ${statusClass}">${statusLabel}</span>
           </div>
         </div>`;
     });
   }
 
-  function toggleFolder(id, dotId) {
+  function toggleFolder(id, dotId, btnId) {
     const el = document.getElementById(id);
     const dot = document.getElementById(dotId);
-    if (el.style.display === 'none' || el.style.display === '') {
+    const btn = document.getElementById(btnId);
+    const row = document.getElementById('row-' + id);
+    const isOpen = el.style.display === 'block';
+    if (!isOpen) {
       el.style.display = 'block';
       if (dot) dot.style.display = 'none';
+      if (btn) btn.classList.add('open');
+      if (row) { row.style.borderRadius = '14px 14px 0 0'; row.style.borderBottom = 'none'; }
     } else {
       el.style.display = 'none';
+      if (btn) btn.classList.remove('open');
+      if (row) { row.style.borderRadius = '14px'; row.style.borderBottom = ''; }
     }
   }
 
