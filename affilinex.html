@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AffiliNex — Hasnura Partner Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --ink-soft: #1c1c2e;
+    --ink-muted: #3d3d5c;
+    --surface: #f4f3f8;
+    --surface-2: #ffffff;
+    --border: rgba(255,255,255,0.08);
+    --border-light: #e8e6f0;
+    --gold: #c9a84c;
+    --gold-light: #f0d078;
+    --gold-dim: rgba(201,168,76,0.15);
+    --emerald: #00c896;
+    --emerald-dim: rgba(0,200,150,0.12);
+    --sapphire: #4f7fff;
+    --sapphire-dim: rgba(79,127,255,0.12);
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --shadow-card: 0 2px 40px rgba(10,10,20,0.10);
+    --shadow-glow: 0 0 40px rgba(201,168,76,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    min-height: 100vh;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── Background texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(79,127,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 48px;
+  }
+
+  /* ── Logo / Brand Header ── */
+  .brand-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .brand-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), #a0722a);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(201,168,76,0.35);
+  }
+  .brand-icon svg { width: 18px; height: 18px; fill: white; }
+  .brand-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+  .brand-name span { color: var(--gold); }
+  .brand-tag {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: -2px;
+  }
+
+  /* ── Main Card ── */
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--surface-2);
+    border-radius: 28px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* gold top-bar accent */
+  .card::before {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+
+  .card-inner { padding: 36px 32px 32px; }
+
+  /* ── Login Area ── */
+  .login-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.4px;
+  }
+  .login-sub {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  .field-group { margin-bottom: 18px; }
+  .field-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9e9ab5;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .field-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border-light);
+    background: var(--surface);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+  .field-input::placeholder { color: #bbb8cc; }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--ink-soft), #2a2a42);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(10,10,30,0.18);
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(10,10,30,0.22); }
+  .btn-primary:hover::after { opacity: 1; }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-blue {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--sapphire), #2a55cc);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 16px rgba(79,127,255,0.3);
+  }
+  .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(79,127,255,0.38); }
+
+  .btn-ghost {
+    background: transparent;
+    border: none;
+    color: var(--red);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+  }
+  .btn-ghost:hover { opacity: 0.7; }
+
+  /* ── Forgot ID Box ── */
+  .forgot-box {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+  }
+  .forgot-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .forgot-row {
+    display: flex;
+    gap: 8px;
+  }
+  .forgot-input {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border-light);
+    background: white;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .forgot-input:focus { border-color: var(--gold); }
+  .btn-semak {
+    padding: 12px 18px;
+    background: var(--ink-soft);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .btn-semak:hover { background: var(--ink); }
+
+  .forgot-result {
+    display: none;
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: white;
+    border-radius: 12px;
+    border: 1.5px solid var(--emerald);
+  }
+  .forgot-result-label { font-size: 11px; color: var(--ink-muted); margin-bottom: 4px; }
+  .forgot-result-name { font-weight: 700; color: var(--ink); font-size: 13px; }
+  .forgot-result-id {
+    font-family: 'DM Mono', monospace;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--emerald);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* ── Divider ── */
+  .divider { height: 1px; background: var(--border-light); margin: 24px 0; }
+
+  /* ── SUCCESS AREA ── */
+  /* ID Badge */
+  .id-badge {
+    background: linear-gradient(135deg, var(--ink-soft) 0%, #16163a 100%);
+    border-radius: 20px;
+    padding: 24px 24px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .id-badge::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .id-badge-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .id-badge-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse-gold 2s infinite;
+  }
+  @keyframes pulse-gold {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .id-badge-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 38px;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .id-badge-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+  }
+  .id-badge-verified {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── Stats Grid ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9e9ab5;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card.dark {
+    background: var(--ink-soft);
+    color: white;
+  }
+  .stat-card.green {
+    background: var(--emerald-dim);
+    border: 1.5px solid rgba(0,200,150,0.2);
+  }
+  .stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 8px;
+  }
+  .stat-card.dark .stat-label { color: white; }
+  .stat-card.green .stat-label { color: var(--emerald); }
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .stat-card.dark .stat-value { color: white; }
+  .stat-card.green .stat-value { color: var(--emerald); }
+
+  /* ── Folder cards ── */
+  .monthly-wrap { margin-bottom: 20px; }
+  .folder-card {
+    margin-bottom: 10px;
+    border-radius: 16px;
+    border: 1.5px solid var(--border-light);
+    overflow: hidden;
+    background: white;
+    transition: box-shadow 0.2s;
+  }
+  .folder-card:hover { box-shadow: 0 4px 20px rgba(10,10,30,0.07); }
+
+  .folder-header {
+    padding: 14px 16px;
+    background: var(--surface);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .folder-header:hover { background: #edebf5; }
+  .folder-month {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .folder-icon { font-size: 15px; }
+
+  .folder-right { display: flex; align-items: center; gap: 8px; }
+
+  .badge-status {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 6px;
+  }
+  .badge-pending {
+    color: var(--amber);
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+  }
+  .badge-done {
+    color: var(--emerald);
+    background: var(--emerald-dim);
+    border: 1px solid rgba(0,200,150,0.25);
+  }
+
+  .btn-lihat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--ink-soft);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 11px;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    position: relative;
+    white-space: nowrap;
+  }
+  .notif-dot {
+    width: 7px; height: 7px;
+    background: var(--emerald);
+    border-radius: 50%;
+    position: absolute;
+    top: -3px; right: -3px;
+    border: 2px solid var(--surface);
+    animation: pulse-green 2s infinite;
+  }
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,200,150,0.5); }
+    50% { box-shadow: 0 0 0 4px rgba(0,200,150,0); }
+  }
+
+  .folder-body {
+    display: none;
+    padding: 18px 20px;
+    border-top: 1px solid var(--border-light);
+    animation: slideDown 0.25s ease;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .folder-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border-light);
+  }
+  .folder-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .folder-row-label { font-size: 12px; color: var(--ink-muted); }
+  .folder-row-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .folder-row-val.green { color: var(--emerald); }
+
+  /* ── Link box ── */
+  .link-box-wrap { margin-bottom: 16px; }
+  .link-box {
+    background: var(--surface);
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    word-break: break-all;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  /* ── Footer ── */
+  .footer-brand {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 11px;
+    color: #bbb8cc;
+    letter-spacing: 0.5px;
+  }
+  .footer-brand span { color: var(--gold); font-weight: 600; }
+
+  /* ── Mobile ── */
+  @media (max-width: 520px) {
+    .card-inner { padding: 28px 20px 24px; }
+    .id-badge-code { font-size: 30px; }
+    .stat-value { font-size: 15px; }
+    .brand-header { margin-bottom: 24px; }
+    .page-wrap { padding: 24px 12px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Brand header -->
+  <div class="brand-header">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">Affili<span>Nex</span></div>
+      <div class="brand-tag">Hasnura Partner Portal</div>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+    <div class="card-inner">
+
+      <!-- LOGIN AREA -->
+      <div id="loginArea">
+        <h2 class="login-title">Selamat Kembali 👋</h2>
+        <p class="login-sub">Log masuk untuk semak jualan & komisen anda.</p>
+
+        <div class="field-group">
+          <label class="field-label" for="loginID">ID Affiliate</label>
+          <input type="text" id="loginID" class="field-input" placeholder="Contoh: HN101">
+        </div>
+
+        <div class="field-group" style="margin-bottom:24px;">
+          <label class="field-label" for="loginPhone">No. WhatsApp</label>
+          <input type="text" id="loginPhone" class="field-input" placeholder="60123456789">
+        </div>
+
+        <button class="btn-primary" onclick="handleLogin()" id="btnLogin">LOG MASUK</button>
+
+        <div class="divider"></div>
+
+        <div class="forgot-box">
+          <p class="forgot-title">🔍 Terlupa ID Affiliate?</p>
+          <div class="forgot-row">
+            <input type="text" id="forgotPhoneInput" class="forgot-input" placeholder="601XXXXXXXX">
+            <button class="btn-semak" onclick="findMyID()" id="btnFind">SEMAK</button>
+          </div>
+          <div class="forgot-result" id="forgotResult">
+            <p class="forgot-result-label">Nama Ahli</p>
+            <p class="forgot-result-name" id="foundName"></p>
+            <div class="forgot-result-id" id="foundID"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUCCESS AREA -->
+      <div id="successArea" style="display:none;">
+
+        <!-- ID Badge -->
+        <div class="id-badge">
+          <div class="id-badge-label">ID Affiliate Anda</div>
+          <div class="id-badge-code" id="displayID"></div>
+          <div class="id-badge-name" id="displayName"></div>
+          <div class="id-badge-verified">✦ Verified</div>
+        </div>
+
+        <!-- Yearly Stats -->
+        <div class="section-label">🏆 Prestasi Tahunan</div>
+        <div class="stats-grid">
+          <div class="stat-card dark">
+            <div class="stat-label">Total Jualan</div>
+            <div class="stat-value" id="total-jualan-tahunan">RM 0.00</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Total Komisen</div>
+            <div class="stat-value" id="total-komisen-tahunan">RM 0.00</div>
+          </div>
+        </div>
+
+        <!-- Monthly Folders -->
+        <div class="section-label">📂 Rekod Bulanan</div>
+        <div class="monthly-wrap" id="monthlyFolders"></div>
+
+        <!-- Link box -->
+        <div class="link-box-wrap">
+          <div class="section-label">🔗 Link Jualan Peribadi</div>
+          <div class="link-box" id="displayLink"></div>
+        </div>
+
+        <button class="btn-blue" onclick="copyLink()">SALIN LINK JUALAN</button>
+        <div style="text-align:center; margin-top:12px;">
+          <button class="btn-ghost" onclick="location.reload()">Log Keluar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-brand">Dikuasakan oleh <span>AffiliNex</span> · Hasnura &copy; 2025</div>
+
+</div>
+
+<script>
+  const FINAL_URL = 'https://script.google.com/macros/s/AKfycbzUU3-1ohnbuFOePEcCxf75MqAJXFraJNo56EUAQDMQI5Hrim1Ku54wZDIgoy9CFRXF3A/exec';
+
+  function formatMonthYear(dateStr) {
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      return date.toLocaleString('ms-MY', { month: 'long', year: 'numeric' });
+    } catch (e) { return dateStr; }
+  }
+
+  async function handleLogin() {
+    const id = document.getElementById('loginID').value.trim().toUpperCase();
+    const phone = document.getElementById('loginPhone').value.trim();
+    const btn = document.getElementById('btnLogin');
+    if (!id || !phone) { alert("Sila masukkan ID dan No. WhatsApp."); return; }
+    btn.innerText = "MEMPROSES...";
+    try {
+      const res = await fetch(`${FINAL_URL}?action=getMonthlyStats&phone=${phone}&id=${id}`);
+      const result = await res.json();
+      if (result.result === 'found') {
+        document.getElementById('loginArea').style.display = 'none';
+        document.getElementById('successArea').style.display = 'block';
+        document.getElementById('displayID').innerText = result.id;
+        document.getElementById('displayName').innerText = result.name;
+        document.getElementById('total-jualan-tahunan').innerText = "RM " + result.yearly.totalSale;
+        document.getElementById('total-komisen-tahunan').innerText = "RM " + result.yearly.totalKomisen;
+        const encodedName = encodeURIComponent(result.name);
+        document.getElementById('displayLink').innerText = "https://hasnura.pages.dev/shop?ref=" + result.id + "-" + encodedName;
+        renderFolders(result.data);
+      } else { alert("ID atau No. WhatsApp tidak sepadan."); }
+    } catch (e) { alert("Ralat sistem. Sila cuba semula."); }
+    btn.innerText = "LOG MASUK";
+  }
+
+  function renderFolders(data) {
+    const container = document.getElementById('monthlyFolders');
+    container.innerHTML = '';
+    Object.keys(data).forEach(monthRaw => {
+      const monthData = data[monthRaw];
+      const folderId = 'folder-' + Math.random().toString(36).substr(2, 9);
+      const dotId = 'dot-' + folderId;
+      const monthDisplay = formatMonthYear(monthRaw);
+      const statusLabel = monthData.status;
+      const isPending = (statusLabel.includes('BELUM') || statusLabel.includes('PROSES'));
+      const statusClass = isPending ? 'badge-pending' : 'badge-done';
+      container.innerHTML += `
+        <div class="folder-card">
+          <div class="folder-header" onclick="toggleFolder('${folderId}','${dotId}')">
+            <div class="folder-month">
+              <span class="folder-icon">📂</span>${monthDisplay}
+            </div>
+            <div class="folder-right">
+              <span class="badge-status ${statusClass}">${statusLabel}</span>
+              <div class="btn-lihat">
+                LIHAT
+                <div class="notif-dot" id="${dotId}"></div>
+              </div>
+            </div>
+          </div>
+          <div class="folder-body" id="${folderId}">
+            <div class="folder-row">
+              <span class="folder-row-label">Tarikh</span>
+              <span class="folder-row-val">${monthData.tarikhA}</span>
+            </div>
+            <div class="folder-row">
+              <span class="folder-row-label">Jualan</span>
+              <span class="folder-row-val">RM ${monthData.totalSale.toFixed(2)}</span>
+            </div>
+            <div class="folder-row">
+              <span class="folder-row-label">Komisen</span>
+              <span class="folder-row-val green">RM ${monthData.totalKomisen.toFixed(2)}</span>
+            </div>
+            <div class="folder-row">
+              <span class="folder-row-label">Status Bayaran</span>
+              <span class="badge-status ${statusClass}">${statusLabel}</span>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+
+  function toggleFolder(id, dotId) {
+    const el = document.getElementById(id);
+    const dot = document.getElementById(dotId);
+    if (el.style.display === 'none' || el.style.display === '') {
+      el.style.display = 'block';
+      if (dot) dot.style.display = 'none';
+    } else {
+      el.style.display = 'none';
+    }
+  }
+
+  async function findMyID() {
+    const phone = document.getElementById('forgotPhoneInput').value.trim();
+    const btn = document.getElementById('btnFind');
+    const resDiv = document.getElementById('forgotResult');
+    if (!phone) { alert("Sila masukkan nombor WhatsApp."); return; }
+    btn.innerText = "..."; btn.disabled = true;
+    try {
+      const res = await fetch(`${FINAL_URL}?action=searchID&phone=${phone}`);
+      const response = await res.json();
+      if (response.result === 'found') {
+        resDiv.style.display = 'block';
+        document.getElementById('foundName').innerText = response.name;
+        document.getElementById('foundID').innerText = response.id;
+      } else { alert("Rekod tidak dijumpai."); resDiv.style.display = 'none'; }
+    } catch (err) { alert("Ralat sistem."); }
+    btn.innerText = "SEMAK"; btn.disabled = false;
+  }
+
+  function copyLink() {
+    const linkText = document.getElementById('displayLink').innerText;
+    navigator.clipboard.writeText(linkText).then(() => alert("✅ Pautan berjaya disalin!"));
+  }
+</script>
+</body>
+</html>
