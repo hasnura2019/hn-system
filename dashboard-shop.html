@@ -577,7 +577,7 @@
 
         .modal-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 12px;
             margin-top: 20px;
         }
@@ -595,9 +595,6 @@
         }
         .btn-modal.copy { background: rgba(255,255,255,0.04); color: #fff; border: 1px solid var(--border-color); }
         .btn-modal.copy:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
-        
-        .btn-modal.wa { background: #25D366; color: #fff; }
-        .btn-modal.wa:hover { filter: brightness(1.08); }
 
         .status-update-wrapper {
             margin-top: 20px;
@@ -805,7 +802,6 @@
 
             <div class="modal-actions">
                 <button class="btn-modal copy" onclick="copySpecificDetail()">📋 Salin Data Pelanggan</button>
-                <button class="btn-modal wa" onclick="waOrderDetail()">💬 Pautkan ke WhatsApp</button>
             </div>
         </div>
     </div>
@@ -816,7 +812,7 @@
         'use strict';
 
         const CONFIG = {
-            webAppUrl: "https://script.google.com/macros/s/AKfycbyne7jRAbpcuvISuinv9wa3nPlrylTFE30vMjCHXok6-xB_cBzJJOy5dyO06qWiDBjYhQ/exec",
+            webAppUrl: "https://script.google.com/macros/s/AKfycbx5Q9E0GYvs9F_RTQ4oQ8PQsmcSjaxdTHwk9x4G8dS8B8hGS_tKICre8l3r2N4MqbKemw/exec",
             whatsappNumber: "601119471916",
             adminPw: "Hasnura9697"
         };
@@ -885,7 +881,6 @@
                 card.id = `order-node-${o.id}`;
                 
                 const statusClass = (o.status || 'Baharu').toLowerCase();
-                // Mengatasi isu perbezaan nama harta 'telefon' atau 'tel'
                 const displayPhone = o.telefon || o.tel || '—';
 
                 card.innerHTML = `
@@ -984,6 +979,8 @@
             }
             currentOrder = order;
             const displayPhone = order.telefon || order.tel || '—';
+            const displayIdAff = order.idAffiliate || '—';
+            const displayNamaAff = order.namaAffiliate || '—';
 
             const content = document.getElementById('modal-content');
             content.innerHTML = `
@@ -997,6 +994,8 @@
                     <span class="invoice-value" style="color: #fff; font-weight:700;">${order.pesanan.replace(/\n/g, '<br>')}</span>
                 </div>
                 <div class="invoice-row"><span class="invoice-label">Jumlah Nilai Tunai</span><span class="invoice-value highlight">${order.jumlah}</span></div>
+                <div class="invoice-row"><span class="invoice-label">ID Affiliate</span><span class="invoice-value">${displayIdAff}</span></div>
+                <div class="invoice-row"><span class="invoice-label">Nama Affiliate</span><span class="invoice-value">${displayNamaAff}</span></div>
                 <div class="invoice-row"><span class="invoice-label">Status Semasa</span><span class="status-badge ${(order.status || 'Baharu').toLowerCase()}">${order.status || 'Baharu'}</span></div>
             `;
             document.getElementById('order-modal').classList.add('open');
@@ -1050,16 +1049,6 @@
             }).catch(() => {
                 showToast('⚠️ Gagal menyalin maklumat. Sila salin secara manual.');
             });
-        }
-
-        function waOrderDetail() {
-            if (!currentOrder) return;
-            const displayPhone = currentOrder.telefon || currentOrder.tel || '';
-            let waNum = displayPhone.replace(/[^0-9]/g, '');
-            if (waNum.startsWith('0')) waNum = '6' + waNum;
-            
-            const msg = `Salam Tuan/Puan ${currentOrder.nama}, ini daripada Hasnura Treasury. Berkenaan invois pesanan ${currentOrder.id}:\n\nPesanan: ${currentOrder.pesanan}\nJumlah: ${currentOrder.jumlah}\n\nSila maklumkan jenis pilihan penghantaran anda (COD/Postage). Terima Kasih!`;
-            window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         // WORKSPACE TABS NAV
